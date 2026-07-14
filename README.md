@@ -1,1 +1,0 @@
-# blitz-bird-quiz
