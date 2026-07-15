@@ -1,9 +1,18 @@
 {
   "map_id": "ca-coastal-fall",
   "display_name": "Coastal California (Fall Migration)",
-  "coordinates": { "lat": 38.04, "lng": -123.01 },
+  "coordinates": {
+    "lat": 38.04,
+    "lng": -123.01
+  },
   "species_pool": {
-    "yerwar": { "weight": 0.85, "tier": "abundant" },
-    "caltow": { "weight": 0.70, "tier": "common" }
+    "YRWA": {
+      "weight": 0.85,
+      "tier": "abundant"
+    },
+    "CALT": {
+      "weight": 0.7,
+      "tier": "common"
+    }
   }
 }
