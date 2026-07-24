@@ -1,0 +1,578 @@
+{
+  "map_id": "L312017",
+  "display_name": "PN El Chico",
+  "coordinates": {
+    "lat": 20.1919444,
+    "lng": -98.7397222
+  },
+  "species_pool": {
+    "YEJU": {
+      "weight": 0.6494,
+      "tier": "common"
+    },
+    "BBSO": {
+      "weight": 0.5195,
+      "tier": "common"
+    },
+    "WEHU": {
+      "weight": 0.4935,
+      "tier": "common"
+    },
+    "AMRO": {
+      "weight": 0.4027,
+      "tier": "common"
+    },
+    "BUSH": {
+      "weight": 0.3767,
+      "tier": "common"
+    },
+    "REWA": {
+      "weight": 0.3508,
+      "tier": "common"
+    },
+    "STJA": {
+      "weight": 0.3507,
+      "tier": "common"
+    },
+    "RCKI": {
+      "weight": 0.3507,
+      "tier": "common"
+    },
+    "HUVI": {
+      "weight": 0.3506,
+      "tier": "common"
+    },
+    "STRE": {
+      "weight": 0.3377,
+      "tier": "common"
+    },
+    "SPTO": {
+      "weight": 0.3248,
+      "tier": "common"
+    },
+    "MECH": {
+      "weight": 0.3118,
+      "tier": "common"
+    },
+    "GRSF": {
+      "weight": 0.3117,
+      "tier": "common"
+    },
+    "GCKI": {
+      "weight": 0.2988,
+      "tier": "common"
+    },
+    "CCWA": {
+      "weight": 0.2987,
+      "tier": "common"
+    },
+    "TOWA": {
+      "weight": 0.2728,
+      "tier": "common"
+    },
+    "GBWA": {
+      "weight": 0.2338,
+      "tier": "uncommon"
+    },
+    "YRWA": {
+      "weight": 0.2209,
+      "tier": "uncommon"
+    },
+    "MOTR": {
+      "weight": 0.2208,
+      "tier": "uncommon"
+    },
+    "BRCR": {
+      "weight": 0.2208,
+      "tier": "uncommon"
+    },
+    "RCBR": {
+      "weight": 0.2208,
+      "tier": "uncommon"
+    },
+    "HOFI": {
+      "weight": 0.1949,
+      "tier": "uncommon"
+    },
+    "PISI": {
+      "weight": 0.1948,
+      "tier": "uncommon"
+    },
+    "NHWR": {
+      "weight": 0.1819,
+      "tier": "uncommon"
+    },
+    "PARE": {
+      "weight": 0.1819,
+      "tier": "uncommon"
+    },
+    "WEFL": {
+      "weight": 0.1689,
+      "tier": "uncommon"
+    },
+    "CORA": {
+      "weight": 0.1689,
+      "tier": "uncommon"
+    },
+    "VGSW": {
+      "weight": 0.1688,
+      "tier": "uncommon"
+    },
+    "BHGR": {
+      "weight": 0.1559,
+      "tier": "uncommon"
+    },
+    "RTHA": {
+      "weight": 0.1429,
+      "tier": "uncommon"
+    },
+    "ACWO": {
+      "weight": 0.1429,
+      "tier": "uncommon"
+    },
+    "RUNT": {
+      "weight": 0.1429,
+      "tier": "uncommon"
+    },
+    "WBNU": {
+      "weight": 0.13,
+      "tier": "uncommon"
+    },
+    "BARS": {
+      "weight": 0.1299,
+      "tier": "uncommon"
+    },
+    "LEGO": {
+      "weight": 0.1299,
+      "tier": "uncommon"
+    },
+    "HEWA": {
+      "weight": 0.1299,
+      "tier": "uncommon"
+    },
+    "AMCO": {
+      "weight": 0.117,
+      "tier": "uncommon"
+    },
+    "BEWR": {
+      "weight": 0.1169,
+      "tier": "uncommon"
+    },
+    "OLWA": {
+      "weight": 0.1169,
+      "tier": "uncommon"
+    },
+    "HOSP": {
+      "weight": 0.1169,
+      "tier": "uncommon"
+    },
+    "BTMG": {
+      "weight": 0.1039,
+      "tier": "uncommon"
+    },
+    "TUVU": {
+      "weight": 0.1039,
+      "tier": "uncommon"
+    },
+    "HAWO": {
+      "weight": 0.1039,
+      "tier": "uncommon"
+    },
+    "BBFL": {
+      "weight": 0.1039,
+      "tier": "uncommon"
+    },
+    "BBIH": {
+      "weight": 0.0909,
+      "tier": "uncommon"
+    },
+    "GRPE": {
+      "weight": 0.0909,
+      "tier": "uncommon"
+    },
+    "WEWP": {
+      "weight": 0.0909,
+      "tier": "uncommon"
+    },
+    "BLPH": {
+      "weight": 0.0909,
+      "tier": "uncommon"
+    },
+    "WIWA": {
+      "weight": 0.0909,
+      "tier": "uncommon"
+    },
+    "CHSP": {
+      "weight": 0.0779,
+      "tier": "uncommon"
+    },
+    "CANT": {
+      "weight": 0.0779,
+      "tier": "uncommon"
+    },
+    "HETA": {
+      "weight": 0.0779,
+      "tier": "uncommon"
+    },
+    "ROPI": {
+      "weight": 0.065,
+      "tier": "uncommon"
+    },
+    "BTPI": {
+      "weight": 0.065,
+      "tier": "uncommon"
+    },
+    "BTHU": {
+      "weight": 0.0649,
+      "tier": "uncommon"
+    },
+    "HETH": {
+      "weight": 0.0649,
+      "tier": "uncommon"
+    },
+    "SOSP": {
+      "weight": 0.0649,
+      "tier": "uncommon"
+    },
+    "LBWO": {
+      "weight": 0.052,
+      "tier": "uncommon"
+    },
+    "CBFL": {
+      "weight": 0.052,
+      "tier": "uncommon"
+    },
+    "MALL": {
+      "weight": 0.0519,
+      "tier": "uncommon"
+    },
+    "MWPW": {
+      "weight": 0.0519,
+      "tier": "uncommon"
+    },
+    "BGGN": {
+      "weight": 0.0519,
+      "tier": "uncommon"
+    },
+    "RECR": {
+      "weight": 0.0519,
+      "tier": "uncommon"
+    },
+    "SSPA": {
+      "weight": 0.0519,
+      "tier": "uncommon"
+    },
+    "MEVI": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "RIHU": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "LUHU": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "PEFA": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "VEFL": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "RBRO": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "SCOR": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "BROC": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "BAWW": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "OCWA": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "NOCA": {
+      "weight": 0.039,
+      "tier": "rare"
+    },
+    "MODO": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "YBSA": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "AMKE": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "HAFL": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "GRFL": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "PINF": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "SAPH": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "CAKI": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "MEJA": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "CANW": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "BLTH": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "CEDW": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "RUSP": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "RCSP": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "BHCO": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "GTGR": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "BTNW": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "RCWA": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "SUTA": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "RBGR": {
+      "weight": 0.026,
+      "tier": "rare"
+    },
+    "GRGO": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "MUDU": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "RUDU": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "INDO": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "LENI": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "WTSW": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BEHU": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "PBGR": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BCNH": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "WECE": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BLVU": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "OSPR": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "SSHA": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "COHA": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "NOFL": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "TUFL": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "LEFL": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "DUFL": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "SOFL": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "CAVI": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BHVI": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "PLVI": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BRTI": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "VERD": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "HOLA": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "WEBL": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "RCNT": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BHNT": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "ELEU": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BHSI": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "COCL": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BCSP": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "SAVS": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "BUOR": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "OVEN": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "COYE": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "HOWA": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "AMRE": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "YEWA": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "WETA": {
+      "weight": 0.013,
+      "tier": "rare"
+    },
+    "EUCD": {
+      "weight": 0.0001,
+      "tier": "vagrant"
+    },
+    "VASW": {
+      "weight": 0.0001,
+      "tier": "vagrant"
+    },
+    "WTKI": {
+      "weight": 0.0001,
+      "tier": "vagrant"
+    },
+    "PHAI": {
+      "weight": 0.0001,
+      "tier": "vagrant"
+    },
+    "RUFG": {
+      "weight": 0.0,
+      "tier": "vagrant"
+    },
+    "WOSJ": {
+      "weight": 0.0,
+      "tier": "vagrant"
+    },
+    "AUOR": {
+      "weight": 0.0,
+      "tier": "vagrant"
+    }
+  }
+}
