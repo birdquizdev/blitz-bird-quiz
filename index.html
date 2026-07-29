@@ -60,15 +60,25 @@
 <body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
  
     <div class="w-full max-w-[1600px] bg-white rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
-        
+
         <div class="text-center mb-8" id="main-header">
             <h1 class="text-4xl font-black text-slate-800 tracking-tight font-serif">Ornithology Arcade</h1>
-            <p class="text-sm text-slate-500 font-medium mt-1">v3.0 • Club Training Portal</p>
+            <p class="text-sm text-slate-500 font-medium mt-1">v3.8 • Beta</p>
         </div>
 
         <div id="screen-canvas" class="interactable transition-opacity">
 
-            <div id="main-menu-screen" class="screen-fade flex flex-col items-center justify-center space-y-6 py-8">
+            <div id="main-menu-screen" class="screen-fade flex flex-col items-center justify-center space-y-6 py-8 relative">
+                <div class="absolute top-0 right-0 flex items-center gap-3">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdiTKqGBIgn9PRhsAJ30yaYVce2LEQSz9Vi14FLD3nafcgdXQ/viewform?usp=publish-editor" target="_blank" rel="noopener"
+                       class="text-[11px] font-bold text-slate-400 hover:text-blue-600 underline decoration-dotted transition whitespace-nowrap">
+                        Submit Feedback ↗
+                    </a>
+                    <button onclick="toggleHowToPlay(true)" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 font-black text-sm transition" title="How to Play">
+                        ⓘ
+                    </button>
+                </div>
+
                 <button onclick="changeScreen('mode-selection-screen')" class="w-72 py-6 bg-emerald-600 hover:bg-emerald-700 text-white font-serif text-4xl font-bold rounded-2xl shadow-lg hover:shadow-emerald-600/20 transform transition active:scale-95 duration-150">
                     Play!
                 </button>
@@ -78,8 +88,17 @@
                 </div>
 
                 <div class="flex flex-col space-y-2">
+                    <button onclick="openBotdModal()" class="w-72 py-3 bg-amber-500 hover:bg-amber-600 text-white font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95">
+                        🐦 Bird of the Day
+                    </button>
+                    <button onclick="alert('Monthly Bingo Challenge is coming soon!')" class="w-72 py-2.5 bg-slate-100 text-slate-400 font-serif text-lg font-bold rounded-2xl shadow-sm transition cursor-pointer border-2 border-dashed border-slate-200 flex items-center justify-center gap-2">
+                        🎲 Monthly Bingo Challenge <span class="text-[9px] font-sans font-black uppercase bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded-full">Soon</span>
+                    </button>
                     <button onclick="openStatsHub()" class="w-72 py-3 bg-blue-600 hover:bg-blue-700 text-white font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95">
                         🏆 Trophy Case &amp; Stats
+                    </button>
+                    <button onclick="alert('Explore Species Profiles is coming soon!')" class="w-72 py-2.5 bg-slate-100 text-slate-400 font-serif text-lg font-bold rounded-2xl shadow-sm transition cursor-pointer border-2 border-dashed border-slate-200 flex items-center justify-center gap-2">
+                        🔎 Explore Species Profiles <span class="text-[9px] font-sans font-black uppercase bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded-full">Soon</span>
                     </button>
                     <button onclick="dumpBlacklistLog()" class="w-72 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-sans text-xs font-bold rounded-xl transition">
                         📋 Export Flagged Blacklist Log
@@ -206,11 +225,12 @@
                     <div>
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Map Feed Strategy</label>
                         <div class="grid grid-cols-2 gap-2">
-                            <button id="strategy-preset-btn" onclick="setArcadeStrategy('preset')" class="py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-blue-50 border-blue-600 text-blue-700">
-                                Preset Maps
-                            </button>
+            
                             <button id="strategy-hotspot-btn" onclick="setArcadeStrategy('hotspot')" class="py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500">
                                 Select Hotspot
+                            </button>
+                            <button id="strategy-preset-btn" onclick="setArcadeStrategy('preset')" class="py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-blue-50 border-blue-600 text-blue-700">
+                                Preset Maps
                             </button>
                         </div>
                     </div>
@@ -576,6 +596,68 @@
         </div>
     </div>
 
+    <div id="how-to-play-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-start mb-3">
+                <h3 class="text-2xl font-bold text-slate-800 font-serif">How to Play</h3>
+                <button onclick="toggleHowToPlay(false)" class="text-slate-400 hover:text-slate-700 font-bold text-2xl leading-none px-1">&times;</button>
+            </div>
+            <div class="space-y-4 text-sm text-slate-600 font-medium">
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-1">🕹️ Arcade Mode</h4>
+                    <p>Pick a curated zone or search/browse the global hotspot index for a real eBird location. Eight birds appear on a grid at once, each on its own countdown — click one and type its name before time runs out. Wrong guesses and timeouts cost a life; find as many species as you can before they run out.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-1">📖 Practice Mode</h4>
+                    <p>An untimed, infinite study mode. Filter by bird group and/or region — or leave both blank to draw from every species in the database — and identify birds at your own pace. End the session any time to see your accuracy and a list of what you missed.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-1">🐦 Bird of the Day</h4>
+                    <p>A new species is featured every day. Check if you've already found it in Arcade Mode, and use the hint to see the general region it's been recorded in without giving away exact hotspots.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-1">🏆 Trophy Case &amp; Stats</h4>
+                    <p>Tracks your lifetime totals, rarest finds, high scores, and tiered achievements — all saved locally to this browser.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="botd-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+            <div class="flex justify-between items-center p-4 border-b border-slate-100">
+                <h3 class="text-xl font-bold text-slate-800 font-serif">🐦 Bird of the Day</h3>
+                <button onclick="closeBotdModal()" class="text-slate-400 hover:text-slate-700 font-bold text-2xl leading-none px-1">&times;</button>
+            </div>
+
+            <div id="botd-loading" class="p-8 text-center text-sm font-semibold text-slate-400">⏳ Loading today's bird…</div>
+
+            <div id="botd-body" class="hidden">
+                <div class="relative bg-slate-100">
+                    <img id="botd-image" src="" class="w-full h-56 object-cover" alt="Bird of the Day">
+                    <div id="botd-found-badge" class="hidden absolute top-3 right-3 bg-emerald-500 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-md">✓ Found</div>
+                </div>
+                <div class="p-4 space-y-3">
+                    <div>
+                        <h4 id="botd-common-name" class="text-lg font-bold text-slate-800"></h4>
+                        <p id="botd-scientific-name" class="text-xs italic text-slate-400"></p>
+                    </div>
+                    <p id="botd-status-line" class="text-xs font-semibold text-slate-500"></p>
+
+                    <button id="botd-hint-btn" onclick="showBotdHint()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-sm transition text-sm">
+                        💡 Show Region Hint
+                    </button>
+
+                    <div id="botd-hint-map-wrap" class="hidden">
+                        <div id="botd-hint-map" class="w-full h-48 rounded-xl border border-slate-200 mt-2"></div>
+                        <p class="text-[10px] text-slate-400 font-medium mt-1">Shaded area shows the general region this species has been recorded in — not exact hotspots.</p>
+                    </div>
+                    <p id="botd-hint-empty" class="hidden text-xs text-slate-400 italic text-center py-2">No location hint data available for this species yet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
     <script>
@@ -584,8 +666,8 @@
             click: new Audio('sounds/click_button.mp3'),
             wrong: new Audio('sounds/wrong_answer.mp3'),
             common: new Audio('sounds/correct_common.mp3'),
-            uncommon: new Audio('sounds/correct_uncommon.mp3'),
-            rare: new Audio('sounds/correct_rare.mp3'),
+            uncommon: new Audio('sounds/correct_common.mp3'),
+            rare: new Audio('sounds/correct_common.mp3'),
             mega: new Audio('sounds/correct_mega.mp3')
         };
 
@@ -2291,6 +2373,166 @@
 
             localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
         }
+
+        function toggleHowToPlay(open) {
+            playSFX('click');
+            const modal = document.getElementById('how-to-play-modal');
+            modal.classList.toggle('hidden', !open);
+            modal.classList.toggle('flex', open);
+        }
+
+        // ===================== Bird of the Day =====================
+        // Deterministically picks one species per calendar day (client-local date — with no
+        // backend, a perfectly synced global "day" isn't possible, but this keeps it stable for
+        // a given player across repeat visits on the same day). The hint map is optional: it
+        // reads a separate file, dist/species_hotspot_locations.json, mapping species code to
+        // every hotspot coordinate it's been recorded at — { "<code>": [[lat,lng], ...] }. That
+        // file doesn't exist yet in the repo; until it's generated, the hint button says so
+        // plainly instead of failing silently.
+        const SPECIES_LOCATIONS_URL = "dist/species_hotspot_locations.json";
+        let speciesLocationsIndex = null;
+        let speciesLocationsLoading = false;
+        let botdCode = null;
+        let botdShardName = null;
+        let botdHintMap = null;
+
+        function getDailySeedString() {
+            const d = new Date();
+            return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        }
+
+        function seededIndex(seedStr, max) {
+            let hash = 0;
+            for (let i = 0; i < seedStr.length; i++) {
+                hash = (Math.imul(hash, 31) + seedStr.charCodeAt(i)) >>> 0;
+            }
+            return hash % max;
+        }
+
+        async function openBotdModal() {
+            playSFX('click');
+            const modal = document.getElementById('botd-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('botd-loading').classList.remove('hidden');
+            document.getElementById('botd-body').classList.add('hidden');
+            document.getElementById('botd-hint-map-wrap').classList.add('hidden');
+            document.getElementById('botd-hint-empty').classList.add('hidden');
+            document.getElementById('botd-hint-btn').classList.remove('hidden');
+
+            const ready = await ensureSpeciesDirectoryLoaded();
+            if (!ready || !speciesDirectoryCache) {
+                document.getElementById('botd-loading').textContent = "⚠️ Could not load species data.";
+                return;
+            }
+
+            const allCodes = Object.keys(speciesDirectoryCache);
+            const seed = getDailySeedString();
+            const ebirdCode = allCodes[seededIndex(seed, allCodes.length)];
+            botdCode = resolveSpeciesKey(ebirdCode);
+            botdShardName = shardManifestCache[botdCode];
+
+            if (!botdShardName) {
+                document.getElementById('botd-loading').textContent = "⚠️ Couldn't find image data for today's bird. Try again tomorrow!";
+                return;
+            }
+
+            const shardContent = await fetchFromRepo(`data_pool/image_shards/${botdShardName}.json`, true);
+            const bird = shardContent && shardContent.data[botdCode];
+            if (!bird) {
+                document.getElementById('botd-loading').textContent = "⚠️ Couldn't load today's bird. Try again shortly.";
+                return;
+            }
+
+            const assets = (bird.assets || []).filter(a => !imageBlacklist.includes(a.url));
+            const asset = (assets.length > 0 ? assets : bird.assets || [])[0];
+
+            document.getElementById('botd-image').src = asset ? asset.url : "https://placehold.co/400x300?text=No+Image";
+            document.getElementById('botd-common-name').textContent = bird.common_name;
+            document.getElementById('botd-scientific-name').textContent = bird.scientific_name || '';
+
+            const alreadyFound = (lifetimeStats.arcadeUniqueSpecies || []).includes(bird.common_name);
+            document.getElementById('botd-found-badge').classList.toggle('hidden', !alreadyFound);
+            document.getElementById('botd-status-line').textContent = alreadyFound
+                ? "You've already identified this species in Arcade Mode!"
+                : "You haven't identified this one in Arcade Mode yet — go find it!";
+
+            document.getElementById('botd-loading').classList.add('hidden');
+            document.getElementById('botd-body').classList.remove('hidden');
+        }
+
+        function closeBotdModal() {
+            const modal = document.getElementById('botd-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        async function ensureSpeciesLocationsLoaded() {
+            if (speciesLocationsIndex) return true;
+            if (speciesLocationsLoading) return false;
+            speciesLocationsLoading = true;
+            const data = await fetchFromRepo(SPECIES_LOCATIONS_URL, true);
+            speciesLocationsLoading = false;
+            speciesLocationsIndex = data || {};
+            return true;
+        }
+
+        // Andrew's monotone chain convex hull. Returns points in CCW order, or the input
+        // points as-is if there are fewer than 3 (nothing to hull).
+        function computeConvexHull(points) {
+            if (points.length < 3) return points;
+            const pts = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+            const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+
+            const lower = [];
+            for (const p of pts) {
+                while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop();
+                lower.push(p);
+            }
+            const upper = [];
+            for (let i = pts.length - 1; i >= 0; i--) {
+                const p = pts[i];
+                while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop();
+                upper.push(p);
+            }
+            lower.pop(); upper.pop();
+            return lower.concat(upper);
+        }
+
+        async function showBotdHint() {
+            playSFX('click');
+            const ready = await ensureSpeciesLocationsLoaded();
+            const hintBtn = document.getElementById('botd-hint-btn');
+            const mapWrap = document.getElementById('botd-hint-map-wrap');
+            const emptyMsg = document.getElementById('botd-hint-empty');
+
+            const coords = ready && speciesLocationsIndex[botdCode];
+            if (!coords || coords.length === 0) {
+                hintBtn.classList.add('hidden');
+                emptyMsg.classList.remove('hidden');
+                return;
+            }
+
+            hintBtn.classList.add('hidden');
+            mapWrap.classList.remove('hidden');
+
+            setTimeout(() => {
+                if (!botdHintMap) {
+                    botdHintMap = L.map('botd-hint-map', { zoomControl: false, attributionControl: false });
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(botdHintMap);
+                }
+
+                const hull = computeConvexHull(coords);
+                const shape = hull.length >= 3
+                    ? L.polygon(hull, { color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 })
+                    : L.circle(coords[0], { radius: 40000, color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 });
+
+                shape.addTo(botdHintMap);
+                botdHintMap.fitBounds(shape.getBounds ? shape.getBounds() : L.latLngBounds(coords), { padding: [20, 20] });
+                botdHintMap.invalidateSize();
+            }, 30);
+        }
+        // ===================== end Bird of the Day =====================
 
         function openStatsHub() {
             playSFX('click');
