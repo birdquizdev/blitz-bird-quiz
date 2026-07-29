@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bird Identification Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+    <style>
+        .screen-fade {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Rainbow / Chroma Pulsing Animation */
+        @keyframes chromaGlow {
+            0% {
+                border-color: #ff0055;
+                box-shadow: 0 0 15px rgba(255, 0, 85, 0.6);
+            }
+            25% {
+                border-color: #ffb700;
+                box-shadow: 0 0 15px rgba(255, 183, 0, 0.6);
+            }
+            50% {
+                border-color: #00f0ff;
+                box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+            }
+            75% {
+                border-color: #a855f7;
+                box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+            }
+            100% {
+                border-color: #ff0055;
+                box-shadow: 0 0 15px rgba(255, 0, 85, 0.6);
+            }
+        }
+
+        .chroma-card {
+            animation: chromaGlow 3s linear infinite;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
+ 
+    <div class="w-full max-w-[1600px] bg-white rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
+        
+        <div class="text-center mb-8" id="main-header">
+            <h1 class="text-4xl font-black text-slate-800 tracking-tight font-serif">Ornithology Arcade</h1>
+            <p class="text-sm text-slate-500 font-medium mt-1">v3.0 • Club Training Portal</p>
+        </div>
+
+        <div id="screen-canvas" class="interactable transition-opacity">
+
+            <div id="main-menu-screen" class="screen-fade flex flex-col items-center justify-center space-y-6 py-8">
+                <button onclick="changeScreen('mode-selection-screen')" class="w-72 py-6 bg-emerald-600 hover:bg-emerald-700 text-white font-serif text-4xl font-bold rounded-2xl shadow-lg hover:shadow-emerald-600/20 transform transition active:scale-95 duration-150">
+                    Play!
+                </button>
+                
+                <div class="px-4 py-1.5 bg-yellow-300 text-emerald-900 font-sans font-extrabold text-xs uppercase tracking-wider rounded-full shadow-sm">
+                    Select Mode inside!
+                </div>
+
+                <div class="flex flex-col space-y-2">
+                    <button onclick="openStatsHub()" class="w-72 py-3 bg-blue-600 hover:bg-blue-700 text-white font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95">
+                        🏆 Trophy Case &amp; Stats
+                    </button>
+                    <button onclick="dumpBlacklistLog()" class="w-72 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-sans text-xs font-bold rounded-xl transition">
+                        📋 Export Flagged Blacklist Log
+                    </button>
+                </div>
+            </div>
+
+            <div id="mode-selection-screen" class="hidden screen-fade text-center py-4">
+                <h2 class="text-2xl font-bold text-slate-700 mb-6">Select a Game Engine</h2>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-8">
+                    <button onclick="selectMode('practice')" class="p-6 bg-slate-50 border-2 border-slate-200 hover:border-emerald-500 rounded-xl shadow-sm transition flex flex-col items-center text-center group">
+                        <span class="text-xl font-bold text-slate-800 group-hover:text-emerald-600 mb-2 transition">Practice Mode</span>
+                        <span class="text-xs text-slate-500 font-medium">Classic, untimed identification. Type common or scientific names to build knowledge shards.</span>
+                    </button>
+
+                    <button onclick="selectMode('arcade')" class="p-6 bg-slate-50 border-2 border-slate-200 hover:border-blue-500 rounded-xl shadow-sm transition flex flex-col items-center text-center group">
+                        <span class="text-xl font-bold text-slate-800 group-hover:text-blue-600 mb-2 transition">Arcade Hotspot Grid</span>
+                        <span class="text-xs text-slate-500 font-medium">Fast-paced, 10s individual countdowns. Identify species across an active 2x4 board before they fly away!</span>
+                    </button>
+                </div>
+
+                <button onclick="changeScreen('main-menu-screen')" class="text-sm font-semibold text-slate-400 hover:text-slate-600 underline transition">
+                    &larr; Back to Main Menu
+                </button>
+            </div>
+
+            <div id="stats-hub-screen" class="hidden screen-fade space-y-6 text-slate-800 text-left">
+                <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-800 font-serif flex items-center gap-2">
+                            <span>🏆</span> Trophy Case &amp; Stats
+                        </h2>
+                        <p class="text-xs text-slate-500 font-medium">Track your lifetime birding milestones and rare finds</p>
+                    </div>
+                    <button onclick="changeScreen('main-menu-screen')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+                        &larr; Main Menu
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
+                        <div class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider">Total Identified</div>
+                        <div id="hub-total-birds" class="text-2xl font-black text-emerald-600 mt-0.5">0</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
+                        <div class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider">Life List Count</div>
+                        <div id="hub-lifelist-count" class="text-2xl font-black text-blue-600 mt-0.5">0</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
+                        <div class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider">Mega Rares Found</div>
+                        <div id="hub-rare-count" class="text-2xl font-black text-amber-500 mt-0.5">0</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
+                        <div class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider">Accuracy</div>
+                        <div id="hub-accuracy" class="text-2xl font-black text-purple-600 mt-0.5">0%</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-900 text-slate-100 p-5 rounded-2xl shadow-md border border-slate-800">
+                        <h3 class="text-base font-extrabold text-amber-400 mb-3 flex items-center gap-2">
+                            <span>🥇</span> Top 5 High Scores
+                        </h3>
+                        <div id="top-scores-list" class="space-y-2 text-xs">
+                            <p class="text-slate-500 italic">No Arcade matches recorded yet.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 text-slate-100 p-5 rounded-2xl shadow-md border border-slate-800">
+                        <h3 class="text-base font-extrabold text-cyan-400 mb-3 flex items-center gap-2">
+                            <span>💎</span> Top 5 Rare Finds
+                        </h3>
+                        <div id="top-finds-list" class="space-y-2 text-xs">
+                            <p class="text-slate-500 italic">No rare bird identifications logged yet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span>🎖️</span> Achievements
+                    </h3>
+                    <p class="text-[11px] text-slate-400 font-medium -mt-2">Tiers I&ndash;V, scored from Arcade Mode only. Progress keeps counting past Tier V.</p>
+                    <div id="achievements-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+                </div>
+
+                <details class="group bg-slate-50 rounded-2xl border border-slate-200">
+                    <summary class="p-4 cursor-pointer list-none flex items-center justify-between text-sm font-bold text-slate-700">
+                        <span>📖 Master Life List Log</span>
+                        <span class="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
+                    </summary>
+                    <div id="stat-lifelist-container" class="max-h-52 overflow-y-auto bg-white rounded-xl border border-slate-200 p-3 mx-4 mb-4 text-xs space-y-1 font-medium text-slate-700">
+                        <span class="text-slate-400 italic">No species logged yet.</span>
+                    </div>
+                </details>
+            </div>
+
+            <div id="config-screen" class="hidden screen-fade text-center py-4">
+                <h2 id="config-title" class="text-2xl font-bold text-slate-700 mb-2">Configure Mode</h2>
+                <p id="config-desc" class="text-xs text-slate-400 font-medium mb-6">Select your location parameters or custom decks</p>
+                
+                <div id="practice-config-container" class="max-w-md mx-auto mb-6 hidden text-left space-y-4">
+                    <div id="practice-tags-loading" class="text-xs font-semibold text-slate-400 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                        ⏳ Loading practice tag index…
+                    </div>
+
+                    <div id="practice-tags-body" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">🐦 Bird Group <span class="normal-case font-medium text-slate-400">(optional, select any)</span></label>
+                            <div id="practice-group-chips" class="flex flex-wrap gap-1.5"></div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">🌎 Region <span class="normal-case font-medium text-slate-400">(optional, select any)</span></label>
+                            <div id="practice-region-chips" class="flex flex-wrap gap-1.5"></div>
+                        </div>
+                    </div>
+
+                    <p id="practice-tags-empty" class="hidden text-[11px] text-slate-400 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">No practice tags found yet — you'll practice from the full species database.</p>
+                    <p id="practice-pool-count" class="hidden text-xs text-emerald-700 font-bold text-center bg-emerald-50 border border-emerald-200 rounded-xl p-2"></p>
+                </div>
+
+                <div id="arcade-config-container" class="max-w-md mx-auto mb-6 hidden text-left space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Map Feed Strategy</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button id="strategy-preset-btn" onclick="setArcadeStrategy('preset')" class="py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-blue-50 border-blue-600 text-blue-700">
+                                Preset Maps
+                            </button>
+                            <button id="strategy-hotspot-btn" onclick="setArcadeStrategy('hotspot')" class="py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500">
+                                Select Hotspot
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="arcade-preset-panel" class="space-y-2">
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Choose a Curated Zone</label>
+                        <select id="arcade-preset-dropdown" class="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-700 font-semibold focus:outline-none focus:border-blue-500 shadow-sm">
+                            <option value="">Loading curated zones…</option>
+                        </select>
+                        <p id="preset-load-error" class="text-[10px] text-red-500 font-bold mt-1 hidden">Could not load the preset manifest from the repo. Check your connection or the manifest path.</p>
+                    </div>
+
+                    <div id="arcade-hotspot-panel" class="space-y-3 hidden">
+
+                        <div id="hotspot-index-loading" class="text-xs font-semibold text-slate-400 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                            ⏳ Loading global hotspot index…
+                        </div>
+                        <p id="hotspot-index-error" class="hidden text-[11px] text-red-600 font-bold bg-red-50 border border-red-200 rounded-xl p-3">Could not load the hotspot index. Check your connection or the repo path.</p>
+
+                        <div id="hotspot-picker-body" class="hidden space-y-3">
+                            <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
+                                <button id="hs-tab-search-btn" onclick="setHotspotTab('search')" class="py-1.5 rounded-lg text-xs font-bold transition bg-white text-blue-700 shadow-sm">🔎 Search</button>
+                                <button id="hs-tab-region-btn" onclick="setHotspotTab('region')" class="py-1.5 rounded-lg text-xs font-bold transition text-slate-500">🗺️ Region</button>
+                                <button id="hs-tab-map-btn" onclick="setHotspotTab('map')" class="py-1.5 rounded-lg text-xs font-bold transition text-slate-500">📍 Map</button>
+                            </div>
+
+                            <div id="hs-tab-search" class="space-y-1">
+                                <div class="relative">
+                                    <input id="hotspot-search-input" type="text" placeholder="Search hotspot name…" autocomplete="off"
+                                           class="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 font-semibold focus:outline-none focus:border-blue-500 shadow-sm"
+                                           oninput="handleHotspotSearchInput(this.value)">
+                                    <div id="hotspot-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-52 overflow-y-auto z-50 text-sm font-medium"></div>
+                                </div>
+                                <p class="text-[10px] text-slate-400 font-medium">Type at least 2 characters. Searches all loaded hotspot names.</p>
+                            </div>
+
+                            <div id="hs-tab-region" class="hidden space-y-2">
+                                <div class="flex items-center gap-1">
+                                    <input id="region-search-input" type="text" placeholder="Type a region (e.g. California, Alameda, Taiwan)…" autocomplete="off"
+                                           class="w-full p-2.5 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 font-semibold text-sm focus:outline-none focus:border-blue-500 shadow-sm"
+                                           oninput="handleRegionSearchInput(this.value)">
+                                </div>
+                                <div id="region-search-results" class="hidden bg-white border border-slate-200 rounded-xl shadow max-h-40 overflow-y-auto text-sm"></div>
+
+                                <div id="region-breadcrumb" class="text-[11px] font-bold text-slate-400 flex flex-wrap items-center gap-1"></div>
+                                <div id="region-browser-list" class="bg-slate-50 border border-slate-200 rounded-xl max-h-56 overflow-y-auto divide-y divide-slate-100"></div>
+                            </div>
+
+                            <div id="hs-tab-map" class="space-y-2">
+                                <p class="text-xs text-slate-500 font-medium">Browse every hotspot visually on an interactive world map.</p>
+                                <button onclick="openHotspotMapModal()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition text-sm">
+                                    🗺️ Open Map Browser
+                                </button>
+                            </div>
+
+                            <div id="hotspot-selected-summary" class="hidden bg-emerald-50 border-2 border-emerald-500 rounded-xl p-3 flex items-center justify-between gap-2">
+                                <div class="min-w-0">
+                                    <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Selected Hotspot</p>
+                                    <p id="hotspot-selected-name" class="text-sm font-bold text-slate-800 truncate">—</p>
+                                    <p id="hotspot-selected-meta" class="text-[10px] text-slate-400 font-medium"></p>
+                                </div>
+                                <button onclick="clearSelectedHotspot()" class="shrink-0 text-[10px] font-bold text-slate-400 hover:text-red-500 uppercase">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-100">
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Select Difficulty</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button id="diff-easy-btn" onclick="setArcadeDifficulty('easy')" class="py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-emerald-500 border-emerald-600 text-white shadow-sm">
+                                🌱 Explore
+                            </button>
+                            <button id="diff-normal-btn" onclick="setArcadeDifficulty('normal')" class="py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500">
+                                ⚡ Normal
+                            </button>
+                            <button id="diff-advanced-btn" onclick="setArcadeDifficulty('advanced')" class="py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500">
+                                🔥 Advanced
+                            </button>
+                        </div>
+                        <p id="diff-desc" class="text-[10px] text-slate-400 font-medium mt-1.5 text-center">Easy: 5 Lives • 200 Seconds • Multiple Choice</p>
+                    </div>
+                </div>
+
+                <div class="flex space-x-3 max-w-md mx-auto items-center">
+                    <button onclick="changeScreen('mode-selection-screen')" class="w-1/3 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition">
+                        Back
+                    </button>
+                    <button id="launch-button" onclick="launchGameEngine()" class="w-2/3 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                        <svg id="launch-spinner" class="hidden animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        <span id="launch-button-label">Launch Quiz &rarr;</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="practice-quiz-screen" class="hidden screen-fade">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                        🔁 Infinite Practice · <span id="practice-live-tally">0 / 0</span>
+                    </div>
+                    <button onclick="endPracticeSession()" class="py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition shadow-sm">
+                        ⏹ End Practice
+                    </button>
+                </div>
+                <div class="mb-2 relative">
+                    <img id="bird-image" src="https://placehold.co/400x300/eeeeee/333333?text=Loading+Image" alt="Bird to identify" 
+                         class="w-full h-auto max-h-[48vh] object-contain rounded-xl shadow-md block mx-auto">
+                </div>
+                
+                <div class="flex justify-between items-center mb-4 px-1 text-slate-400 text-xs font-semibold">
+                    <span id="practice-copyright">© Credit Info</span>
+                    <button onclick="flagActiveImage('practice')" class="text-red-500 hover:text-red-700 transition">🚩 Flag Broken Asset</button>
+                </div>
+                
+                <div class="relative w-full mb-4">
+                    <input id="answer-entry" type="text" placeholder="Start typing bird common or 4-letter code name..." 
+                           class="w-full p-3 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold shadow-sm text-slate-800" 
+                           oninput="handleTypingSuggestions(this, 'practice-suggestions')"
+                           onkeydown="handleSuggestionKeys(event, 'practice-suggestions', this, false)">
+                    <div id="practice-suggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto z-50 text-slate-700 text-sm font-medium"></div>
+                </div>
+                
+                <button onclick="checkAnswer()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition duration-200">
+                    Submit Guess
+                </button>
+
+                <div class="mt-6 flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <div><span id="score-display" class="text-sm font-bold text-slate-600">Score: 0 / 0</span></div>
+                    <div><span id="streak-display" class="text-sm font-bold text-red-600">Streak: 0</span></div>
+                </div>
+
+                <div id="previous-round-display" class="w-full mt-6 pt-4 border-t border-slate-100">
+                    <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-3">Previous Round Result</h3>
+                    <div id="sidebar-content">
+                        <p class="text-slate-400 italic text-xs font-medium">Submit a guess to see review tools.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="practice-results-screen" class="hidden screen-fade max-w-xl mx-auto py-4 font-mono text-slate-800">
+                <div class="bg-slate-900 text-emerald-400 p-6 rounded-2xl shadow-2xl border border-slate-800 space-y-5">
+                    <div class="text-center border-b border-slate-800 pb-4">
+                        <h2 class="text-2xl font-black tracking-widest uppercase text-white font-sans">Practice Complete</h2>
+                        <p class="text-xs text-slate-400 font-sans mt-1">Nice work — here's how the session went.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-sm bg-slate-800/60 p-4 rounded-xl border border-slate-700/50">
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-sans">✅ Correct</div>
+                            <div id="practice-res-score" class="text-xl font-bold text-emerald-400">0 / 0</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-sans">🎯 Accuracy</div>
+                            <div id="practice-res-accuracy" class="text-xl font-bold text-yellow-400">0%</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-sans">🐦 Unique Species</div>
+                            <div id="practice-res-unique" class="text-xl font-bold text-cyan-300">0</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-sans">🔥 Best Streak</div>
+                            <div id="practice-res-streak" class="text-xl font-bold text-orange-400">0</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider font-sans border-b border-slate-800 pb-1">❌ Missed Species</div>
+                        <div id="practice-res-missed-list" class="space-y-1 text-xs max-h-40 overflow-y-auto">
+                            <span class="text-slate-500 italic">No species missed.</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-3 font-sans">
+                        <button onclick="launchGameEngine()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition text-sm shadow-md">
+                            Practice Again
+                        </button>
+                        <button onclick="changeScreen('main-menu-screen')" class="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl transition text-sm border border-slate-700">
+                            Main Menu
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="arcade-game-screen" class="hidden screen-fade select-none">
+                <div class="flex justify-between items-center bg-slate-100 p-4 rounded-xl border border-slate-200 mb-4">
+                    <div class="flex space-x-6 items-center">
+                        <div>
+                            <span class="text-sm font-bold text-slate-500 uppercase tracking-wider block">Score</span>
+                            <span id="arcade-score" class="text-2xl font-black text-slate-800">0</span>
+                        </div>
+                        <div>
+                            <span class="text-sm font-bold text-slate-500 uppercase tracking-wider block">Lives Remaining</span>
+                            <span id="arcade-lives" class="text-2xl font-black text-red-600">❤️❤️❤️</span>
+                        </div>
+                        <div id="points-popup" class="opacity-0 transform translate-x-2 transition-all duration-300 flex flex-col justify-center pl-4 border-l border-slate-200">
+                            <span id="popup-tier" class="text-xs font-black uppercase tracking-widest">COMMON</span>
+                            <span id="popup-score" class="text-xl font-black">+1</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleArcadePause()" class="py-2 px-4 bg-slate-600 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition shadow-sm">
+                            ⏸ Pause
+                        </button>
+                        <button onclick="terminateArcadeMatch(true)" class="py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition shadow-sm">
+                            End Game
+                        </button>
+                    </div>
+                </div>
+
+                <div id="arcade-pause-overlay" class="hidden fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-md flex flex-col items-center justify-center">
+                    <div class="text-5xl mb-4">⏸</div>
+                    <button onclick="toggleArcadePause()" class="py-3 px-8 bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest rounded-xl shadow-2xl transition text-lg">
+                        ▶ Resume
+                    </button>
+                </div>
+
+                <div id="arcade-grid-mesh" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                </div>
+            </div>
+
+            <div id="arcade-gameover-screen" class="hidden screen-fade flex flex-col items-center justify-center text-center py-24">
+                <div class="text-7xl mb-4">💀</div>
+                <h2 class="text-4xl font-black text-red-600 uppercase tracking-widest mb-2">Game Over</h2>
+                <p class="text-slate-400 font-semibold">Tallying your results&hellip;</p>
+            </div>
+
+            <div id="arcade-results-screen" class="hidden screen-fade max-w-xl mx-auto py-4 font-mono text-slate-800">
+                <div id="scorecard-card-element" class="bg-slate-900 text-emerald-400 p-6 rounded-2xl shadow-2xl border border-slate-800 space-y-5">
+                    <div class="text-center border-b border-slate-800 pb-4">
+                        <h2 class="text-2xl font-black tracking-widest uppercase text-white font-sans">Arcade Results</h2>
+                        <div class="flex items-center justify-center gap-2 mt-1 font-sans">
+                            <p id="res-location-name" class="text-xs text-amber-400 font-bold">📍 Hotspot Zone</p>
+                            <span class="text-slate-600">•</span>
+                            <p id="res-difficulty-tag" class="text-xs text-emerald-400 font-bold uppercase">🌱 Explore</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-sm bg-slate-800/60 p-4 rounded-xl border border-slate-700/50">
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-sans">🏆 Score</div>
+                            <div id="res-score" class="text-xl font-bold text-yellow-400">0 points</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-sans">⏱ Time Played</div>
+                            <div id="res-time" class="text-xl font-bold text-white">00:00</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-sans">🐦 Identified</div>
+                            <div id="res-identified" class="text-xl font-bold text-white">0 / 0</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-sans">🎯 Unique Species</div>
+                            <div id="res-unique-species" class="text-xl font-bold text-cyan-300">0</div>
+                        </div>
+                    </div>
+
+                    <div id="res-mega-box" class="hidden bg-gradient-to-r from-pink-950/80 via-purple-950/80 to-cyan-950/80 border-2 rounded-xl p-3 chroma-card">
+                        <div class="text-[11px] font-black uppercase tracking-widest mb-2 flex items-center gap-1 font-sans text-amber-300 drop-shadow-sm">
+                            <span>✨</span> MEGA RARITIES SPOTTED!
+                        </div>
+                        <div id="res-mega-list" class="flex flex-wrap gap-3 justify-start"></div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider font-sans border-b border-slate-800 pb-1">✨ Rarest Finds</div>
+                        <div id="res-rarest-list" class="space-y-1.5 text-xs">
+                            <span class="text-slate-500 italic">No rare species identified this round.</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider font-sans border-b border-slate-800 pb-1">❌ Flew Away / Missed</div>
+                        <div id="res-missed-list" class="space-y-1 text-xs max-h-24 overflow-y-auto">
+                            <span class="text-slate-500 italic">No species missed.</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-3 font-sans">
+                        <button onclick="shareScorecard()" class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition text-sm shadow-md">
+                            📷 Share Scorecard Image
+                        </button>
+                        <button onclick="launchGameEngine()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition text-sm shadow-md">
+                            Play Again
+                        </button>
+                        <button onclick="changeScreen('main-menu-screen')" class="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl transition text-sm border border-slate-700">
+                            Main Menu
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="arcade-guess-overlay" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-150 z-40">
+        <div class="bg-white rounded-2xl shadow-2xl w-[950px] max-w-[95vw] border border-slate-100 transform scale-95 transition-transform duration-150 relative overflow-hidden">
+            <div class="flex">
+                <div id="arcade-preview-container" class="w-[42%] bg-white flex items-center justify-center overflow-hidden relative cursor-zoom-in">
+                    <img id="arcade-preview-image" src="" class="w-full h-full max-h-[75vh] object-contain transition-transform duration-150 ease-out"
+                         onclick="toggleImageZoom(event)" onmousemove="handleZoomPan(event)">
+                    <span id="arcade-zoom-hint" class="absolute bottom-2 right-2 bg-slate-900/70 text-white text-[10px] font-bold px-2 py-1 rounded-md pointer-events-none">🔍 Click to zoom</span>
+                </div>
+                <div class="flex-1 p-5">
+                    <div class="flex justify-between items-center mb-2">
+                        <span id="guess-slot-badge" class="text-xs font-black px-2 py-0.5 bg-blue-600 text-white rounded-md">Slot 1</span>
+                        <button onclick="flagActiveImage('arcade')" class="text-[10px] font-bold text-red-500 hover:underline uppercase">🚩 Flag Photo</button>
+                    </div>
+                    
+                    <div id="arcade-text-input-container" class="relative w-full mb-3">
+                        <input id="arcade-input-field" type="text" placeholder="Type bird name or 4-letter alpha..." 
+                               class="w-full p-3 border-2 border-slate-200 rounded-xl font-bold focus:outline-none focus:border-blue-600 text-slate-800 shadow-inner"
+                               oninput="handleTypingSuggestions(this, 'arcade-suggestions')"
+                               onkeydown="handleSuggestionKeys(event, 'arcade-suggestions', this, true)">
+                        <div id="arcade-suggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-slate-200 rounded-xl shadow-xl max-h-40 overflow-y-auto z-50 text-slate-700 text-sm font-bold"></div>
+
+                        <button onclick="submitArcadeGuess()" class="w-full py-2.5 mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition duration-150 text-sm">
+                            Submit Guess
+                        </button>
+                    </div>
+
+                    <div id="arcade-mc-container" class="hidden space-y-2 mb-2">
+                        <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Select the Correct Bird:</label>
+                        <div id="arcade-mc-options" class="grid grid-cols-1 gap-2"></div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-[10px] font-bold text-slate-400">
+                        <span id="arcade-copyright-caption" class="truncate w-3/4">© Credit info</span>
+                        <span>[Esc] Cancel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="message-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200 p-4 z-50">
+        <div id="modal-content" class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full transform scale-95 transition-transform duration-200">
+            <h3 id="modal-title" class="text-2xl font-bold mb-2 text-center text-gray-900"></h3>
+            <p id="modal-message" class="text-sm text-center mb-5 text-gray-600 font-medium"></p>
+            <button onclick="closeModal()" id="modal-ok-button" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-md transition">
+                OK
+            </button>
+        </div>
+    </div>
+
+
+    <div id="hotspot-map-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-3 z-50">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden border border-slate-100">
+            <div class="flex items-center justify-between p-3 border-b border-slate-200">
+                <div class="relative w-72">
+                    <input id="hs-map-search" type="text" placeholder="🔍 Search hotspots…" autocomplete="off"
+                           class="w-full p-2 pl-3 text-sm border-2 border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:border-blue-500"
+                           oninput="handleHotspotMapSearchInput(this.value)">
+                    <div id="hs-map-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-56 overflow-y-auto z-[2000] text-sm"></div>
+                </div>
+                <button onclick="closeHotspotMapModal()" class="text-slate-400 hover:text-slate-700 font-bold text-2xl leading-none px-2">&times;</button>
+            </div>
+            <div id="hs-leaflet-map" class="flex-1 w-full bg-slate-100"></div>
+            <div id="hs-map-details-panel" class="p-3 border-t border-slate-200 bg-slate-50 min-h-[64px] flex items-center justify-between gap-3">
+                <p class="text-xs text-slate-400 font-medium">Click a pin on the map, or search above, to select a hotspot.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <script>
+        // Sound Effects Audio Manager
+        const SFX = {
+            click: new Audio('sounds/click_button.mp3'),
+            wrong: new Audio('sounds/wrong_answer.mp3'),
+            common: new Audio('sounds/correct_common.mp3'),
+            uncommon: new Audio('sounds/correct_uncommon.mp3'),
+            rare: new Audio('sounds/correct_rare.mp3'),
+            mega: new Audio('sounds/correct_mega.mp3')
+        };
+
+        function playSFX(key) {
+            if (SFX[key]) {
+                SFX[key].currentTime = 0; // Rewind for instant rapid playback
+                SFX[key].play().catch(() => {}); // Prevent browser autoplay policy errors
+            }
+        }
+
+        const REPO_BASE_URL = "https://raw.githubusercontent.com/birdquizdev/blitz-bird-quiz/main/";
+
+        let activeMapData = null; 
+        let activeShards = {};    
+
+        // ===================== v3.0 Hotspot Data Layer =====================
+        const PRESET_MANIFEST_URL = "data_pool/map_seeds/presets/manifest.json";
+        const PRESET_SEED_PATH = (id) => `data_pool/map_seeds/presets/${id}.json`;
+        const HOTSPOT_INDEX_URL = "dist/master_hotspots_index_updated.json";
+        const HOTSPOT_SEED_PATH = (locId) => `data_pool/hotspot_seeds/${locId}.json`;
+
+        let hotspotIndexRaw = null;      // raw master_hotspots_index_updated.json
+        let flatHotspots = [];           // flattened array of every hotspot {locId, name, latitude, longitude, species_count, countryCode, subnational1Code, subnational2Code}
+        let regionTree = null;           // Map<regionCode, node>
+        let hotspotIndexLoading = false;
+        let hotspotIndexLoaded = false;
+
+        let selectedHotspotData = null;  // {locId, display_name, latitude, longitude} chosen via Search/Region/Map
+        let currentRegionCode = "WORLD"; // for the Region browser breadcrumb
+        let hsLeafletMap = null;
+        let hsMarkerCluster = null;
+        let hsMarkerMap = new Map();
+
+        // ---- Species code cross-reference ----
+        // species_pool keys come in two flavors depending on which pipeline produced the seed:
+        //   - hotspot_seeds (Select Hotspot):  4-letter alpha codes, e.g. "DCCO"
+        //   - preset seeds  (Preset Maps):     6-letter eBird species codes, e.g. "comrav"
+        // shard_manifest.json / the image shard files themselves are keyed by lowercase alpha
+        // code (with the ~8,985 species that have no real banding code keyed by their lowercase
+        // eBird code as a stand-in). resolveSpeciesKey() normalizes either input format to
+        // whichever key actually unlocks the manifest/shard data.
+        const SPECIES_DIRECTORY_URL = "dist/master_species_directory_updated.json";
+        let shardManifestCache = null;   // ebird/alpha lowercase code -> shard name
+        let ebirdToAlphaLower = null;    // 6-letter ebird code -> lowercase alpha code
+        let speciesDirectoryCache = null;  // full parsed master_species_directory_updated.json, keyed by ebird_code
+        let codeToCommonName = {};         // any lowercase code (ebird OR alpha) -> common_name, for cheap lookups w/o fetching shards
+        let speciesDirectoryLoading = false;
+
+        async function ensureSpeciesDirectoryLoaded() {
+            if (shardManifestCache && ebirdToAlphaLower) return true;
+            if (speciesDirectoryLoading) return false;
+            speciesDirectoryLoading = true;
+
+            const [manifest, directory] = await Promise.all([
+                fetchFromRepo("dist/shard_manifest.json"),
+                fetchFromRepo(SPECIES_DIRECTORY_URL)
+            ]);
+            speciesDirectoryLoading = false;
+
+            if (!manifest) return false;
+            shardManifestCache = manifest;
+
+            ebirdToAlphaLower = {};
+            speciesDirectoryCache = directory || {};
+            if (directory) {
+                for (const entry of Object.values(directory)) {
+                    if (entry.ebird_code && entry.alpha_code) {
+                        ebirdToAlphaLower[entry.ebird_code.toLowerCase()] = entry.alpha_code.toLowerCase();
+                    }
+                    if (entry.ebird_code && entry.common_name) {
+                        codeToCommonName[entry.ebird_code.toLowerCase()] = entry.common_name;
+                    }
+                    if (entry.alpha_code && entry.common_name) {
+                        codeToCommonName[entry.alpha_code.toLowerCase()] = entry.common_name;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function resolveSpeciesKey(rawCode) {
+            const lower = rawCode.toLowerCase();
+            if (shardManifestCache && shardManifestCache[lower]) return lower;
+            if (ebirdToAlphaLower && ebirdToAlphaLower[lower]) return ebirdToAlphaLower[lower];
+            return lower;
+        }
+
+        function getMarkerColor(count) {
+            if (count == null) return "#9ca3af";
+            if (count > 600)  return "#63038A";
+            if (count >= 500) return "#C20C62";
+            if (count >= 400) return "#9E0000";
+            if (count >= 350) return "#FF0400";
+            if (count >= 300) return "#EB1809";
+            if (count >= 250) return "#FF7700";
+            if (count >= 200) return "#F0C713";
+            if (count >= 150) return "#CEEB13";
+            if (count >= 100) return "#20E39F";
+            if (count >= 50)  return "#20D5E3";
+            if (count >= 15)  return "#5095A1";
+            return "#5E7B80";
+        }
+
+        function createEBirdPin(color) {
+            const svg = `<svg width="22" height="30" viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 20 12 20s12-11 12-20c0-6.63-5.37-12-12-12z" fill="${color}" stroke="#ffffff" stroke-width="2.5"/>
+                <circle cx="12" cy="11" r="3.5" fill="#ffffff"/>
+            </svg>`;
+            return L.divIcon({ html: svg, className: '', iconSize: [22, 30], iconAnchor: [11, 30], popupAnchor: [0, -28] });
+        }
+
+        // ---- Load & flatten the master hotspot index (once per session) ----
+        async function ensureHotspotIndexLoaded() {
+            if (hotspotIndexLoaded || hotspotIndexLoading) return;
+            hotspotIndexLoading = true;
+            document.getElementById('hotspot-index-loading').classList.remove('hidden');
+            document.getElementById('hotspot-index-error').classList.add('hidden');
+            document.getElementById('hotspot-picker-body').classList.add('hidden');
+
+            const data = await fetchFromRepo(HOTSPOT_INDEX_URL, true);
+            hotspotIndexLoading = false;
+
+            if (!data) {
+                document.getElementById('hotspot-index-loading').classList.add('hidden');
+                document.getElementById('hotspot-index-error').classList.remove('hidden');
+                return;
+            }
+
+            hotspotIndexRaw = data;
+            buildFlatHotspotsAndTree(data);
+            hotspotIndexLoaded = true;
+
+            document.getElementById('hotspot-index-loading').classList.add('hidden');
+            document.getElementById('hotspot-picker-body').classList.remove('hidden');
+
+            renderRegionBrowser('WORLD');
+        }
+
+        // ---- Flatten every hotspot into one array + build a navigable region tree ----
+        // The raw index is a flat dict keyed by region code. Some entries are fully-formed
+        // (region_code/display_name/hierarchy/hotspots), others are "orphan" buckets that only
+        // hold hotspots directly assigned to that admin level (e.g. offshore pelagic spots with
+        // no county). We synthesize any missing parent nodes (e.g. country-level "US") from the
+        // hierarchy info found on their descendants.
+        function buildFlatHotspotsAndTree(raw) {
+            flatHotspots = [];
+            const nodes = new Map();
+
+            const getNode = (code) => {
+                if (!nodes.has(code)) {
+                    nodes.set(code, { code, display_name: null, hotspots: [], childCodes: new Set(), parentCode: null });
+                }
+                return nodes.get(code);
+            };
+
+            const parentOf = (code) => {
+                const parts = code.split('-').filter(p => p.length > 0);
+                if (parts.length <= 1) return 'WORLD';
+                return parts.slice(0, -1).join('-');
+            };
+
+            for (const [code, entry] of Object.entries(raw)) {
+                const node = getNode(code);
+                if (entry.display_name) node.display_name = entry.display_name;
+                if (entry.hierarchy) node.hierarchy = entry.hierarchy;
+                if (Array.isArray(entry.hotspots)) {
+                    node.hotspots = entry.hotspots;
+                    flatHotspots.push(...entry.hotspots);
+                }
+                const pCode = parentOf(code);
+                node.parentCode = pCode;
+                getNode(pCode).childCodes.add(code);
+            }
+
+            const world = getNode('WORLD');
+            world.display_name = 'World';
+            world.parentCode = null;
+
+            // Backfill display names for synthesized/orphan nodes (e.g. the implicit "US" country
+            // node, or a raw leftover bucket like "US-CA" with no hierarchy of its own) by finding
+            // any descendant that carries a hierarchy array and reading the matching depth off it.
+            for (const node of nodes.values()) {
+                if (node.code === 'WORLD' || node.display_name) continue;
+                const partsCount = node.code.split('-').filter(p => p.length > 0).length;
+                let found = null;
+                for (const cand of nodes.values()) {
+                    if (cand.hierarchy && cand.code.startsWith(node.code + '-') && cand.hierarchy.length >= partsCount) {
+                        found = cand.hierarchy[partsCount - 1];
+                        if (found) break;
+                    }
+                }
+                node.display_name = found || node.code;
+            }
+
+            regionTree = nodes;
+        }
+
+        function getRegionChildren(code) {
+            const node = regionTree.get(code);
+            if (!node) return [];
+            return Array.from(node.childCodes)
+                .map(c => regionTree.get(c))
+                .filter(Boolean)
+                .sort((a, b) => a.display_name.localeCompare(b.display_name));
+        }
+
+        function setHotspotTab(tab) {
+            playSFX('click');
+            ['search', 'region', 'map'].forEach(t => {
+                document.getElementById(`hs-tab-${t}`).classList.toggle('hidden', t !== tab);
+                const btn = document.getElementById(`hs-tab-${t}-btn`);
+                btn.className = t === tab
+                    ? "py-1.5 rounded-lg text-xs font-bold transition bg-white text-blue-700 shadow-sm"
+                    : "py-1.5 rounded-lg text-xs font-bold transition text-slate-500";
+            });
+        }
+
+        // ---- Search tab ----
+        function handleHotspotSearchInput(value) {
+            const resultsDiv = document.getElementById('hotspot-search-results');
+            const q = value.toLowerCase().trim();
+            if (q.length < 2) { resultsDiv.classList.add('hidden'); resultsDiv.innerHTML = ''; return; }
+
+            const matches = flatHotspots.filter(h => h.name && h.name.toLowerCase().includes(q)).slice(0, 30);
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = `<div class="p-3 text-slate-400 text-xs italic">No hotspots found.</div>`;
+            } else {
+                resultsDiv.innerHTML = matches.map((h, i) => `
+                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b border-slate-50 text-xs" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)}, 'hotspot-search-results')">
+                        <span class="font-bold text-slate-800">${h.name}</span>
+                        <span class="text-slate-400"> — ${h.species_count != null ? h.species_count + ' sp.' : 'N/A'} · ${h.subnational1Code || h.countryCode || ''}</span>
+                    </div>
+                `).join('');
+            }
+            resultsDiv.classList.remove('hidden');
+        }
+
+        function selectHotspotByIndex(idx, closeResultsId) {
+            const h = flatHotspots[idx];
+            if (!h) return;
+            selectHotspot(h);
+            if (closeResultsId) {
+                const el = document.getElementById(closeResultsId);
+                if (el) { el.classList.add('hidden'); el.innerHTML = ''; }
+            }
+        }
+
+        function selectHotspot(h) {
+            playSFX('click');
+            selectedHotspotData = {
+                locId: h.locId,
+                display_name: h.name,
+                latitude: h.latitude,
+                longitude: h.longitude
+            };
+            const summary = document.getElementById('hotspot-selected-summary');
+            summary.classList.remove('hidden');
+            document.getElementById('hotspot-selected-name').textContent = h.name;
+            document.getElementById('hotspot-selected-meta').textContent =
+                `${h.locId} · ${h.species_count != null ? h.species_count + ' species reported' : 'species count unknown'}`;
+        }
+
+        function clearSelectedHotspot() {
+            selectedHotspotData = null;
+            document.getElementById('hotspot-selected-summary').classList.add('hidden');
+        }
+
+        // ---- Region browser tab ----
+        function renderRegionBrowser(code) {
+            currentRegionCode = code;
+            const node = regionTree.get(code);
+            if (!node) return;
+
+            // Breadcrumb
+            const trail = [];
+            let cur = node;
+            while (cur) { trail.unshift(cur); cur = cur.parentCode ? regionTree.get(cur.parentCode) : null; }
+            document.getElementById('region-breadcrumb').innerHTML = trail.map((n, i) => `
+                <span class="${i === trail.length - 1 ? 'text-blue-600' : 'text-slate-400 hover:text-blue-500 cursor-pointer underline'}"
+                      ${i === trail.length - 1 ? '' : `onclick="renderRegionBrowser('${n.code}')"`}>${n.display_name}</span>
+                ${i < trail.length - 1 ? '<span class="text-slate-300">/</span>' : ''}
+            `).join('');
+
+            const children = getRegionChildren(code);
+            const listEl = document.getElementById('region-browser-list');
+            let html = '';
+
+            children.forEach(child => {
+                const count = child.hotspots.length + Array.from(child.childCodes).reduce((sum, cc) => {
+                    const n = regionTree.get(cc);
+                    return sum + (n ? n.hotspots.length : 0);
+                }, 0);
+                html += `
+                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer flex justify-between items-center text-sm" onclick="renderRegionBrowser('${child.code}')">
+                        <span class="font-semibold text-slate-700">📁 ${child.display_name}</span>
+                        <span class="text-slate-400 text-[10px]">${count > 0 ? count + ' hs' : ''} ▸</span>
+                    </div>`;
+            });
+
+            if (node.hotspots.length > 0) {
+                node.hotspots
+                    .slice().sort((a, b) => (b.species_count || 0) - (a.species_count || 0))
+                    .forEach(h => {
+                        html += `
+                            <div class="p-2.5 hover:bg-emerald-50 cursor-pointer flex justify-between items-center text-sm" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)})">
+                                <span class="font-semibold text-slate-700">📍 ${h.name}</span>
+                                <span class="text-slate-400 text-[10px]">${h.species_count != null ? h.species_count + ' sp.' : 'N/A'}</span>
+                            </div>`;
+                    });
+            }
+
+            if (!html) html = `<div class="p-3 text-slate-400 text-xs italic">No sub-regions or hotspots here.</div>`;
+            listEl.innerHTML = html;
+        }
+
+        function handleRegionSearchInput(value) {
+            const resultsDiv = document.getElementById('region-search-results');
+            const q = value.toLowerCase().trim();
+            if (q.length < 2) { resultsDiv.classList.add('hidden'); resultsDiv.innerHTML = ''; return; }
+
+            const matches = Array.from(regionTree.values())
+                .filter(n => n.code !== 'WORLD' && n.display_name.toLowerCase().includes(q))
+                .slice(0, 25);
+
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = `<div class="p-3 text-slate-400 text-xs italic">No regions found.</div>`;
+            } else {
+                resultsDiv.innerHTML = matches.map(n => `
+                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b border-slate-50 text-xs font-semibold text-slate-700"
+                         onclick="renderRegionBrowser('${n.code}'); document.getElementById('region-search-results').classList.add('hidden'); document.getElementById('region-search-input').value='';">
+                        🗺️ ${n.display_name} <span class="text-slate-400 font-normal">(${n.code})</span>
+                    </div>
+                `).join('');
+            }
+            resultsDiv.classList.remove('hidden');
+        }
+
+        // ---- Map tab / modal ----
+        function openHotspotMapModal() {
+            playSFX('click');
+            document.getElementById('hotspot-map-modal').classList.remove('hidden');
+            document.getElementById('hotspot-map-modal').classList.add('flex');
+            setTimeout(initHotspotMapIfNeeded, 30);
+        }
+
+        function closeHotspotMapModal() {
+            document.getElementById('hotspot-map-modal').classList.add('hidden');
+            document.getElementById('hotspot-map-modal').classList.remove('flex');
+        }
+
+        function initHotspotMapIfNeeded() {
+            if (hsLeafletMap) { hsLeafletMap.invalidateSize(); return; }
+
+            hsLeafletMap = L.map('hs-leaflet-map').setView([20, 0], 2);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(hsLeafletMap);
+
+            hsMarkerCluster = L.markerClusterGroup({ maxClusterRadius: 15, spiderfyOnMaxZoom: true }); //was 35
+            hsLeafletMap.addLayer(hsMarkerCluster);
+
+            flatHotspots.forEach(h => {
+                if (h.latitude == null || h.longitude == null) return;
+                const icon = createEBirdPin(getMarkerColor(h.species_count));
+                const m = L.marker([h.latitude, h.longitude], { icon });
+                m.on('click', () => showHotspotMapDetails(h));
+                hsMarkerMap.set(h.locId, m);
+                hsMarkerCluster.addLayer(m);
+            });
+
+            hsLeafletMap.invalidateSize();
+        }
+
+        function showHotspotMapDetails(h) {
+            const panel = document.getElementById('hs-map-details-panel');
+            const color = getMarkerColor(h.species_count);
+            panel.innerHTML = `
+                <div class="min-w-0">
+                    <p class="font-bold text-slate-800 text-sm truncate">${h.name}</p>
+                    <p class="text-[11px] text-slate-500">
+                        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${color};margin-right:4px;"></span>
+                        ${h.species_count != null ? h.species_count + ' species' : 'Species count N/A'} · ${h.locId} · ${h.subnational1Code || h.countryCode || ''}
+                    </p>
+                </div>
+                <button onclick="selectHotspotFromMapAndClose('${h.locId}')" class="shrink-0 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg shadow-sm transition">► Select</button>
+            `;
+        }
+
+        function selectHotspotFromMapAndClose(locId) {
+            const h = flatHotspots.find(x => x.locId === locId);
+            if (!h) return;
+            selectHotspot(h);
+            closeHotspotMapModal();
+        }
+
+        function handleHotspotMapSearchInput(value) {
+            const resultsDiv = document.getElementById('hs-map-search-results');
+            const q = value.toLowerCase().trim();
+            if (q.length < 2) { resultsDiv.classList.add('hidden'); resultsDiv.innerHTML = ''; return; }
+
+            const matches = flatHotspots.filter(h => h.name && h.name.toLowerCase().includes(q)).slice(0, 25);
+            resultsDiv.innerHTML = matches.map(h => `
+                <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b border-slate-50 text-xs font-semibold text-slate-700"
+                     onclick="flyToHotspotOnMap('${h.locId}')">${h.name}</div>
+            `).join('') || `<div class="p-3 text-slate-400 text-xs italic">No hotspots found.</div>`;
+            resultsDiv.classList.remove('hidden');
+        }
+
+        function flyToHotspotOnMap(locId) {
+            const h = flatHotspots.find(x => x.locId === locId);
+            if (!h || !hsLeafletMap) return;
+            document.getElementById('hs-map-search-results').classList.add('hidden');
+            document.getElementById('hs-map-search').value = h.name;
+            hsLeafletMap.setView([h.latitude, h.longitude], 13);
+            const marker = hsMarkerMap.get(locId);
+            if (marker) marker.fire('click');
+            showHotspotMapDetails(h);
+        }
+
+        // ---- Preset manifest loader ----
+        let presetManifestLoaded = false;
+        async function loadPresetManifest() {
+            if (presetManifestLoaded) return;
+            const dropdown = document.getElementById('arcade-preset-dropdown');
+            const errorEl = document.getElementById('preset-load-error');
+            const manifest = await fetchFromRepo(PRESET_MANIFEST_URL, true);
+            if (!manifest || !Array.isArray(manifest)) {
+                errorEl.classList.remove('hidden');
+                dropdown.innerHTML = `<option value="">(no zones available)</option>`;
+                return;
+            }
+            presetManifestLoaded = true;
+            dropdown.innerHTML = manifest.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+        }
+        // ===================== end v3.0 Hotspot Data Layer =====================
+
+        let gameState = {
+            currentScreen: 'main-menu-screen',
+            activeMode: null, 
+            selectedDeck: null,
+            arcadeStrategy: 'preset',
+            difficulty: 'easy'
+        };
+
+        const DIFFICULTY_SETTINGS = {
+            easy:     { lives: 5, birdTimeout: 200, label: '🌱 Explore',     tagColor: 'text-emerald-400', desc: 'Easy: 5 Lives • Birds stay 200s • Multiple Choice' },
+            normal:   { lives: 5,  birdTimeout: 150, label: '⚡ Normal',   tagColor: 'text-blue-400',    desc: 'Normal: 5 Lives • Birds stay 150s • Type the Answer' },
+            advanced: { lives: 3,  birdTimeout: 100, label: '🔥 Advanced', tagColor: 'text-purple-400',  desc: 'Advanced: 3 Lives • Birds stay 100s • Type the Answer' }
+        };
+
+        let arcadeTimerInterval = null;
+        let activeSlotIndex = null; 
+        let arcadePaused = false;
+        let arcadeState = {
+            score: 0,
+            lives: 3,
+            slots: Array(8).fill(null),
+            startTime: null,
+            elapsedSeconds: 0,
+            identified: [],
+            missed: [],
+            totalSpotted: 0
+        };
+
+        const RARITY_POINTS = { abundant: 1, common: 1, uncommon: 2, rare: 3, vagrant: 5 };
+
+        const TIER_THEMES = {
+            abundant:{text:"ABUNDANT",points:"+1",color:"text-emerald-500"},
+            common:{text:"COMMON",points:"+1",color:"text-slate-600"},
+            uncommon:{text:"UNCOMMON",points:"+2",color:"text-amber-500"},
+            rare:{text:"RARE!",points:"+3",color:"text-blue-600"},
+            vagrant:{text:"MEGA!!!",points:"+5",color:"text-red-800 animate-bounce"}
+        };
+
+        const TIER_COLOR_MAP = {
+            abundant: "text-slate-300",
+            common: "text-slate-200",
+            uncommon: "text-amber-400 font-bold",
+            rare: "text-blue-400 font-bold",
+            vagrant: "text-red-400 font-black"
+        };
+
+        // ===================== Practice Mode Data Layer (tag-driven, infinite) =====================
+        // Tags live inside each image shard file as a "practice_tags" field per species. Rather
+        // than requiring the client to download every shard just to know which tags exist, a
+        // separate lightweight companion index lists tags per species without any image data:
+        //   { "<code>": { "groups": ["warblers"], "regions": ["california","argentina"] } }
+        // Species not yet tagged simply won't appear when a filter is active; with no filter
+        // selected at all, practice draws from the full species directory regardless of tagging
+        // progress, so the mode works before tagging is finished, and gets more precise with it.
+        const PRACTICE_TAGS_URL = "dist/practice_tags.json";
+        let practiceTagsIndex = null;      // { code: {groups:[], regions:[]} }
+        let practiceTagsLoaded = false;
+        let practiceAllGroups = [];
+        let practiceAllRegions = [];
+        let practiceSelectedGroups = new Set();
+        let practiceSelectedRegions = new Set();
+
+        let practicePool = [];             // codes matching the current filter, used to pick rounds
+        let practicePoolNamed = [];         // cached {code, name} pairs for autocomplete, built once at launch
+        let practiceShardCache = {};       // shardName -> shard json, lazily filled as rounds are played
+        let currentPracticeShardName = null;
+        let practiceMissed = [];           // common names guessed incorrectly this session (may repeat)
+        let practiceSeenSet = new Set();   // common names shown this session (unique)
+        let practiceBestStreak = 0;
+        // ===================== end Practice Mode Data Layer =====================
+
+        let currentBirdKey = null;
+        let score = 0;
+        let rounds = 0;
+        let streak = 0;
+
+        const DEFAULT_LIFETIME_STATS = {
+            totalGuesses: 0,
+            correctGuesses: 0,
+            lifeList: [],
+            megaRareCount: 0,          // lifetime mega/vagrant-tier catches, Arcade only (Rarity Hunter)
+            arcadeCorrectTotal: 0,     // lifetime correct IDs, Arcade only (Identification Expert)
+            arcadeUniqueSpecies: [],   // lifetime unique species names, Arcade only (Lister)
+            topScores: [],             // [{ score, location, difficulty, date }] capped at 5
+            topFinds: []               // [{ species, rarity, location, date }] capped at 5, deduped by species
+        };
+        let lifetimeStats = Object.assign({}, DEFAULT_LIFETIME_STATS, JSON.parse(localStorage.getItem('bird_quiz_stats')) || {});
+        let imageBlacklist = JSON.parse(localStorage.getItem('bird_quiz_blacklist')) || [];
+
+        const birdImage = document.getElementById('bird-image');
+        const answerEntry = document.getElementById('answer-entry');
+        const scoreDisplay = document.getElementById('score-display');
+        const streakDisplay = document.getElementById('streak-display');
+        const sidebarContent = document.getElementById('sidebar-content');
+        const modal = document.getElementById('message-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        async function fetchFromRepo(relativePath, silent = false) {
+            try {
+                const response = await fetch(`${REPO_BASE_URL}${relativePath}`);
+                if (!response.ok) throw new Error(`Network status error: ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error(`Failed to fetch database asset: ${relativePath}`, error);
+                if (!silent) alert(`Database connection failed: ${relativePath}`);
+                return null;
+            }
+        }
+
+        function changeScreen(screenId) {
+            playSFX('click');
+            document.getElementById(gameState.currentScreen).classList.add('hidden');
+            document.getElementById(screenId).classList.remove('hidden');
+            gameState.currentScreen = screenId;
+            
+            const header = document.getElementById('main-header');
+            if (screenId === 'practice-quiz-screen' || screenId === 'arcade-game-screen' || screenId === 'arcade-results-screen' || screenId === 'arcade-gameover-screen' || screenId === 'practice-results-screen') {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+        }
+
+        function selectMode(modeType) {
+            playSFX('click');
+            gameState.activeMode = modeType;
+            const practiceContainer = document.getElementById('practice-config-container');
+            const arcadeContainer = document.getElementById('arcade-config-container');
+            const launchBtn = document.getElementById('launch-button');
+
+            if (modeType === 'practice') {
+                document.getElementById('config-title').textContent = "Configure Practice Session";
+                document.getElementById('config-desc').textContent = "Filter by group and/or region, or leave blank to practice everything";
+                practiceContainer.classList.remove('hidden');
+                arcadeContainer.classList.add('hidden');
+                launchBtn.className = "w-2/3 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition";
+                ensurePracticeTagsLoaded();
+            } else {
+                document.getElementById('config-title').textContent = "Deploy Arcade Grid";
+                document.getElementById('config-desc').textContent = "Deploy a curated zone or search/browse the global hotspot index";
+                practiceContainer.classList.add('hidden');
+                arcadeContainer.classList.remove('hidden');
+                launchBtn.className = "w-2/3 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition";
+                setArcadeStrategy('preset');
+                setArcadeDifficulty('easy');
+                loadPresetManifest();
+            }
+            changeScreen('config-screen');
+        }
+
+        function setArcadeStrategy(strategy) {
+            playSFX('click');
+            gameState.arcadeStrategy = strategy;
+            const presetBtn = document.getElementById('strategy-preset-btn');
+            const hotspotBtn = document.getElementById('strategy-hotspot-btn');
+            const presetPanel = document.getElementById('arcade-preset-panel');
+            const hotspotPanel = document.getElementById('arcade-hotspot-panel');
+
+            if(strategy === 'preset') {
+                presetBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-blue-50 border-blue-600 text-blue-700";
+                hotspotBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500";
+                presetPanel.classList.remove('hidden');
+                hotspotPanel.classList.add('hidden');
+            } else {
+                hotspotBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-blue-50 border-blue-600 text-blue-700";
+                presetBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500";
+                hotspotPanel.classList.remove('hidden');
+                presetPanel.classList.add('hidden');
+                ensureHotspotIndexLoaded();
+            }
+        }
+
+        function setArcadeDifficulty(diff) {
+            playSFX('click');
+            gameState.difficulty = diff;
+
+            const inactiveClass = "py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500";
+            const activeClass = {
+                easy: "py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-emerald-500 border-emerald-600 text-white shadow-sm",
+                normal: "py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-blue-600 border-blue-700 text-white shadow-sm",
+                advanced: "py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-purple-600 border-purple-700 text-white shadow-sm"
+            };
+
+            document.getElementById('diff-easy-btn').className = diff === 'easy' ? activeClass.easy : inactiveClass;
+            document.getElementById('diff-normal-btn').className = diff === 'normal' ? activeClass.normal : inactiveClass;
+            document.getElementById('diff-advanced-btn').className = diff === 'advanced' ? activeClass.advanced : inactiveClass;
+
+            document.getElementById('diff-desc').textContent = DIFFICULTY_SETTINGS[diff].desc;
+        }
+
+        function setLaunchLoading(isLoading) {
+            const btn = document.getElementById('launch-button');
+            const spinner = document.getElementById('launch-spinner');
+            const label = document.getElementById('launch-button-label');
+            if (!btn) return;
+            btn.disabled = isLoading;
+            spinner.classList.toggle('hidden', !isLoading);
+            label.textContent = isLoading ? "Loading map data…" : "Launch Quiz →";
+        }
+
+        async function launchGameEngine() {
+            playSFX('click');
+            setLaunchLoading(true);
+            try {
+                if (gameState.activeMode === 'practice') {
+                    const ready = await ensureSpeciesDirectoryLoaded();
+                    if (!ready) { alert("Could not load the species database. Check your connection."); return; }
+
+                    practicePool = computePracticePool();
+                    if (practicePool.length === 0) {
+                        alert("No species match your selected tags yet. Try different tags, or clear all filters to practice from the full database.");
+                        return;
+                    }
+
+                    practicePoolNamed = practicePool
+                        .map(code => ({ code, name: codeToCommonName[code.toLowerCase()] || codeToCommonName[resolveSpeciesKey(code)] }))
+                        .filter(b => b.name);
+
+                    practiceShardCache = {};
+                    practiceMissed = [];
+                    practiceSeenSet = new Set();
+                    practiceBestStreak = 0;
+                    score = 0; rounds = 0; streak = 0;
+                    scoreDisplay.textContent = "Score: 0 / 0";
+                    streakDisplay.textContent = "Streak: 0";
+                    document.getElementById('practice-live-tally').textContent = "0 / 0";
+                    sidebarContent.innerHTML = `<p class="text-slate-400 italic text-xs font-medium">Submit a guess to see review tools.</p>`;
+
+                    changeScreen('practice-quiz-screen');
+                    await generatePracticeRound();
+                } else {
+                    if (gameState.arcadeStrategy === 'preset') {
+                        const presetZone = document.getElementById('arcade-preset-dropdown').value;
+                        if (!presetZone) { alert("Please choose a curated zone first."); return; }
+                        activeMapData = await fetchFromRepo(PRESET_SEED_PATH(presetZone));
+                        if (!activeMapData) return;
+                    } else if (gameState.arcadeStrategy === 'hotspot') {
+                        if (!selectedHotspotData) { alert("Please search, browse, or pick a hotspot on the map first."); return; }
+                        activeMapData = await fetchFromRepo(HOTSPOT_SEED_PATH(selectedHotspotData.locId), true);
+                        if (!activeMapData) {
+                            alert(`No seed data available yet for ${selectedHotspotData.display_name} (${selectedHotspotData.locId}). Try another hotspot.`);
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+
+                    const ready = await ensureSpeciesDirectoryLoaded();
+                    if (!ready) return;
+
+                    const speciesToLoad = Object.keys(activeMapData.species_pool);
+                    const shardsToFetch = [...new Set(speciesToLoad.map(code => shardManifestCache[resolveSpeciesKey(code)]).filter(Boolean))];
+
+                    // Fetch every needed shard concurrently instead of one at a time — a real
+                    // hotspot's species list often spans far more taxonomic shards than a hand
+                    // curated preset did, so doing this sequentially could mean a dozen-plus
+                    // back-to-back network round trips before the grid could even render.
+                    activeShards = {};
+                    const shardResults = await Promise.all(
+                        shardsToFetch.map(shardName => fetchFromRepo(`data_pool/image_shards/${shardName}.json`, true))
+                    );
+                    shardsToFetch.forEach((shardName, i) => {
+                        if (shardResults[i]) activeShards[shardName] = shardResults[i];
+                    });
+
+                    initializeArcadeGridMatch();
+                }
+            } finally {
+                setLaunchLoading(false);
+            }
+        }
+
+        function cleanString(str) {
+            return str ? str.toLowerCase().replace(/[-'\s]/g, '') : '';
+        }
+
+        function getActiveSpeciesPool() {
+            let pool = [];
+            if (gameState.activeMode === 'practice') {
+                pool = practicePoolNamed;
+            } else if (gameState.activeMode === 'arcade' && activeMapData) {
+                Object.keys(activeMapData.species_pool).forEach(code => {
+                    const cleanCode = resolveSpeciesKey(code);
+                    for (const sKey in activeShards) {
+                        if (activeShards[sKey].data && activeShards[sKey].data[cleanCode]) {
+                            pool.push({ code: code, name: activeShards[sKey].data[cleanCode].common_name });
+                            break;
+                        }
+                    }
+                });
+            }
+            return pool;
+        }
+
+        // ---- Practice tag index loading & chip UI ----
+        async function ensurePracticeTagsLoaded() {
+            const loadingEl = document.getElementById('practice-tags-loading');
+            const bodyEl = document.getElementById('practice-tags-body');
+            const emptyEl = document.getElementById('practice-tags-empty');
+
+            if (practiceTagsLoaded) {
+                loadingEl.classList.add('hidden');
+                updatePracticePoolPreview();
+                return true;
+            }
+
+            loadingEl.classList.remove('hidden');
+            bodyEl.classList.add('hidden');
+            emptyEl.classList.add('hidden');
+
+            const ready = await ensureSpeciesDirectoryLoaded();
+            if (!ready) {
+                loadingEl.textContent = "⚠️ Could not load species directory.";
+                return false;
+            }
+
+            const tagData = await fetchFromRepo(PRACTICE_TAGS_URL, true); // silent: file may not exist yet
+            practiceTagsIndex = tagData || {};
+            practiceTagsLoaded = true;
+            loadingEl.classList.add('hidden');
+
+            const groupSet = new Set();
+            const regionSet = new Set();
+            Object.values(practiceTagsIndex).forEach(entry => {
+                (entry.groups || []).forEach(g => groupSet.add(g));
+                (entry.regions || []).forEach(r => regionSet.add(r));
+            });
+            practiceAllGroups = Array.from(groupSet).sort();
+            practiceAllRegions = Array.from(regionSet).sort();
+
+            if (practiceAllGroups.length === 0 && practiceAllRegions.length === 0) {
+                emptyEl.classList.remove('hidden');
+            } else {
+                bodyEl.classList.remove('hidden');
+                renderPracticeTagChips('practice-group-chips', practiceAllGroups, practiceSelectedGroups);
+                renderPracticeTagChips('practice-region-chips', practiceAllRegions, practiceSelectedRegions);
+            }
+            updatePracticePoolPreview();
+            return true;
+        }
+
+        function renderPracticeTagChips(containerId, tags, selectedSet) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            if (tags.length === 0) {
+                container.innerHTML = `<span class="text-xs text-slate-400 italic">None tagged yet</span>`;
+                return;
+            }
+            container.innerHTML = tags.map(tag => `
+                <button type="button" onclick="togglePracticeTag('${containerId}', '${tag}')"
+                        class="px-3 py-1.5 rounded-full border-2 text-xs font-bold transition ${selectedSet.has(tag) ? 'bg-emerald-500 border-emerald-600 text-white' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-emerald-400'}">
+                    ${tag}
+                </button>
+            `).join('');
+        }
+
+        function togglePracticeTag(containerId, tag) {
+            playSFX('click');
+            const isGroup = containerId === 'practice-group-chips';
+            const set = isGroup ? practiceSelectedGroups : practiceSelectedRegions;
+            if (set.has(tag)) set.delete(tag); else set.add(tag);
+            renderPracticeTagChips(containerId, isGroup ? practiceAllGroups : practiceAllRegions, set);
+            updatePracticePoolPreview();
+        }
+
+        function computePracticePool() {
+            const hasGroupFilter = practiceSelectedGroups.size > 0;
+            const hasRegionFilter = practiceSelectedRegions.size > 0;
+
+            if (!hasGroupFilter && !hasRegionFilter) {
+                return Object.keys(speciesDirectoryCache || {});
+            }
+
+            return Object.keys(practiceTagsIndex).filter(code => {
+                const entry = practiceTagsIndex[code];
+                const groupOk = !hasGroupFilter || (entry.groups || []).some(g => practiceSelectedGroups.has(g));
+                const regionOk = !hasRegionFilter || (entry.regions || []).some(r => practiceSelectedRegions.has(r));
+                return groupOk && regionOk;
+            });
+        }
+
+        function updatePracticePoolPreview() {
+            const el = document.getElementById('practice-pool-count');
+            if (!el || !practiceTagsLoaded) return;
+            const pool = computePracticePool();
+            const hasFilter = practiceSelectedGroups.size > 0 || practiceSelectedRegions.size > 0;
+            el.textContent = hasFilter
+                ? `${pool.length.toLocaleString()} species match your filters`
+                : `Practicing from the full species database (${pool.length.toLocaleString()} species)`;
+            el.classList.remove('hidden');
+        }
+
+        function handleTypingSuggestions(inputEl, containerId) {
+            const query = inputEl.value.trim().toLowerCase();
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (!query) {
+                container.innerHTML = '';
+                container.classList.add('hidden');
+                return;
+            }
+
+            const pool = getActiveSpeciesPool();
+            const cleanedQuery = cleanString(query);
+
+            const matches = pool.filter(b => 
+                b.code.toLowerCase().startsWith(query) || 
+                cleanString(b.name).includes(cleanedQuery)
+            ).slice(0, 5);
+
+            if (matches.length === 0) {
+                container.innerHTML = '';
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.innerHTML = matches.map((b, idx) => `
+                <div
+                    class="flex items-center p-2.5 cursor-pointer hover:bg-blue-50 border-b border-slate-100 last:border-none select-choice ${idx === 0 ? 'bg-blue-50/50' : ''}"
+                    data-name="${b.name}"
+                    onclick="selectSuggestion(this.dataset.name, '${inputEl.id}', '${containerId}')">
+               
+                    <span class="inline-flex items-center justify-center min-w-[52px] text-xs bg-slate-200 text-slate-700 font-mono font-bold uppercase px-2 py-1 rounded-md mr-3">
+                        ${b.code}
+                    </span>
+
+                    <span>${b.name}</span>
+                </div>
+            `).join('');
+            container.classList.remove('hidden');
+        }
+
+        function handleSuggestionKeys(e, containerId, inputEl, isArcade = false) {
+            const container = document.getElementById(containerId);
+            
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (container && !container.classList.contains('hidden') && container.querySelector('.select-choice')) {
+                    const firstChoice = container.querySelector('.select-choice');
+                    const textNode = firstChoice.querySelector('span:last-child').textContent;
+                    inputEl.value = textNode;
+                    container.innerHTML = '';
+                    container.classList.add('hidden');
+                    if (isArcade) submitArcadeGuess();
+                } else {
+                    if (isArcade) {
+                        submitArcadeGuess();
+                    } else {
+                        checkAnswer();
+                    }
+                }
+                return;
+            }
+
+            if (e.key === 'Tab' && container && !container.classList.contains('hidden')) {
+                e.preventDefault();
+                const firstChoice = container.querySelector('.select-choice');
+                if (firstChoice) {
+                    const textNode = firstChoice.querySelector('span:last-child').textContent;
+                    inputEl.value = textNode;
+                    container.innerHTML = '';
+                    container.classList.add('hidden');
+                }
+            }
+        }
+
+        function selectSuggestion(name, inputId, containerId) {
+            playSFX('click');
+            const input = document.getElementById(inputId);
+            input.value = name;
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            container.classList.add('hidden');
+            input.focus();
+        }
+
+        async function generatePracticeRound(attemptsLeft = 25) {
+            if (practicePool.length === 0) return;
+            if (attemptsLeft <= 0) {
+                sidebarContent.innerHTML = `<p class="text-red-500 font-bold text-sm">Couldn't load a species from this filter — the data might be missing on the repo. Try different tags.</p>`;
+                return;
+            }
+
+            const rawCode = practicePool[Math.floor(Math.random() * practicePool.length)];
+            const cleanCode = resolveSpeciesKey(rawCode);
+            const shardName = shardManifestCache ? shardManifestCache[cleanCode] : null;
+            if (!shardName) return generatePracticeRound(attemptsLeft - 1);
+
+            if (!practiceShardCache[shardName]) {
+                const shardContent = await fetchFromRepo(`data_pool/image_shards/${shardName}.json`, true);
+                if (!shardContent) return generatePracticeRound(attemptsLeft - 1);
+                practiceShardCache[shardName] = shardContent;
+            }
+
+            const bird = practiceShardCache[shardName].data[cleanCode];
+            if (!bird) return generatePracticeRound(attemptsLeft - 1);
+
+            currentBirdKey = cleanCode;
+            currentPracticeShardName = shardName;
+            practiceSeenSet.add(bird.common_name);
+
+            let availableAssets = (bird.assets || []).filter(a => !imageBlacklist.includes(a.url));
+            if(availableAssets.length === 0) {
+                availableAssets = [{ url: "https://placehold.co/400x300?text=All+Assets+Flagged", copyright: "System" }];
+            }
+
+            const asset = availableAssets[Math.floor(Math.random() * availableAssets.length)];
+            
+            birdImage.src = asset.url;
+            document.getElementById('practice-copyright').textContent = asset.copyright || "© Cornell Lab";
+            answerEntry.value = '';
+            document.getElementById('practice-suggestions').classList.add('hidden');
+            answerEntry.focus();
+        }
+
+        async function checkAnswer() {
+            const guess = answerEntry.value.trim();
+            if(!guess) return;
+
+            const bird = practiceShardCache[currentPracticeShardName] && practiceShardCache[currentPracticeShardName].data[currentBirdKey];
+            if (!bird) return;
+            const cleanGuess = cleanString(guess);
+
+            const isCorrect = (
+                cleanGuess === cleanString(bird.common_name) || 
+                cleanGuess === cleanString(bird.scientific_name) || 
+                guess.toLowerCase() === currentBirdKey.toLowerCase()
+            );
+
+            updateStatsMemory(bird.common_name, isCorrect);
+            rounds++;
+
+            if (isCorrect) {
+                playSFX('common');
+                score++; streak++;
+                if (streak > practiceBestStreak) practiceBestStreak = streak;
+                sidebarContent.innerHTML = `<p class="text-emerald-600 font-bold text-sm">✓ Correct! That is a ${bird.common_name}.</p>`;
+            } else {
+                playSFX('wrong');
+                streak = 0;
+                practiceMissed.push(bird.common_name);
+                sidebarContent.innerHTML = `<p class="text-red-500 font-bold text-sm">❌ Wrong. The answer was ${bird.common_name} (${bird.scientific_name}).</p>`;
+            }
+
+            scoreDisplay.textContent = `Score: ${score} / ${rounds}`;
+            streakDisplay.textContent = `Streak: ${streak}`;
+            document.getElementById('practice-live-tally').textContent = `${score} / ${rounds}`;
+
+            await generatePracticeRound();
+        }
+
+        function endPracticeSession() {
+            playSFX('click');
+            document.getElementById('practice-res-score').textContent = `${score} / ${rounds}`;
+            document.getElementById('practice-res-accuracy').textContent = `${rounds > 0 ? Math.round((score / rounds) * 100) : 0}%`;
+            document.getElementById('practice-res-unique').textContent = practiceSeenSet.size;
+            document.getElementById('practice-res-streak').textContent = practiceBestStreak;
+
+            const missedListEl = document.getElementById('practice-res-missed-list');
+            const uniqueMissed = Array.from(new Set(practiceMissed));
+            if (uniqueMissed.length > 0) {
+                missedListEl.innerHTML = uniqueMissed.map(name => `
+                    <div class="text-red-400 font-bold">❌ ${name}</div>
+                `).join('');
+            } else {
+                missedListEl.innerHTML = `<span class="text-emerald-400 italic">✓ Perfect run! Zero misses.</span>`;
+            }
+
+            changeScreen('practice-results-screen');
+        }
+
+        function initializeArcadeGridMatch() {
+            const settings = DIFFICULTY_SETTINGS[gameState.difficulty] || DIFFICULTY_SETTINGS.easy;
+            arcadePaused = false;
+            document.getElementById('arcade-pause-overlay').classList.add('hidden');
+
+            arcadeState = {
+                score: 0,
+                lives: settings.lives,
+                slots: Array(8).fill(null),
+                startTime: Date.now(),
+                elapsedSeconds: 0,
+                identified: [],
+                missed: [],
+                totalSpotted: 0
+            };
+
+            clearInterval(arcadeTimerInterval);
+            
+            document.getElementById('arcade-score').textContent = "0";
+            document.getElementById('arcade-lives').textContent = "❤️".repeat(settings.lives);
+            
+            const mesh = document.getElementById('arcade-grid-mesh');
+            if(mesh) {
+                mesh.innerHTML = '';
+                for (let i = 0; i < 8; i++) {
+                    const slotDiv = document.createElement('div');
+                    slotDiv.id = `arcade-slot-card-${i}`;
+                    slotDiv.className = "bg-slate-100 rounded-xl overflow-hidden border-2 border-slate-200 relative flex flex-col cursor-pointer hover:border-blue-500 transition group shadow-sm";
+                    slotDiv.onclick = () => openSlotGuessField(i);
+                    mesh.appendChild(slotDiv);
+                }
+            }
+
+            for (let i = 0; i < 8; i++) {
+                arcadeState.slots[i] = generateWeightedGridSpecies();
+                renderSingleArcadeSlot(i);
+            }
+            
+            changeScreen('arcade-game-screen');
+            arcadeTimerInterval = setInterval(processArcadeGridTimers, 100);
+            window.addEventListener('keydown', handleGlobalArcadeHotkeys);
+        }
+
+        function generateWeightedGridSpecies() {
+            if (!activeMapData) return null;
+            const pool = activeMapData.species_pool;
+            const codes = Object.keys(pool);
+
+            const validCodes = codes.filter(code => {
+                const cleanCode = resolveSpeciesKey(code);
+                let birdMeta = null;
+                for (const shardKey in activeShards) {
+                    if (activeShards[shardKey].data && activeShards[shardKey].data[cleanCode]) {
+                        birdMeta = activeShards[shardKey].data[cleanCode];
+                        break;
+                    }
+                }
+                if (!birdMeta || !birdMeta.assets) return false;
+                return birdMeta.assets.some(a => !imageBlacklist.includes(a.url));
+            });
+
+            if (validCodes.length === 0) return null;
+
+            const totalWeight = validCodes.reduce((sum, code) => sum + pool[code].weight, 0);
+            let roll = Math.random() * totalWeight;
+            
+            let selectedCode = validCodes[0];
+            for (const code of validCodes) {
+                roll -= pool[code].weight;
+                if (roll <= 0) { selectedCode = code; break; }
+            }
+
+            let birdMeta = null;
+            const cleanCode = resolveSpeciesKey(selectedCode);
+            for (const shardKey in activeShards) {
+                if (activeShards[shardKey].data && activeShards[shardKey].data[cleanCode]) {
+                    birdMeta = activeShards[shardKey].data[cleanCode];
+                    break;
+                }
+            }
+
+            const validAssets = birdMeta.assets.filter(a => !imageBlacklist.includes(a.url));
+            const chosenAsset = validAssets[Math.floor(Math.random() * validAssets.length)];
+
+            arcadeState.totalSpotted++;
+
+            const birdTimeout = (DIFFICULTY_SETTINGS[gameState.difficulty] || DIFFICULTY_SETTINGS.easy).birdTimeout;
+
+            return {
+                code: selectedCode,
+                common_name: birdMeta.common_name,
+                scientific_name: birdMeta.scientific_name || "",
+                imageUrl: chosenAsset.url,
+                copyright: chosenAsset.copyright || "© Cornell Lab",
+                tier: pool[selectedCode].tier || "common",
+                weight: pool[selectedCode].weight || 1,
+                totalWeight: totalWeight,
+                timeLeft: birdTimeout, 
+                maxTimeLeft: birdTimeout,
+                status: 'active', 
+                flashTimer: 0
+            };
+        }
+
+        function renderSingleArcadeSlot(index) {
+            const card = document.getElementById(`arcade-slot-card-${index}`);
+            if (!card) return;
+            const slot = arcadeState.slots[index];
+            if (!slot) return;
+
+            const timerPct = Math.max(0, (slot.timeLeft / (slot.maxTimeLeft || 100)) * 100); 
+            let barColor = "bg-emerald-500";
+            if(timerPct < 30) barColor = "bg-red-500";
+            else if(timerPct < 60) barColor = "bg-amber-400";
+
+            let flashOverlay = "";
+            if (slot.status === 'flashing_correct') {
+                flashOverlay = `<div class='absolute inset-0 bg-emerald-600/90 flex flex-col items-center justify-center text-white p-2 text-center z-10 pointer-events-none'><span class='font-black text-lg'>✓ CORRECT</span><span class='text-xs font-bold truncate w-full'>${slot.common_name}</span></div>`;
+            } else if (slot.status === 'flashing_incorrect' || slot.status === 'flashing_timeout') {
+                const labelText = slot.status === 'flashing_timeout' ? "🕊️ FLEW AWAY!" : "❌ WRONG";
+                flashOverlay = `<div class='absolute inset-0 bg-red-600/90 flex flex-col items-center justify-center text-white p-2 text-center z-10 pointer-events-none'><span class='font-black text-lg'>${labelText}</span><span class='text-xs font-bold truncate w-full'>${slot.common_name}</span></div>`;
+            }
+
+            card.innerHTML = `
+                <div class="absolute top-2 left-2 px-2 py-0.5 bg-slate-900/80 backdrop-blur-xs text-white font-sans font-black text-xs rounded-md z-10 shadow-xs pointer-events-none">
+                    ${index + 1}
+                </div>
+                
+                <div class="relative w-full aspect-video bg-slate-200 overflow-hidden pointer-events-none">
+                    <img src="${slot.imageUrl}" class="w-full h-full object-cover transition transform duration-200 group-hover:scale-105">
+                    ${flashOverlay}
+                </div>
+                <div class="w-full h-2 bg-slate-200 pointer-events-none">
+                    <div id="arcade-bar-${index}" class="h-full ${barColor} transition-all duration-100 ease-linear" style="width: ${timerPct}%"></div>
+                </div>
+            `;
+        }
+
+        function processArcadeGridTimers() {
+            if (arcadePaused) return;
+            arcadeState.slots.forEach((slot, index) => {
+                if(!slot) return;
+                if (slot.status === 'active') {
+                    slot.timeLeft -= 0.1; 
+                    if (slot.timeLeft <= 0) {
+                        playSFX('wrong');
+                        slot.status = 'flashing_timeout';
+                        slot.flashTimer = 1.5; 
+                        arcadeState.missed.push(slot);
+                        deductArcadeLife();
+                    }
+                    const bar = document.getElementById(`arcade-bar-${index}`);
+                    if(bar) {
+                        const timerPct = Math.max(0, (slot.timeLeft / (slot.maxTimeLeft || 100)) * 100);
+                        bar.style.width = `${timerPct}%`;
+                        if(timerPct < 30) { bar.className = "h-full bg-red-500 transition-all duration-100 ease-linear"; }
+                        else if(timerPct < 60) { bar.className = "h-full bg-amber-400 transition-all duration-100 ease-linear"; }
+                    }
+                } else {
+                    slot.flashTimer -= 0.1;
+                    if(slot.flashTimer <= 0) {
+                        arcadeState.slots[index] = generateWeightedGridSpecies();
+                    }
+                    renderSingleArcadeSlot(index);
+                }
+            });
+        }
+
+        function handleGlobalArcadeHotkeys(e) {
+            if (arcadePaused) return;
+            if (gameState.currentScreen === 'arcade-game-screen' && activeSlotIndex === null) {
+                const keyNum = parseInt(e.key);
+                if (keyNum >= 1 && keyNum <= 8) {
+                    e.preventDefault();
+                    openSlotGuessField(keyNum - 1);
+                }
+            }
+            if (e.key === 'Escape') {
+                closeSlotGuessField();
+            }
+        }
+
+        function generateMCChoices(correctSlot) {
+            const pool = getActiveSpeciesPool();
+            let distractorNames = Array.from(new Set(pool.map(b => b.name))).filter(name => name !== correctSlot.common_name);
+            distractorNames.sort(() => 0.5 - Math.random());
+
+            let choices = distractorNames.slice(0, 3);
+            choices.push(correctSlot.common_name);
+            choices.sort(() => 0.5 - Math.random());
+            return choices;
+        }
+
+        function openSlotGuessField(index) {
+            if (arcadePaused) return;
+            if (!arcadeState.slots[index] || arcadeState.slots[index].status !== 'active') return;
+            
+            playSFX('click');
+            activeSlotIndex = index;
+            const overlay = document.getElementById('arcade-guess-overlay');
+            const input = document.getElementById('arcade-input-field');
+            const textContainer = document.getElementById('arcade-text-input-container');
+            const mcContainer = document.getElementById('arcade-mc-container');
+            
+            document.getElementById('guess-slot-badge').textContent = `Slot ${index + 1}`;
+            document.getElementById('arcade-copyright-caption').textContent = arcadeState.slots[index].copyright;
+            document.getElementById('arcade-preview-image').src = arcadeState.slots[index].imageUrl;
+            resetImageZoom();
+            input.value = '';
+            document.getElementById('arcade-suggestions').classList.add('hidden');
+
+            if (gameState.difficulty === 'easy') {
+                textContainer.classList.add('hidden');
+                mcContainer.classList.remove('hidden');
+
+                const mcOptionsEl = document.getElementById('arcade-mc-options');
+                mcOptionsEl.innerHTML = generateMCChoices(arcadeState.slots[index]).map(name => `
+                    <button onclick="submitEasyChoice('${name.replace(/'/g, "\\'")}')" 
+                            class="w-full py-2.5 px-4 bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-800 font-bold rounded-xl text-xs text-left transition border border-slate-200 shadow-sm flex items-center justify-between">
+                        <span>${name}</span>
+                        <span class="text-blue-400">&rarr;</span>
+                    </button>
+                `).join('');
+            } else {
+                mcContainer.classList.add('hidden');
+                textContainer.classList.remove('hidden');
+            }
+            
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.querySelector('.bg-white').classList.add('scale-100');
+            if (gameState.difficulty !== 'easy') input.focus();
+        }
+
+        function submitEasyChoice(name) {
+            document.getElementById('arcade-input-field').value = name;
+            submitArcadeGuess();
+        }
+
+        // ---- Zoom ("binoculars") for the arcade guess popup image ----
+        let isImageZoomed = false;
+        function toggleImageZoom(e) {
+            const img = document.getElementById('arcade-preview-image');
+            const hint = document.getElementById('arcade-zoom-hint');
+            isImageZoomed = !isImageZoomed;
+            if (isImageZoomed) {
+                img.style.transform = 'scale(2.5)';
+                img.classList.add('cursor-zoom-out');
+                img.classList.remove('cursor-zoom-in');
+                hint.textContent = '🔍 Click to reset';
+                handleZoomPan(e);
+            } else {
+                resetImageZoom();
+            }
+        }
+
+        function handleZoomPan(e) {
+            if (!isImageZoomed) return;
+            const img = document.getElementById('arcade-preview-image');
+            const rect = img.getBoundingClientRect();
+            const x = Math.min(100, Math.max(0, ((e.clientX - rect.left) / rect.width) * 100));
+            const y = Math.min(100, Math.max(0, ((e.clientY - rect.top) / rect.height) * 100));
+            img.style.transformOrigin = `${x}% ${y}%`;
+        }
+
+        function resetImageZoom() {
+            isImageZoomed = false;
+            const img = document.getElementById('arcade-preview-image');
+            const hint = document.getElementById('arcade-zoom-hint');
+            if (!img) return;
+            img.style.transform = 'scale(1)';
+            img.style.transformOrigin = 'center center';
+            img.classList.remove('cursor-zoom-out');
+            img.classList.add('cursor-zoom-in');
+            if (hint) hint.textContent = '🔍 Click to zoom';
+        }
+
+        function closeSlotGuessField() {
+            activeSlotIndex = null;
+            resetImageZoom();
+            const overlay = document.getElementById('arcade-guess-overlay');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            overlay.querySelector('.bg-white').classList.remove('scale-100');
+            window.focus();
+        }
+
+        function submitArcadeGuess() {
+            const input = document.getElementById('arcade-input-field');
+            const guess = input.value.trim();
+            
+            if (activeSlotIndex === null) { closeSlotGuessField(); return; }
+            const slot = arcadeState.slots[activeSlotIndex];
+            closeSlotGuessField();
+            if (!slot) return;
+            
+            const cleanGuess = cleanString(guess);
+            const isCorrect = (
+                cleanGuess === cleanString(slot.common_name) || 
+                cleanGuess === cleanString(slot.scientific_name) || 
+                guess.toLowerCase() === slot.code.toLowerCase()
+            );
+            
+            updateStatsMemory(slot.common_name, isCorrect);
+
+            if (isCorrect) {
+                const rarity = slot.tier || 'common';
+                if (rarity === 'vagrant' || rarity === 'mega') {
+                    playSFX('mega');
+                } else if (rarity === 'rare') {
+                    playSFX('rare');
+                } else if (rarity === 'uncommon') {
+                    playSFX('uncommon');
+                } else {
+                    playSFX('common');
+                }
+
+                slot.status = 'flashing_correct';
+                slot.flashTimer = 1.5;
+                arcadeState.score += (RARITY_POINTS[slot.tier] || 1);
+                arcadeState.identified.push(slot);
+                document.getElementById('arcade-score').textContent = arcadeState.score;
+
+                const tier = slot.tier || "common";
+                const theme = TIER_THEMES[tier] || TIER_THEMES.common;
+                const popUp=document.getElementById("points-popup");
+                const popUpTier=document.getElementById("popup-tier");
+                const popUpScore=document.getElementById("popup-score");
+                popUpTier.textContent=theme.text;
+                popUpTier.className=`text-xs font-black uppercase tracking-widest ${theme.color}`;
+                popUpScore.textContent=theme.points;
+                popUpScore.className=`text-xl font-black ${theme.color}`;
+                popUp.classList.remove("opacity-0","translate-x-2");
+                popUp.classList.add("opacity-100","translate-x-0");
+                clearTimeout(window.popupTimeout);
+                window.popupTimeout=setTimeout(()=>{
+                    popUp.classList.remove("opacity-100","translate-x-0");
+                    popUp.classList.add("opacity-0","translate-x-2");
+                },1500);
+            } else {
+                playSFX('wrong');
+                slot.status = 'flashing_incorrect';
+                slot.flashTimer = 1.5;
+                arcadeState.missed.push(slot);
+                deductArcadeLife();
+            }
+            renderSingleArcadeSlot(activeSlotIndex);
+        }
+
+        function flagActiveImage(mode, slotIdx = null) {
+            playSFX('click');
+            let urlToBanish = "";
+            if (mode === 'practice') {
+                urlToBanish = birdImage.src;
+                blacklistUrl(urlToBanish);
+                generatePracticeRound();
+            } else if (mode === 'arcade') {
+                const targetIndex = slotIdx !== null ? slotIdx : activeSlotIndex;
+                if (targetIndex === null || !arcadeState.slots[targetIndex]) return;
+
+                urlToBanish = arcadeState.slots[targetIndex].imageUrl;
+                blacklistUrl(urlToBanish);
+                
+                if (activeSlotIndex !== null) {
+                    closeSlotGuessField();
+                }
+
+                arcadeState.slots[targetIndex] = generateWeightedGridSpecies();
+                renderSingleArcadeSlot(targetIndex);
+            }
+        }
+
+        function blacklistUrl(url) {
+            if(!imageBlacklist.includes(url)) {
+                imageBlacklist.push(url);
+                localStorage.setItem('bird_quiz_blacklist', JSON.stringify(imageBlacklist));
+            }
+        }
+
+        function dumpBlacklistLog() {
+            playSFX('click');
+            if(imageBlacklist.length === 0) {
+                alert("Your local broken asset blacklist is currently empty!");
+                return;
+            }
+            console.log("--- BANNED IMAGES BLACKLIST LOG ---", imageBlacklist);
+            alert(`Banned List Array Details (${imageBlacklist.length} Items):\n\n` + imageBlacklist.join('\n\n') + `\n\n(Printed to Developer Console [F12] for easy copying!)`);
+        }
+
+        function toggleArcadePause() {
+            playSFX('click');
+            arcadePaused = !arcadePaused;
+            document.getElementById('arcade-pause-overlay').classList.toggle('hidden', !arcadePaused);
+        }
+
+        function deductArcadeLife() {
+            arcadeState.lives--;
+            let hearts = "";
+            for (let i = 0; i < arcadeState.lives; i++) hearts += "❤️";
+            
+            const livesCounter = document.getElementById('arcade-lives');
+            if (livesCounter) livesCounter.textContent = hearts || "💀 GAME OVER";
+
+            if (arcadeState.lives <= 0) {
+                clearInterval(arcadeTimerInterval);
+                window.removeEventListener('keydown', handleGlobalArcadeHotkeys);
+                changeScreen('arcade-gameover-screen');
+                setTimeout(() => terminateArcadeMatch(false), 1400);
+            }
+        }
+
+        function updateStatsMemory(commonName, isCorrect) {
+            lifetimeStats.totalGuesses++;
+            if (isCorrect) {
+                lifetimeStats.correctGuesses++;
+                if (!lifetimeStats.lifeList.includes(commonName)) {
+                    lifetimeStats.lifeList.push(commonName);
+                }
+            }
+            localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
+        }
+        
+        function terminateArcadeMatch(manualQuit = false) {
+            clearInterval(arcadeTimerInterval);
+            window.removeEventListener('keydown', handleGlobalArcadeHotkeys);
+            arcadePaused = false;
+            document.getElementById('arcade-pause-overlay').classList.add('hidden');
+
+            arcadeState.elapsedSeconds = Math.floor((Date.now() - arcadeState.startTime) / 1000);
+            
+            const mins = String(Math.floor(arcadeState.elapsedSeconds / 60)).padStart(2, '0');
+            const secs = String(arcadeState.elapsedSeconds % 60).padStart(2, '0');
+            const formattedTime = `${mins}:${secs}`;
+
+            const totalCompleted = arcadeState.identified.length + arcadeState.missed.length;
+
+            // Set Location Name
+            let locName = "Hotspot Region";
+            if (activeMapData && activeMapData.display_name) {
+                locName = activeMapData.display_name;
+            } else if (gameState.arcadeStrategy === 'preset') {
+                const dropdown = document.getElementById('arcade-preset-dropdown');
+                if (dropdown.selectedIndex >= 0) locName = dropdown.options[dropdown.selectedIndex].text;
+            } else if (selectedHotspotData) {
+                locName = selectedHotspotData.display_name;
+            }
+            document.getElementById('res-location-name').textContent = `📍 ${locName}`;
+
+            const diffSettings = DIFFICULTY_SETTINGS[gameState.difficulty] || DIFFICULTY_SETTINGS.easy;
+            const diffTagEl = document.getElementById('res-difficulty-tag');
+            diffTagEl.textContent = diffSettings.label;
+            diffTagEl.className = `text-xs font-bold uppercase ${diffSettings.tagColor}`;
+
+            document.getElementById('res-score').textContent = `${arcadeState.score.toLocaleString()} points`;
+            document.getElementById('res-time').textContent = formattedTime;
+            document.getElementById('res-identified').textContent = `${arcadeState.identified.length} / ${totalCompleted}`;
+
+            // Mega Species Filter & Glowing Box with Photo Cards
+            const megasSpotted = arcadeState.identified.filter(s => s.tier === 'vagrant');
+
+            const megaBox = document.getElementById('res-mega-box');
+            const megaListEl = document.getElementById('res-mega-list');
+            if (megasSpotted.length > 0) {
+                megaBox.classList.remove('hidden');
+                
+                const uniqueMegaMap = new Map();
+                megasSpotted.forEach(s => {
+                    if (!uniqueMegaMap.has(s.common_name)) {
+                        uniqueMegaMap.set(s.common_name, s);
+                    }
+                });
+
+                megaListEl.innerHTML = Array.from(uniqueMegaMap.values()).map(s => `
+                    <div class="flex flex-col items-center bg-slate-900 border-2 rounded-xl overflow-hidden p-1.5 chroma-card w-36">
+                        <span class="px-1.5 py-0.5 bg-gradient-to-r from-pink-600 via-purple-600 to-amber-500 text-white font-black text-[11px] rounded uppercase tracking-wider mb-1 text-center leading-tight w-full break-words shadow-sm">
+                            ✨ ${s.common_name}
+                        </span>
+                        <img src="${s.imageUrl}" class="w-full h-20 object-cover rounded-lg border border-slate-700/80">
+                    </div>
+                `).join('');
+            } else {
+                megaBox.classList.add('hidden');
+            }
+
+            // Rarest Finds Sorting & Tier Styling
+            const uniqueIdentified = Array.from(new Set(arcadeState.identified.map(s => s.common_name)))
+                .map(name => arcadeState.identified.find(s => s.common_name === name));
+
+            document.getElementById('res-unique-species').textContent = uniqueIdentified.length;
+
+            uniqueIdentified.sort((a, b) => (a.weight / a.totalWeight) - (b.weight / b.totalWeight));
+
+            const rarestListEl = document.getElementById('res-rarest-list');
+            if (uniqueIdentified.length > 0) {
+                const medals = ["🥇", "🥈", "🥉"];
+                rarestListEl.innerHTML = uniqueIdentified.slice(0, 3).map((item, idx) => {
+                    const rawPct = ((item.weight / item.totalWeight) * 100);
+                    // Format low encounter rates gracefully without rounding down to 0.00%
+                    let pctString = "";
+                    if (rawPct < 0.0001) {
+                        pctString = rawPct.toFixed(6) + "%";
+                    } else if (rawPct < 0.01) {
+                        pctString = rawPct.toFixed(4) + "%";
+                    } else {
+                        pctString = rawPct.toFixed(2) + "%";
+                    }
+                    const isTop = idx === 0;
+                    const tierColorClass = TIER_COLOR_MAP[item.tier] || "text-white";
+                    const pulseBorderClass = isTop ? "border border-amber-500/50 shadow-[0_0_12px_rgba(245,158,11,0.25)] animate-pulse" : "border border-slate-800/80";
+
+                    return `
+                        <div class="flex justify-between items-center p-2 rounded-xl bg-slate-800/60 ${pulseBorderClass}">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm">${medals[idx] || "⭐"}</span>
+                                <span class="${tierColorClass}">${item.common_name}</span>
+                            </div>
+                            <div class="text-slate-400 font-sans text-[11px] font-semibold">${pctString} encounter</div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                rarestListEl.innerHTML = `<span class="text-slate-500 italic">No rare species identified this round.</span>`;
+            }
+
+            // Missed Species List
+            const missedListEl = document.getElementById('res-missed-list');
+            const uniqueMissed = Array.from(new Set(arcadeState.missed.map(s => s.common_name)));
+            if (uniqueMissed.length > 0) {
+                missedListEl.innerHTML = uniqueMissed.map(name => `
+                    <div class="text-red-400 font-bold">❌ ${name}</div>
+                `).join('');
+            } else {
+                missedListEl.innerHTML = `<span class="text-emerald-400 italic">✓ Flawless round! Zero species missed.</span>`;
+            }
+
+            recordArcadeMatchToStats(arcadeState.score, locName, diffSettings.label, arcadeState.identified.length, uniqueIdentified);
+
+            changeScreen('arcade-results-screen');
+        }
+
+        // The Macaulay/eBird asset host doesn't send CORS headers, so html2canvas can't read
+        // its pixels directly. Setting crossorigin on the live <img> tags "fixes" the export
+        // but breaks normal display (the browser refuses to load the image at all without a
+        // CORS response). Instead, only for the moment of capture, we swap each image inside
+        // the scorecard to a CORS-friendly proxy (images.weserv.nl mirrors the image and adds
+        // Access-Control-Allow-Origin: *), capture, then restore the original src immediately.
+        function toProxiedImageUrl(url) {
+            if (!url) return url;
+            const stripped = url.replace(/^https?:\/\//, '');
+            return `https://images.weserv.nl/?url=${encodeURIComponent(stripped)}`;
+        }
+
+        function loadImageWithTimeout(src, ms) {
+            return new Promise(resolve => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                const timer = setTimeout(() => resolve(false), ms);
+                img.onload = () => { clearTimeout(timer); resolve(true); };
+                img.onerror = () => { clearTimeout(timer); resolve(false); };
+                img.src = src;
+            });
+        }
+
+        async function shareScorecard() {
+            playSFX('click');
+            const cardEl = document.getElementById('scorecard-card-element');
+            if (!cardEl) return;
+
+            const cardImages = Array.from(cardEl.querySelectorAll('img'));
+            const originalSrcs = cardImages.map(img => img.src);
+            const restoreImages = () => {
+                cardImages.forEach((img, i) => {
+                    img.removeAttribute('crossorigin');
+                    img.src = originalSrcs[i];
+                });
+            };
+
+            try {
+                await Promise.all(cardImages.map(async (img, i) => {
+                    const proxied = toProxiedImageUrl(originalSrcs[i]);
+                    const ok = await loadImageWithTimeout(proxied, 4000);
+                    if (ok) {
+                        img.crossOrigin = 'anonymous';
+                        img.src = proxied;
+                    }
+                    // if the proxy fails, leave the original src in place (best-effort export)
+                }));
+
+                const canvas = await html2canvas(cardEl, {
+                    backgroundColor: '#0f172a',
+                    scale: 2,
+                    useCORS: true,     // Enables html2canvas to attempt loading external images
+                    allowTaint: true   // Prevents canvas rendering from throwing errors if an image lacks CORS headers
+                });
+
+                restoreImages();
+
+                canvas.toBlob(async (blob) => {
+                    if (!blob) return;
+                    try {
+                        if (navigator.clipboard && window.ClipboardItem) {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': blob })
+                            ]);
+                            alert("📷 Scorecard image copied to clipboard!");
+                        } else {
+                            downloadScorecardImage(canvas);
+                        }
+                    } catch (err) {
+                        downloadScorecardImage(canvas);
+                    }
+                });
+            } catch (e) {
+                console.error("Scorecard render error", e);
+                alert("Failed to render scorecard image.");
+                restoreImages();
+            }
+        }
+
+        function downloadScorecardImage(canvas) {
+            const link = document.createElement('a');
+            link.download = `ornithology-scorecard-${Date.now()}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+            alert("📷 Scorecard image downloaded!");
+        }
+
+        // ===================== Trophy Case & Stats Hub =====================
+        const ACHIEVEMENT_CONFIGS = [
+            {
+                id: 'rarity_hunter',
+                title: 'Rarity Hunter',
+                icon: '🦅',
+                desc: 'Identify mega-rarity species in Arcade Mode',
+                tiers: [1, 10, 50, 100, 250],
+                getValue: (stats) => stats.megaRareCount || 0
+            },
+            {
+                id: 'id_expert',
+                title: 'Identification Expert',
+                icon: '🎯',
+                desc: 'Correctly identify birds in Arcade Mode',
+                tiers: [10, 100, 1000, 10000, 100000],
+                getValue: (stats) => stats.arcadeCorrectTotal || 0
+            },
+            {
+                id: 'lister',
+                title: 'Lister',
+                icon: '📜',
+                desc: 'Identify unique species in Arcade Mode',
+                tiers: [10, 100, 500, 1000, 2500],
+                getValue: (stats) => (stats.arcadeUniqueSpecies ? stats.arcadeUniqueSpecies.length : 0)
+            }
+        ];
+
+        // Called once at the end of every Arcade match to fold results into lifetime stats.
+        // totalCorrectThisMatch is a raw catch count (repeats included) for the "Identification
+        // Expert" grind counter; uniqueIdentifiedList is deduped-by-species for everything else,
+        // so catching the same mega twice in one match doesn't inflate the unique trackers.
+        function recordArcadeMatchToStats(score, locationName, difficultyLabel, totalCorrectThisMatch, uniqueIdentifiedList) {
+            const dateStr = new Date().toLocaleDateString();
+
+            if (score > 0) {
+                lifetimeStats.topScores.push({ score, location: locationName || 'Hotspot', difficulty: difficultyLabel || '', date: dateStr });
+                lifetimeStats.topScores.sort((a, b) => b.score - a.score);
+                lifetimeStats.topScores = lifetimeStats.topScores.slice(0, 5);
+            }
+
+            lifetimeStats.arcadeCorrectTotal = (lifetimeStats.arcadeCorrectTotal || 0) + totalCorrectThisMatch;
+
+            uniqueIdentifiedList.forEach(item => {
+                const rawPct = (item.weight / item.totalWeight) * 100;
+                if (item.tier === 'vagrant') {
+                    lifetimeStats.megaRareCount = (lifetimeStats.megaRareCount || 0) + 1;
+                }
+                if (!lifetimeStats.arcadeUniqueSpecies.includes(item.common_name)) {
+                    lifetimeStats.arcadeUniqueSpecies.push(item.common_name);
+                }
+                lifetimeStats.topFinds.push({
+                    species: item.common_name,
+                    rarity: rawPct,
+                    location: locationName || 'Unknown',
+                    date: dateStr
+                });
+            });
+
+            // Rarest first; keep only each species' single rarest lifetime encounter so one
+            // bird can't occupy multiple trophy slots.
+            lifetimeStats.topFinds.sort((a, b) => a.rarity - b.rarity);
+            const seenSpecies = new Set();
+            lifetimeStats.topFinds = lifetimeStats.topFinds.filter(f => {
+                if (seenSpecies.has(f.species)) return false;
+                seenSpecies.add(f.species);
+                return true;
+            }).slice(0, 5);
+
+            localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
+        }
+
+        function openStatsHub() {
+            playSFX('click');
+            renderStatsHub();
+            changeScreen('stats-hub-screen');
+        }
+
+        function renderStatsHub() {
+            document.getElementById('hub-total-birds').textContent = (lifetimeStats.correctGuesses || 0).toLocaleString();
+            document.getElementById('hub-lifelist-count').textContent = (lifetimeStats.lifeList ? lifetimeStats.lifeList.length : 0).toLocaleString();
+            document.getElementById('hub-rare-count').textContent = (lifetimeStats.megaRareCount || 0).toLocaleString();
+            const acc = lifetimeStats.totalGuesses > 0 ? Math.round((lifetimeStats.correctGuesses / lifetimeStats.totalGuesses) * 100) : 0;
+            document.getElementById('hub-accuracy').textContent = `${acc}%`;
+
+            const scoresContainer = document.getElementById('top-scores-list');
+            if (lifetimeStats.topScores.length > 0) {
+                scoresContainer.innerHTML = lifetimeStats.topScores.map((item, idx) => `
+                    <div class="flex justify-between items-center p-2 rounded bg-slate-800 border border-slate-700">
+                        <div>
+                            <span class="font-bold text-amber-400">#${idx + 1}</span>
+                            <span class="ml-2 font-medium text-slate-200">${item.location}</span>
+                            ${item.difficulty ? `<span class="ml-1 text-[10px] text-slate-500">(${item.difficulty})</span>` : ''}
+                        </div>
+                        <div class="text-right">
+                            <span class="text-emerald-400 font-extrabold">${item.score.toLocaleString()} pts</span>
+                            <span class="text-[10px] text-slate-500 block">${item.date}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                scoresContainer.innerHTML = `<p class="text-slate-500 italic">No high scores logged yet.</p>`;
+            }
+
+            const findsContainer = document.getElementById('top-finds-list');
+            if (lifetimeStats.topFinds.length > 0) {
+                findsContainer.innerHTML = lifetimeStats.topFinds.map((item) => `
+                    <div class="flex justify-between items-center p-2 rounded bg-slate-800 border border-slate-700">
+                        <div>
+                            <div class="font-bold text-cyan-300">${item.species}</div>
+                            <div class="text-[10px] text-slate-400">📍 ${item.location} · ${item.date}</div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-bold text-amber-400 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-800/60">${item.rarity < 0.01 ? item.rarity.toFixed(4) : item.rarity.toFixed(2)}% encounter</span>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                findsContainer.innerHTML = `<p class="text-slate-500 italic">No rare birds logged yet.</p>`;
+            }
+
+            const achContainer = document.getElementById('achievements-container');
+            achContainer.innerHTML = ACHIEVEMENT_CONFIGS.map(ach => {
+                const val = ach.getValue(lifetimeStats);
+                let tierIdx = 0;
+                ach.tiers.forEach((t, i) => { if (val >= t) tierIdx = i + 1; });
+                const isMax = tierIdx >= ach.tiers.length;
+                const nextTarget = ach.tiers[Math.min(tierIdx, ach.tiers.length - 1)];
+                const prevTarget = tierIdx > 0 ? ach.tiers[tierIdx - 1] : 0;
+                const segPct = isMax ? 100 : Math.min(100, Math.max(0, Math.round(((val - prevTarget) / (nextTarget - prevTarget)) * 100)));
+                const romanNumerals = ['I', 'II', 'III', 'IV', 'V'];
+
+                return `
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col justify-between shadow-sm">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <span class="text-3xl p-2 bg-slate-100 rounded-xl">${ach.icon}</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">${ach.title}</h4>
+                                <span class="text-xs font-bold ${isMax ? 'text-amber-500' : 'text-emerald-600'}">
+                                    ${isMax ? 'MAX TIER UNLOCKED!' : `Tier ${romanNumerals[tierIdx]}`}
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-slate-400 font-medium mb-2">${ach.desc}</p>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] font-bold text-slate-500">
+                                <span>Progress: <strong class="text-slate-800">${val.toLocaleString()}</strong></span>
+                                ${isMax ? '' : `<span>Next: <strong class="text-slate-800">${nextTarget.toLocaleString()}</strong></span>`}
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
+                                <div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${segPct}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const lifeListEl = document.getElementById('stat-lifelist-container');
+            if (lifetimeStats.lifeList.length > 0) {
+                const reversedLifeList = lifetimeStats.lifeList.slice().reverse();
+                lifeListEl.innerHTML = reversedLifeList.map((item, idx) => `
+                    <div class="flex justify-between items-center py-1 border-b border-slate-100 last:border-none">
+                        <span>${lifetimeStats.lifeList.length - idx}. ${item}</span>
+                        <span class="text-emerald-600 font-bold">✓</span>
+                    </div>
+                `).join('');
+            } else {
+                lifeListEl.innerHTML = `<span class="text-slate-400 italic">No species logged yet.</span>`;
+            }
+        }
+        // ===================== end Trophy Case & Stats Hub =====================
+
+        function closeModal() {
+            playSFX('click');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+        }
+    </script>
+</body>
+</html>
