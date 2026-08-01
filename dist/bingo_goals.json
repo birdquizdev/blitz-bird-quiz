@@ -429,86 +429,86 @@
   {
     "category": "Family",
     "difficulty": "Easy",
-    "text": "Identify 7 Gulls",
-    "target": 7,
-    "parameter": "gulls"
-  },
-  {
-    "category": "Family",
-    "difficulty": "Medium",
-    "text": "Identify 14 Gulls",
-    "target": 14,
-    "parameter": "gulls"
-  },
-  {
-    "category": "Family",
-    "difficulty": "Hard",
-    "text": "Identify 20 Gulls",
-    "target": 20,
-    "parameter": "gulls"
-  },
-  {
-    "category": "Family",
-    "difficulty": "Easy",
-    "text": "Identify 5 Terns or Skimmers",
+    "text": "Identify 5 White-eyes or Allies",
     "target": 5,
-    "parameter": "terns_and_skimmers"
+    "parameter": "whiteeyes_yuhinas_and_allies"
   },
   {
     "category": "Family",
     "difficulty": "Medium",
-    "text": "Identify 8 Terns or Skimmers",
-    "target": 8,
-    "parameter": "terns_and_skimmers"
+    "text": "Identify 10 White-eyes or Allies",
+    "target": 10,
+    "parameter": "whiteeyes_yuhinas_and_allies"
   },
   {
     "category": "Family",
     "difficulty": "Hard",
-    "text": "Identify 11 Terns or Skimmers",
-    "target": 11,
-    "parameter": "terns_and_skimmers"
-  },
-  {
-    "category": "Family",
-    "difficulty": "Easy",
-    "text": "Identify 5 Herons or Egrets",
-    "target": 5,
-    "parameter": "herons_and_egrets"
-  },
-  {
-    "category": "Family",
-    "difficulty": "Medium",
-    "text": "Identify 9 Herons or Egrets",
-    "target": 9,
-    "parameter": "herons_and_egrets"
-  },
-  {
-    "category": "Family",
-    "difficulty": "Hard",
-    "text": "Identify 15 Herons or Egrets",
+    "text": "Identify 15 White-eyes or Allies",
     "target": 15,
-    "parameter": "herons_and_egrets"
-  },
-  {
-    "category": "Family",
-    "difficulty": "Easy",
-    "text": "Identify 3 Ibis",
-    "target": 3,
-    "parameter": "ibis"
+    "parameter": "whiteeyes_yuhinas_and_allies"
   },
   {
     "category": "Family",
     "difficulty": "Medium",
-    "text": "Identify 6 ibis",
+    "text": "Identify a Crested Jayshrike",
+    "target": 1,
+    "parameter": "crested_jayshrike"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Easy",
+    "text": "Identify an Olive Warbler",
+    "target": 1,
+    "parameter": "olive_warbler"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Medium",
+    "text": "Identify both Seriemas",
+    "target": 2,
+    "parameter": "seriemas"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Easy",
+    "text": "Identify 1 Sittella",
+    "target": 1,
+    "parameter": "sittellas"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Medium",
+    "text": "Identify all 4 Pardalotes",
+    "target": 4,
+    "parameter": "pardalotes"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Medium",
+    "text": "Identify a Blue-capped Ifrita",
+    "target": 1,
+    "parameter": "ifrita"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Easy",
+    "text": "Identify a Shoebill or Hammerkop",
+    "target": 1,
+    "parameter": "shoebill_and_hammerkop"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Medium",
+    "text": "Identify 6 Bustards",
     "target": 6,
-    "parameter": "ibis"
+    "parameter": "bustards"
   },
   {
     "category": "Family",
     "difficulty": "Hard",
-    "text": "Identify 9 Ibis",
-    "target": 9,
-    "parameter": "ibis"
+    "text": "Identify all 3 Tropicbirds",
+    "target": 3,
+    "parameter": "tropicbirds"
   },
   {
     "category": "Family",
@@ -1542,13 +1542,6 @@
   {
     "category": "Family",
     "difficulty": "Medium",
-    "text": "Identify 5 Boobies or Gannets",
-    "target": 5,
-    "parameter": "boobies_and_gannets"
-  },
-  {
-    "category": "Family",
-    "difficulty": "Medium",
     "text": "Identify 3 Todies",
     "target": 3,
     "parameter": "todies"
@@ -1629,6 +1622,20 @@
     "text": "Identify All 3 Of New Zealand's parrots",
     "target": 3,
     "parameter": "new_zealand_parrots"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Hard",
+    "text": "Identify 8 Accentors",
+    "target": 8,
+    "parameter": "accentors"
+  },
+  {
+    "category": "Family",
+    "difficulty": "Medium",
+    "text": "Identify 7 Fantails",
+    "target": 7,
+    "parameter": "fantails"
   },
   {
     "category": "Country",
@@ -2261,220 +2268,717 @@
     "parameter": "Golden"
   },
   {
-    "category": "NameWordCount",
+    "category": "Name",
     "difficulty": "Medium",
     "text": "Find a bird with four words in its name",
-    "target": 4,
-    "parameter": null
-  },
-  {
-    "category": "Name",
-    "difficulty": "Medium",
-    "text": "Identify 5 birds with names containing \"King\"",
-    "target": 5,
-    "parameter": "King"
-  },
-  {
-    "category": "Name",
-    "difficulty": "Medium",
-    "text": "Identify 5 birds with names containing \"Pacific\"",
-    "target": 5,
-    "parameter": "Pacific"
+    "target": 1,
+    "parameter": "not sure how to track"
   },
   {
     "category": "Name",
     "difficulty": "Easy",
-    "text": "Identify 5 birds containing \"Ground\"",
-    "target": 5,
-    "parameter": "Golden"
-  },
-  {
-    "category": "Name",
-    "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Mountain\"",
-    "target": 5,
-    "parameter": "Mountain"
-  },
-  {
-    "category": "Name",
-    "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Greater\"",
-    "target": 5,
-    "parameter": "Greater"
-  },
-  {
-    "category": "Name",
-    "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Lesser\"",
-    "target": 5,
-    "parameter": "Lesser"
-  },
-  {
-    "category": "Name",
-    "difficulty": "Medium",
-    "text": "Identify 15 birds containing \"Grosbeak\"",
+    "text": "Identify 15 birds with names containing \"King\"",
     "target": 15,
-    "parameter": "Grosbeak"
+    "parameter": "king"
   },
   {
     "category": "Name",
-    "difficulty": "Medium",
-    "text": "Identify 8 birds containing \"Common\"",
+    "difficulty": "Easy",
+    "text": "Identify 8 birds with names containing \"Pacific\"",
     "target": 8,
-    "parameter": "Common"
+    "parameter": "pacific"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
+    "text": "Identify 20 birds containing \"Ground\"",
+    "target": 16,
+    "parameter": "ground"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 8 birds containing \"Mountain\"",
+    "target": 8,
+    "parameter": "mountain"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 20 birds containing \"Mountain\"",
+    "target": 16,
+    "parameter": "mountain"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
     "text": "Identify 5 birds containing \"Great\"",
     "target": 5,
-    "parameter": "Great"
+    "parameter": "great"
   },
   {
     "category": "Name",
-    "difficulty": "Hard",
+    "difficulty": "Medium",
     "text": "Identify 5 birds containing \"Footed\"",
     "target": 5,
-    "parameter": "Footed"
+    "parameter": "footed"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Ring\"",
-    "target": 5,
-    "parameter": "Ring"
+    "text": "Identify 7 birds containing \"Ring\"",
+    "target": 7,
+    "parameter": "ring"
   },
   {
     "category": "Name",
-    "difficulty": "Medium",
+    "difficulty": "Easy",
     "text": "Identify 10 birds containing \"Black\"",
     "target": 10,
-    "parameter": "Black"
+    "parameter": "black"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Yellow\"",
-    "target": 5,
-    "parameter": "Yellow"
+    "text": "Identify 15 birds containing \"Black\"",
+    "target": 15,
+    "parameter": "black"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 10 birds containing \"Yellow\"",
+    "target": 10,
+    "parameter": "yellow"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 7 birds containing \"Blue\"",
+    "target": 7,
+    "parameter": "blue"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Blue\"",
-    "target": 5,
-    "parameter": "Blue"
+    "text": "Identify 14 birds containing \"Blue\"",
+    "target": 14,
+    "parameter": "blue"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 7 birds containing \"Red\"",
+    "target": 7,
+    "parameter": "red"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Red\"",
-    "target": 5,
-    "parameter": "Red"
+    "text": "Identify 15 birds containing \"Red\"",
+    "target": 15,
+    "parameter": "red"
   },
   {
     "category": "Name",
-    "difficulty": "Medium",
+    "difficulty": "Easy",
     "text": "Identify 5 birds containing \"Olive\"",
     "target": 5,
-    "parameter": "Olive"
+    "parameter": "olive"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Island\"",
-    "target": 5,
-    "parameter": "Island"
+    "text": "Identify 10 birds containing \"Island\"",
+    "target": 10,
+    "parameter": "island"
   },
   {
     "category": "Name",
-    "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Cape\"",
-    "target": 5,
-    "parameter": "Cape"
+    "difficulty": "Easy",
+    "text": "Identify 6 birds containing \"Cape\"",
+    "target": 6,
+    "parameter": "cape"
   },
   {
     "category": "Name",
-    "difficulty": "Medium",
+    "difficulty": "Easy",
     "text": "Identify 5 birds containing \"Pink\"",
     "target": 5,
-    "parameter": "Pink"
+    "parameter": "pink"
   },
   {
     "category": "Name",
-    "difficulty": "Medium",
+    "difficulty": "Easy",
     "text": "Identify 5 birds containing \"White\"",
     "target": 5,
-    "parameter": "White"
+    "parameter": "white"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Brown\"",
-    "target": 5,
-    "parameter": "Brown"
+    "text": "Identify 11 birds containing \"White\"",
+    "target": 11,
+    "parameter": "white"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Capped\"",
-    "target": 5,
-    "parameter": "Capped"
+    "text": "Identify 8 birds containing \"Brown\"",
+    "target": 8,
+    "parameter": "brown"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Western\"",
-    "target": 5,
-    "parameter": "Western"
+    "text": "Identify 10 birds containing \"Capped\"",
+    "target": 10,
+    "parameter": "capped"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Northern\"",
-    "target": 5,
-    "parameter": "Northern"
+    "text": "Identify 10 birds containing \"Western\"",
+    "target": 10,
+    "parameter": "western"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 8 birds containing \"Northern\"",
+    "target": 8,
+    "parameter": "northern"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
     "text": "Identify 5 birds containing \"Legged\"",
     "target": 5,
-    "parameter": "Legged"
+    "parameter": "legged"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 10 birds containing \"Billed\"",
+    "target": 10,
+    "parameter": "billed"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 10 birds containing \"Headed\"",
+    "target": 10,
+    "parameter": "headed"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Billed\"",
-    "target": 5,
-    "parameter": "Billed"
+    "text": "Identify 8 birds containing \"Rock\"",
+    "target": 8,
+    "parameter": "rock"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Headed\"",
-    "target": 5,
-    "parameter": "Headed"
+    "text": "Identify 15 birds containing \"Bunting\"",
+    "target": 15,
+    "parameter": "bunting"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Rock\"",
+    "text": "Identify 15 birds containing \"Tailed\"",
+    "target": 15,
+    "parameter": "tailed"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 5 birds containing \"Giant\"",
     "target": 5,
-    "parameter": "Rock"
+    "parameter": "giant"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Bunting\"",
+    "text": "Identify 10 birds containing \"Crowned\"",
+    "target": 10,
+    "parameter": "crowned"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 5 birds containing \"X\" in their name",
     "target": 5,
-    "parameter": "Bunting"
+    "parameter": "x"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 7 birds with names containing \"Gull\"",
+    "target": 7,
+    "parameter": "gull"
   },
   {
     "category": "Name",
     "difficulty": "Medium",
-    "text": "Identify 5 birds containing \"Tailed\"",
+    "text": "Identify 14 birds with names containing \"Gull\"",
+    "target": 14,
+    "parameter": "gull"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 21 birds with names containing \"Gull\"",
+    "target": 21,
+    "parameter": "gull"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 5 Herons or Egrets",
     "target": 5,
-    "parameter": "Tailed"
+    "parameter": "heron, egret"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 9 Herons or Egrets",
+    "target": 9,
+    "parameter": "heron, egret"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 15 Herons or Egrets",
+    "target": 15,
+    "parameter": "heron, egret"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 3 Ibis",
+    "target": 3,
+    "parameter": "ibis"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 6 ibis",
+    "target": 6,
+    "parameter": "ibis"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 9 Ibis",
+    "target": 9,
+    "parameter": "ibis"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify all 3 Skimmers",
+    "target": 3,
+    "parameter": "skimmer"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 5 Terns or Noddies",
+    "target": 5,
+    "parameter": "tern, noddy"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 8 Terns or Noddies",
+    "target": 8,
+    "parameter": "tern, noddy"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 11 Terns or Noddies",
+    "target": 11,
+    "parameter": "tern, noddy"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 3 Miners",
+    "target": 3,
+    "parameter": "miner"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 5 Miners",
+    "target": 5,
+    "parameter": "miner"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 9 Miners",
+    "target": 9,
+    "parameter": "miner"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 10 birds with names containing \"Falcon\"",
+    "target": 10,
+    "parameter": "falcon"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 15 birds with names containing \"Falcon\"",
+    "target": 15,
+    "parameter": "falcon"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 15 birds with names containing \"Falcon\"",
+    "target": 15,
+    "parameter": "falcon"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 6 birds with names containing \"Swan\"",
+    "target": 6,
+    "parameter": "swan"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 15 birds with names containing \"Redstart\"",
+    "target": 15,
+    "parameter": "redstart"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 25 birds with names containing \"Bunting\"",
+    "target": 25,
+    "parameter": "bunting"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 45 birds with names containing \"Tanager\"",
+    "target": 45,
+    "parameter": "tanager"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 30 birds with names containing \"Warbler\"",
+    "target": 30,
+    "parameter": "warbler"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 100 birds with names containing \"Warbler\"",
+    "target": 100,
+    "parameter": "warbler"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 5 Aracari species",
+    "target": 5,
+    "parameter": "Aracari"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 30 species with names containing \"Sparrow\"",
+    "target": 30,
+    "parameter": "sparrow"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 15 species with names containing \"Tapaculo\"",
+    "target": 15,
+    "parameter": "tapaculo"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 9 species with names containing \"Scimitar\"",
+    "target": 9,
+    "parameter": "Scimitar"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 14 species with names containing \"Helmet\"",
+    "target": 14,
+    "parameter": "helmet"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 10 species with names containing \"Hawk\"",
+    "target": 10,
+    "parameter": "hawk"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 10 species with names containing \"Vulture\"",
+    "target": 10,
+    "parameter": "vulture"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 20 species with names containing \"Hawk\"",
+    "target": 20,
+    "parameter": "hawk"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 8 species with names containing \"Kite\"",
+    "target": 8,
+    "parameter": "kite"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 8 species with names containing \"Harrier\"",
+    "target": 8,
+    "parameter": "harrier"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 12 species with names containing \"Eagle\"",
+    "target": 12,
+    "parameter": "eagle"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify both California and Andean Condors",
+    "target": 2,
+    "parameter": "condor"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 12 species with names containing \"Buzzard\"",
+    "target": 12,
+    "parameter": "buzzard"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 7 Cinclodes",
+    "target": 7,
+    "parameter": "cinclodes"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 5 birds containing \"Z\" in their name",
+    "target": 5,
+    "parameter": "z"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 10 species with names containing \"Quail\"",
+    "target": 10,
+    "parameter": "quail"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 20 species with names containing \"Quail\"",
+    "target": 20,
+    "parameter": "quail"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 7 Grouse",
+    "target": 7,
+    "parameter": "grouse"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 5 Pheasants",
+    "target": 5,
+    "parameter": "pheasant"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify all 3 Ptarmigans",
+    "target": 3,
+    "parameter": "ptarmigan"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 30 species with names containing \"Creeper\"",
+    "target": 30,
+    "parameter": "creeper"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 15 species with names containing \"Robin\"",
+    "target": 15,
+    "parameter": "robin"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 50 species with names containing \"Flycatcher\"",
+    "target": 50,
+    "parameter": "flycatcher"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify 50 species with names containing \"Finch\"",
+    "target": 50,
+    "parameter": "finch"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 5 Spoonbills",
+    "target": 5,
+    "parameter": "spoonbill"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify all 4 Gowit species",
+    "target": 4,
+    "parameter": "godwit"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 10 species with names containing \"Oriole\"",
+    "target": 10,
+    "parameter": "oriole"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 12 species with names containing \"Blackbird\"",
+    "target": 12,
+    "parameter": "blackbird"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Hard",
+    "text": "Identify all 9 Oropendola",
+    "target": 9,
+    "parameter": "Oropendola"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify all 5 Cowbirds",
+    "target": 5,
+    "parameter": "cowbird"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify all 4 Sapsuckers",
+    "target": 4,
+    "parameter": "sapsucker"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 12 species with names containing \"Jay\"",
+    "target": 12,
+    "parameter": "jay"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify all 4 Nutcrackers",
+    "target": 4,
+    "parameter": "nutcracker"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 7 species with names containing \"Magpie\"",
+    "target": 7,
+    "parameter": "magpie"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 8 Kingbirds",
+    "target": 8,
+    "parameter": "kingbird"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 5 species with names containing \"Bellbird\"",
+    "target": 5,
+    "parameter": "bellbird"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 10 species with names containing \"Thrasher\"",
+    "target": 10,
+    "parameter": "thrasher"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 4 species with names containing \"Catbird\"",
+    "target": 4,
+    "parameter": "catbird"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 5 species with names containing \"Solitaire\"",
+    "target": 5,
+    "parameter": "solitaire"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify all 3 Phalaropes",
+    "target": 3,
+    "parameter": "phalarope"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Medium",
+    "text": "Identify 7 Booby species",
+    "target": 7,
+    "parameter": "booby"
+  },
+  {
+    "category": "Name",
+    "difficulty": "Easy",
+    "text": "Identify 3 Frigatebird spcies",
+    "target": 3,
+    "parameter": "frigatebird"
   }
 ]
