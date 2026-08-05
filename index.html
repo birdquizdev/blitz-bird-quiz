@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="default">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,6 +44,169 @@
         .chroma-card {
             animation: chromaGlow 3s linear infinite;
         }
+
+        /* ============ THEME SYSTEM ============ */
+        html[data-theme] { transition: background 0.25s ease; }
+
+        /* --- Sunlit Field Guide (default) --- */
+        html[data-theme="default"] {
+            --t-page-bg: linear-gradient(135deg, #FBF6EC 0%, #F3E8D6 100%);
+            --t-panel: #FEFCF7; --t-panel-strong: #F1E7D4;
+            --t-text: #3A332B; --t-muted: #8C8171; --t-border: #E4D6BE;
+            --t-header-title: #1F5C4A; --t-header-sub: #B5772E;
+            --t-primary: #059669; --t-primary-ink: #ffffff;
+            --t-secondary: #2563EB; --t-secondary-ink: #ffffff;
+            --t-accent: #F59E0B; --t-accent-ink: #ffffff;
+            --t-rare: #9333EA; --t-rare-ink: #ffffff;
+            --t-tertiary: #0D9488; --t-tertiary-ink: #ffffff;
+        }
+        /* --- Tropical Canopy --- */
+        html[data-theme="tropical"] {
+            --t-page-bg: linear-gradient(135deg, #0A2A23 0%, #071F1A 100%);
+            --t-panel: #0F332B; --t-panel-strong: #154238;
+            --t-text: #EAF6F1; --t-muted: #8FB5AA; --t-border: rgba(22,160,133,0.35);
+            --t-header-title: #F4D03F; --t-header-sub: #E67E22;
+            --t-primary: #16A085; --t-primary-ink: #071F1A;
+            --t-secondary: #F4D03F; --t-secondary-ink: #071F1A;
+            --t-accent: #E67E22; --t-accent-ink: #071F1A;
+            --t-rare: #9B59B6; --t-rare-ink: #ffffff;
+            --t-tertiary: #1F9E82; --t-tertiary-ink: #071F1A;
+        }
+        /* --- National Park Ranger --- */
+        html[data-theme="ranger"] {
+            --t-page-bg: linear-gradient(135deg, #1B3A1B 0%, #132A13 100%);
+            --t-panel: #1F401F; --t-panel-strong: #2A502A;
+            --t-text: #EAF3E2; --t-muted: #A9C29A; --t-border: rgba(144,169,85,0.35);
+            --t-header-title: #F2CC8F; --t-header-sub: #90A955;
+            --t-primary: #4F772D; --t-primary-ink: #ffffff;
+            --t-secondary: #90A955; --t-secondary-ink: #132A13;
+            --t-accent: #F2CC8F; --t-accent-ink: #132A13;
+            --t-rare: #90A955; --t-rare-ink: #132A13;
+            --t-tertiary: #588157; --t-tertiary-ink: #ffffff;
+        }
+        /* --- Migration Map --- */
+        html[data-theme="migration"] {
+            --t-page-bg: linear-gradient(135deg, #0B2740 0%, #081C2C 100%);
+            --t-panel: #0F2E44; --t-panel-strong: #153A54;
+            --t-text: #E7F6FB; --t-muted: #8FB9CC; --t-border: rgba(0,180,216,0.35);
+            --t-header-title: #00B4D8; --t-header-sub: #FFD166;
+            --t-primary: #00B4D8; --t-primary-ink: #081C2C;
+            --t-secondary: #0077B6; --t-secondary-ink: #ffffff;
+            --t-accent: #FFD166; --t-accent-ink: #081C2C;
+            --t-rare: #EF476F; --t-rare-ink: #ffffff;
+            --t-tertiary: #048BA8; --t-tertiary-ink: #ffffff;
+        }
+        /* --- Rare Bird Hunt --- */
+        html[data-theme="rarehunt"] {
+            --t-page-bg: linear-gradient(135deg, #1B0330 0%, #12001F 100%);
+            --t-panel: #1C0330; --t-panel-strong: #26063F;
+            --t-text: #F3E9FF; --t-muted: #B79FCB; --t-border: rgba(123,44,191,0.4);
+            --t-header-title: #C77DFF; --t-header-sub: #FF006E;
+            --t-primary: #7B2CBF; --t-primary-ink: #ffffff;
+            --t-secondary: #C77DFF; --t-secondary-ink: #12001F;
+            --t-accent: #FFD60A; --t-accent-ink: #12001F;
+            --t-rare: #FF006E; --t-rare-ink: #ffffff;
+            --t-tertiary: #5A189A; --t-tertiary-ink: #ffffff;
+        }
+        /* --- Midnight Meadow --- */
+        html[data-theme="midnight"] {
+            --t-page-bg: linear-gradient(135deg, #0F1524 0%, #0B0F19 100%);
+            --t-panel: #111827; --t-panel-strong: #182234;
+            --t-text: #E7ECF5; --t-muted: #93A0B8; --t-border: rgba(16,185,129,0.3);
+            --t-header-title: #34D399; --t-header-sub: #F59E0B;
+            --t-primary: #10B981; --t-primary-ink: #0B0F19;
+            --t-secondary: #34D399; --t-secondary-ink: #0B0F19;
+            --t-accent: #F59E0B; --t-accent-ink: #0B0F19;
+            --t-rare: #A855F7; --t-rare-ink: #ffffff;
+            --t-tertiary: #059669; --t-tertiary-ink: #ffffff;
+        }
+        /* --- Deep Ocean Coastal --- */
+        html[data-theme="coastal"] {
+            --t-page-bg: linear-gradient(135deg, #0E2038 0%, #0A192F 100%);
+            --t-panel: #112240; --t-panel-strong: #17304F;
+            --t-text: #E7F1FA; --t-muted: #8EA9C4; --t-border: rgba(56,189,248,0.3);
+            --t-header-title: #64FFDA; --t-header-sub: #F97316;
+            --t-primary: #38BDF8; --t-primary-ink: #0A192F;
+            --t-secondary: #64FFDA; --t-secondary-ink: #0A192F;
+            --t-accent: #F97316; --t-accent-ink: #ffffff;
+            --t-rare: #F43F5E; --t-rare-ink: #ffffff;
+            --t-tertiary: #0EA5A5; --t-tertiary-ink: #ffffff;
+        }
+        /* --- Misty Forest Dawn --- */
+        html[data-theme="misty"] {
+            --t-page-bg: linear-gradient(135deg, #EFF3F8 0%, #E2E8F0 100%);
+            --t-panel: #F8FAFC; --t-panel-strong: #E9EEF4;
+            --t-text: #293548; --t-muted: #6B7A90; --t-border: #D7DFE9;
+            --t-header-title: #0D9488; --t-header-sub: #D97706;
+            --t-primary: #0D9488; --t-primary-ink: #ffffff;
+            --t-secondary: #15803D; --t-secondary-ink: #ffffff;
+            --t-accent: #D97706; --t-accent-ink: #ffffff;
+            --t-rare: #8B5CF6; --t-rare-ink: #ffffff;
+            --t-tertiary: #0F766E; --t-tertiary-ink: #ffffff;
+        }
+        /* --- Field Guide Notebook --- */
+        html[data-theme="fieldguide"] {
+            --t-page-bg: linear-gradient(135deg, #FAF3EA 0%, #F5EBE0 100%);
+            --t-panel: #FFFFFF; --t-panel-strong: #EFE3D6;
+            --t-text: #3A2E24; --t-muted: #8A7A68; --t-border: #E3D5CA;
+            --t-header-title: #22577A; --t-header-sub: #D97706;
+            --t-primary: #22577A; --t-primary-ink: #ffffff;
+            --t-secondary: #38A3A5; --t-secondary-ink: #ffffff;
+            --t-accent: #D97706; --t-accent-ink: #ffffff;
+            --t-rare: #B5838D; --t-rare-ink: #ffffff;
+            --t-tertiary: #4A7C59; --t-tertiary-ink: #ffffff;
+        }
+
+        /* Semantic classes driven by the active theme's variables */
+        #outer-app-card { background: var(--t-page-bg); transition: background 0.3s ease; }
+        #main-header h1 { color: var(--t-header-title); transition: color 0.3s ease; }
+        #main-header p { color: var(--t-header-sub); transition: color 0.3s ease; }
+
+        .t-panel { background-color: var(--t-panel) !important; transition: background-color 0.3s ease; }
+        .t-panel-strong { background-color: var(--t-panel-strong) !important; transition: background-color 0.3s ease; }
+        .t-text { color: var(--t-text) !important; }
+        .t-muted { color: var(--t-muted) !important; }
+        .t-border { border-color: var(--t-border) !important; }
+
+        .t-btn-play { background-color: var(--t-primary) !important; color: var(--t-primary-ink) !important; }
+        .t-btn-botd { background-color: var(--t-accent) !important; color: var(--t-accent-ink) !important; }
+        .t-btn-bingo { background-color: var(--t-rare) !important; color: var(--t-rare-ink) !important; }
+        .t-btn-trophy { background-color: var(--t-secondary) !important; color: var(--t-secondary-ink) !important; }
+        .t-btn-explore { background-color: var(--t-tertiary) !important; color: var(--t-tertiary-ink) !important; }
+        .t-mode-tag { background-color: var(--t-accent) !important; color: var(--t-accent-ink) !important; }
+
+        .t-btn-primary { background-color: var(--t-primary) !important; color: var(--t-primary-ink) !important; }
+        .t-btn-primary:hover { filter: brightness(1.08); }
+        .t-fill-primary { background-color: var(--t-primary) !important; }
+        .t-hover-primary:hover { border-color: var(--t-primary) !important; }
+        .t-hover-secondary:hover { border-color: var(--t-secondary) !important; }
+        .t-hover-accent:hover { border-color: var(--t-accent) !important; }
+        .t-hover-fill-primary:hover { background-color: var(--t-primary) !important; color: var(--t-primary-ink) !important; }
+
+        /* Default (unthemed) fallback so the page never renders unstyled */
+        html:not([data-theme]) #outer-app-card { background: linear-gradient(135deg, #FBF6EC 0%, #F3E8D6 100%); }
+
+        /* ============ Bingo board full-completion chroma border ============ */
+        #bingo-grid-wrap.board-complete #bingo-grid {
+            border: 3px solid;
+            border-radius: 1rem;
+            padding: 8px;
+            animation: chromaGlow 3s linear infinite;
+        }
+
+        /* ============ Achievement tier borders ============ */
+        .ach-tier-1 { border-color: #cbd5e1 !important; } /* light gray */
+        .ach-tier-2 { border-color: #7dd3fc !important; } /* light blue */
+        .ach-tier-3 { border-color: #facc15 !important; } /* yellow */
+        .ach-tier-4 { border-color: #fb923c !important; } /* orange */
+        .ach-tier-5 {
+            border-color: #ef4444 !important; /* red */
+            animation: tierFivePulse 2.2s ease-in-out infinite;
+        }
+        @keyframes tierFivePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.35); }
+            50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+        }
     </style>
     <script>
         tailwind.config = {
@@ -59,11 +222,11 @@
 </head>
 <body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
  
-    <div class="w-full max-w-[1600px] bg-white rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
+    <div id="outer-app-card" class="w-full max-w-[1600px] rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
 
         <div class="text-center mb-8" id="main-header">
-            <h1 class="text-4xl font-black text-slate-800 tracking-tight font-serif">Ornithology Arcade</h1>
-            <p class="text-sm text-slate-500 font-medium mt-1">v3.8 • Beta</p>
+            <h1 class="text-4xl font-black tracking-tight font-serif">Bird Identification Arcade</h1>
+            <p class="text-sm font-medium mt-1">v3.8 • Beta</p>
         </div>
 
         <div id="screen-canvas" class="interactable transition-opacity">
@@ -71,89 +234,113 @@
             <div id="main-menu-screen" class="screen-fade flex flex-col items-center justify-center space-y-6 py-8 relative">
                 <div class="absolute top-0 right-0 flex items-center gap-3">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdiTKqGBIgn9PRhsAJ30yaYVce2LEQSz9Vi14FLD3nafcgdXQ/viewform?usp=publish-editor" target="_blank" rel="noopener"
-                       class="text-[11px] font-bold text-slate-400 hover:text-blue-600 underline decoration-dotted transition whitespace-nowrap">
+                       class="text-[11px] font-bold t-muted hover:text-blue-600 underline decoration-dotted transition whitespace-nowrap">
                         Submit Feedback ↗
                     </a>
-                    <button onclick="toggleHowToPlay(true)" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 font-black text-sm transition" title="How to Play">
+                    <button onclick="toggleHowToPlay(true)" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full t-panel-strong hover:bg-slate-200 t-muted font-black text-sm transition" title="How to Play">
                         ⓘ
                     </button>
                 </div>
 
-                <button onclick="changeScreen('mode-selection-screen')" class="w-72 py-6 bg-emerald-600 hover:bg-emerald-700 text-white font-serif text-4xl font-bold rounded-2xl shadow-lg hover:shadow-emerald-600/20 transform transition active:scale-95 duration-150">
+                <button onclick="changeScreen('mode-selection-screen')" class="t-btn-play w-72 py-6 font-serif text-4xl font-bold rounded-2xl shadow-lg transform transition active:scale-95 duration-150 hover:brightness-110">
                     Play!
                 </button>
                 
-                <div class="px-4 py-1.5 bg-yellow-300 text-emerald-900 font-sans font-extrabold text-xs uppercase tracking-wider rounded-full shadow-sm">
+                <div class="t-mode-tag px-4 py-1.5 font-sans font-extrabold text-xs uppercase tracking-wider rounded-full shadow-sm">
                     Select Mode inside!
                 </div>
 
                 <div class="flex flex-col space-y-2">
-                    <button onclick="openBotdModal()" class="w-72 py-3 bg-amber-500 hover:bg-amber-600 text-white font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95">
+                    <button onclick="openBotdModal()" class="t-btn-botd w-72 py-3 font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95 hover:brightness-110">
                         🐦 Bird of the Day
                     </button>
-                    <button onclick="alert('Monthly Bingo Challenge is coming soon!')" class="w-72 py-2.5 bg-slate-100 text-slate-400 font-serif text-lg font-bold rounded-2xl shadow-sm transition cursor-pointer border-2 border-dashed border-slate-200 flex items-center justify-center gap-2">
-                        🎲 Monthly Bingo Challenge <span class="text-[9px] font-sans font-black uppercase bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded-full">Soon</span>
+                    <button onclick="openBingoScreen()" class="t-btn-bingo w-72 py-3 font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95 hover:brightness-110">
+                        🎲 Monthly Bingo Challenge
                     </button>
-                    <button onclick="openStatsHub()" class="w-72 py-3 bg-blue-600 hover:bg-blue-700 text-white font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95">
+                    <button onclick="openStatsHub()" class="t-btn-trophy w-72 py-3 font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95 hover:brightness-110">
                         🏆 Trophy Case &amp; Stats
                     </button>
-                    <button onclick="alert('Explore Species Profiles is coming soon!')" class="w-72 py-2.5 bg-slate-100 text-slate-400 font-serif text-lg font-bold rounded-2xl shadow-sm transition cursor-pointer border-2 border-dashed border-slate-200 flex items-center justify-center gap-2">
-                        🔎 Explore Species Profiles <span class="text-[9px] font-sans font-black uppercase bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded-full">Soon</span>
+                    <button onclick="openExploreScreen()" class="t-btn-explore w-72 py-3 font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95 hover:brightness-110">
+                        🔎 Explore Species Profiles
                     </button>
-                    <button onclick="dumpBlacklistLog()" class="w-72 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-sans text-xs font-bold rounded-xl transition">
+                    <button onclick="dumpBlacklistLog()" class="w-72 py-2 t-panel-strong hover:bg-slate-300 t-text font-sans text-xs font-bold rounded-xl transition">
                         📋 Export Flagged Blacklist Log
                     </button>
+                </div>
+
+                <div class="absolute bottom-0 right-0 flex items-center gap-2 t-panel border t-border rounded-xl px-3 py-2 shadow-sm">
+                    <label for="theme-select" class="text-[10px] font-bold t-muted uppercase tracking-wider whitespace-nowrap">🎨 Theme</label>
+                    <select id="theme-select" onchange="setAppTheme(this.value)" class="bg-transparent t-text text-xs font-bold pr-1 focus:outline-none cursor-pointer">
+                        <option value="default">Sunlit Field Guide</option>
+                       
+                            <option value="tropical">Tropical Canopy</option>
+                            <option value="ranger">National Park Ranger</option>
+                            <option value="migration">Migration Map</option>
+                            <option value="rarehunt">Rare Bird Hunt</option>
+                        </optgroup>
+                  
+                            <option value="midnight">Midnight Meadow</option>
+                            <option value="coastal">Deep Ocean Coastal</option>
+                            <option value="misty">Misty Forest Dawn</option>
+                            <option value="fieldguide">Field Guide Notebook</option>
+                        </optgroup>
+                    </select>
                 </div>
             </div>
 
             <div id="mode-selection-screen" class="hidden screen-fade text-center py-4">
-                <h2 class="text-2xl font-bold text-slate-700 mb-6">Select a Game Engine</h2>
+                <h2 class="text-2xl font-bold t-text mb-6">Select a Game Engine</h2>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-8">
-                    <button onclick="selectMode('practice')" class="p-6 bg-slate-50 border-2 border-slate-200 hover:border-emerald-500 rounded-xl shadow-sm transition flex flex-col items-center text-center group">
-                        <span class="text-xl font-bold text-slate-800 group-hover:text-emerald-600 mb-2 transition">Practice Mode</span>
-                        <span class="text-xs text-slate-500 font-medium">Classic, untimed identification. Type common or scientific names to build knowledge shards.</span>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-8">
+                    <button onclick="selectMode('practice')" class="p-6 t-panel border-2 t-border t-hover-primary rounded-xl shadow-sm transition flex flex-col items-center text-center group">
+                        <span class="text-xl font-bold t-text group-hover:text-emerald-600 mb-2 transition">Practice Mode</span>
+                        <span class="text-xs t-muted font-medium">Classic, untimed identification. Type common or scientific names to build knowledge shards.</span>
                     </button>
 
-                    <button onclick="selectMode('arcade')" class="p-6 bg-slate-50 border-2 border-slate-200 hover:border-blue-500 rounded-xl shadow-sm transition flex flex-col items-center text-center group">
-                        <span class="text-xl font-bold text-slate-800 group-hover:text-blue-600 mb-2 transition">Arcade Hotspot Grid</span>
-                        <span class="text-xs text-slate-500 font-medium">Fast-paced, 10s individual countdowns. Identify species across an active 2x4 board before they fly away!</span>
+                    <button onclick="selectMode('arcade')" class="p-6 t-panel border-2 t-border t-hover-secondary rounded-xl shadow-sm transition flex flex-col items-center text-center group">
+                        <span class="text-xl font-bold t-text group-hover:text-blue-600 mb-2 transition">Arcade Mode(default)</span>
+                        <span class="text-xs t-muted font-medium">Fast-paced, infinite. Identify species across an active 2x4 board before they fly away!</span>
+                    </button>
+
+                    <button onclick="selectMode('blitz')" class="p-6 t-panel border-2 t-border t-hover-accent rounded-xl shadow-sm transition flex flex-col items-center text-center group">
+                        <span class="text-xl font-bold t-text group-hover:text-orange-600 mb-2 transition">⚡ Blitz Big Day</span>
+                        <span class="text-xs t-muted font-medium">Race the clock across multiple hotspots. Travel costs time — maximize unique species before time runs out!</span>
                     </button>
                 </div>
 
-                <button onclick="changeScreen('main-menu-screen')" class="text-sm font-semibold text-slate-400 hover:text-slate-600 underline transition">
+                <button onclick="changeScreen('main-menu-screen')" class="text-sm font-semibold t-muted hover:text-slate-600 underline transition">
                     &larr; Back to Main Menu
                 </button>
             </div>
 
-            <div id="stats-hub-screen" class="hidden screen-fade space-y-6 text-slate-800 text-left">
-                <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+            <div id="stats-hub-screen" class="hidden screen-fade space-y-6 t-text text-left">
+                <div class="flex justify-between items-center border-b t-border pb-4">
                     <div>
-                        <h2 class="text-3xl font-black text-slate-800 font-serif flex items-center gap-2">
+                        <h2 class="text-3xl font-black t-text font-serif flex items-center gap-2">
                             <span>🏆</span> Trophy Case &amp; Stats
                         </h2>
-                        <p class="text-xs text-slate-500 font-medium">Track your lifetime birding milestones and rare finds</p>
+                        <p class="text-xs t-muted font-medium">Track your lifetime birding milestones and rare finds</p>
                     </div>
-                    <button onclick="changeScreen('main-menu-screen')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
                         &larr; Main Menu
                     </button>
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-                        <div class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider">Total Identified</div>
+                    <div class="t-panel p-4 rounded-xl border t-border text-center">
+                        <div class="text-[10px] t-muted uppercase font-extrabold tracking-wider">Total Identified</div>
                         <div id="hub-total-birds" class="text-2xl font-black text-emerald-600 mt-0.5">0</div>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-                        <div class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider">Life List Count</div>
+                    <div class="t-panel p-4 rounded-xl border t-border text-center">
+                        <div class="text-[10px] t-muted uppercase font-extrabold tracking-wider">Life List Count</div>
                         <div id="hub-lifelist-count" class="text-2xl font-black text-blue-600 mt-0.5">0</div>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-                        <div class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider">Mega Rares Found</div>
+                    <div class="t-panel p-4 rounded-xl border t-border text-center">
+                        <div class="text-[10px] t-muted uppercase font-extrabold tracking-wider">Mega Rarities Found</div>
                         <div id="hub-rare-count" class="text-2xl font-black text-amber-500 mt-0.5">0</div>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-                        <div class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider">Accuracy</div>
+                    <div class="t-panel p-4 rounded-xl border t-border text-center">
+                        <div class="text-[10px] t-muted uppercase font-extrabold tracking-wider">Accuracy</div>
                         <div id="hub-accuracy" class="text-2xl font-black text-purple-600 mt-0.5">0%</div>
                     </div>
                 </div>
@@ -164,7 +351,7 @@
                             <span>🥇</span> Top 5 High Scores
                         </h3>
                         <div id="top-scores-list" class="space-y-2 text-xs">
-                            <p class="text-slate-500 italic">No Arcade matches recorded yet.</p>
+                            <p class="t-muted italic">No Arcade matches recorded yet.</p>
                         </div>
                     </div>
 
@@ -173,60 +360,159 @@
                             <span>💎</span> Top 5 Rare Finds
                         </h3>
                         <div id="top-finds-list" class="space-y-2 text-xs">
-                            <p class="text-slate-500 italic">No rare bird identifications logged yet.</p>
+                            <p class="t-muted italic">No rare bird identifications logged yet.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
-                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                <div class="t-panel p-5 rounded-2xl border t-border space-y-4">
+                    <h3 class="text-lg font-bold t-text flex items-center gap-2">
                         <span>🎖️</span> Achievements
                     </h3>
-                    <p class="text-[11px] text-slate-400 font-medium -mt-2">Tiers I&ndash;V, scored from Arcade Mode only. Progress keeps counting past Tier V.</p>
+                    <p class="text-[11px] t-muted font-medium -mt-2">Tiers I&ndash;V, scored from Arcade Mode only. Progress keeps counting past Tier V.</p>
                     <div id="achievements-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
                 </div>
 
-                <details class="group bg-slate-50 rounded-2xl border border-slate-200">
-                    <summary class="p-4 cursor-pointer list-none flex items-center justify-between text-sm font-bold text-slate-700">
-                        <span>📖 Master Life List Log</span>
-                        <span class="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
+                <details class="group t-panel rounded-2xl border t-border">
+                    <summary class="p-4 cursor-pointer list-none flex items-center justify-between text-sm font-bold t-text">
+                        <span>📖 Life List Log</span>
+                        <span class="t-muted group-open:rotate-180 transition-transform">▾</span>
                     </summary>
-                    <div id="stat-lifelist-container" class="max-h-52 overflow-y-auto bg-white rounded-xl border border-slate-200 p-3 mx-4 mb-4 text-xs space-y-1 font-medium text-slate-700">
-                        <span class="text-slate-400 italic">No species logged yet.</span>
+                    <div id="stat-lifelist-container" class="max-h-52 overflow-y-auto t-panel rounded-xl border t-border p-3 mx-4 mb-4 text-xs space-y-1 font-medium t-text">
+                        <span class="t-muted italic">No species logged yet.</span>
                     </div>
                 </details>
             </div>
 
+            <div id="bingo-screen" class="hidden screen-fade space-y-4 t-text text-left">
+                <div class="flex justify-between items-center border-b t-border pb-4">
+                    <div>
+                        <h2 id="bingo-month-label" class="text-3xl font-black t-text font-serif flex items-center gap-2">
+                            🎲 Bingo Board
+                        </h2>
+                        <p class="text-xs t-muted font-medium">Goals track your Arcade Mode play automatically all month — no need to start anything separately.</p>
+                    </div>
+                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+                        &larr; Main Menu
+                    </button>
+                </div>
+
+                <div id="bingo-loading" class="text-xs font-semibold t-muted t-panel border t-border rounded-xl p-3 text-center">
+                    ⏳ Loading this month's board…
+                </div>
+
+                <div id="bingo-grid-wrap" class="hidden">
+                    <div class="flex justify-between items-center mb-2">
+                        <p id="bingo-completed-count" class="text-xs font-bold t-muted">0 / 25 goals complete</p>
+                    </div>
+                    <p id="bingo-line-banner" class="hidden text-center text-sm font-black text-purple-700 bg-purple-50 border-2 border-purple-200 rounded-xl p-2 mb-2"></p>
+                    <div id="bingo-grid" class="grid grid-cols-5 gap-1.5"></div>
+                </div>
+            </div>
+
+            <div id="explore-screen" class="hidden screen-fade space-y-4 t-text text-left">
+                <div class="flex justify-between items-center border-b t-border pb-4">
+                    <div>
+                        <h2 class="text-3xl font-black t-text font-serif flex items-center gap-2">
+                            🔎 Explore Species Profiles
+                        </h2>
+                        <p class="text-xs t-muted font-medium">Search any species to browse its full photo gallery</p>
+                    </div>
+                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+                        &larr; Main Menu
+                    </button>
+                </div>
+
+                <div id="explore-search-section" class="max-w-md mx-auto py-6 min-h-[420px]">
+                    <div class="relative">
+                        <input id="explore-search-input" type="text" placeholder="Search for a species…" autocomplete="off"
+                               class="w-full p-3 border-2 t-border rounded-xl t-panel t-text font-semibold focus:outline-none focus:border-teal-500 shadow-sm"
+                               oninput="handleExploreSearchInput(this.value)">
+                        <div id="explore-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border t-border rounded-xl shadow-xl max-h-96 overflow-y-auto z-50 text-sm"></div>
+                    </div>
+                </div>
+
+                <div id="explore-gallery-section" class="hidden">
+                    <div id="explore-gallery-loading" class="text-xs font-semibold t-muted t-panel border t-border rounded-xl p-3 text-center">
+                        ⏳ Loading species data…
+                    </div>
+
+                    <div id="explore-gallery-body" class="hidden space-y-3">
+                        <div class="flex justify-between items-baseline flex-wrap gap-1">
+                            <div>
+                                <h3 id="explore-common-name" class="text-2xl font-bold t-text"></h3>
+                                <p id="explore-scientific-name" class="text-sm italic t-muted"></p>
+                            </div>
+                            <button onclick="resetExploreSearch()" class="text-xs font-bold text-blue-600 hover:text-blue-800 underline shrink-0">
+                                🔍 Search Another Bird
+                            </button>
+                        </div>
+
+                        <div class="relative bg-slate-800 rounded-2xl overflow-hidden flex items-center justify-center" style="min-height: 55vh;">
+                            <img id="explore-gallery-backdrop" src="" class="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl brightness-[0.55] saturate-125" alt="" aria-hidden="true">
+                            <button onclick="exploreShowPrev()" class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 text-white text-2xl flex items-center justify-center z-10 transition">
+                                ‹
+                            </button>
+                            <img id="explore-gallery-image" src="" class="relative max-w-full max-h-[70vh] object-contain drop-shadow-2xl" alt="Species photo">
+                            <button onclick="exploreShowNext()" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 text-white text-2xl flex items-center justify-center z-10 transition">
+                                ›
+                            </button>
+                            <div id="explore-image-counter" class="absolute top-3 left-3 bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-full"></div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button id="explore-audio-btn" onclick="playRandomBirdCall(exploreCode, 'explore-audio-copyright', 'explore-audio-btn')"
+                                    class="w-11 h-11 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-md transition shrink-0" title="Play call/song (3s clip)">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                            <span id="explore-audio-copyright" class="text-[10px] t-muted font-medium truncate"></span>
+                        </div>
+                        <p id="explore-copyright" class="text-[10px] t-muted text-center"></p>
+
+                        <div class="flex flex-col sm:flex-row gap-2 items-center justify-between t-panel border t-border rounded-xl p-3">
+                            <button id="explore-hint-btn" onclick="showExploreHint()" class="w-full sm:w-auto py-2 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-sm transition text-xs">
+                                💡 Show Region Hint
+                            </button>
+                            <p id="explore-hint-empty" class="hidden text-xs t-muted italic">No location hint data available for this species yet.</p>
+                        </div>
+                        <div id="explore-hint-map-wrap" class="hidden">
+                            <div id="explore-hint-map" class="w-full h-48 rounded-xl border t-border"></div>
+                            <p class="text-[10px] t-muted font-medium mt-1">Shaded area shows the general region this species has been recorded in — not exact hotspots.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="config-screen" class="hidden screen-fade text-center py-4">
-                <h2 id="config-title" class="text-2xl font-bold text-slate-700 mb-2">Configure Mode</h2>
-                <p id="config-desc" class="text-xs text-slate-400 font-medium mb-6">Select your location parameters or custom decks</p>
+                <h2 id="config-title" class="text-2xl font-bold t-text mb-2">Configure Mode</h2>
+                <p id="config-desc" class="text-xs t-muted font-medium mb-6">Select your location parameters or custom decks</p>
                 
                 <div id="practice-config-container" class="max-w-md mx-auto mb-6 hidden text-left space-y-4">
-                    <div id="practice-tags-loading" class="text-xs font-semibold text-slate-400 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                    <div id="practice-tags-loading" class="text-xs font-semibold t-muted t-panel border t-border rounded-xl p-3 text-center">
                         ⏳ Loading practice tag index…
                     </div>
 
                     <div id="practice-tags-body" class="hidden space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">🐦 Bird Group <span class="normal-case font-medium text-slate-400">(optional, select any)</span></label>
+                            <label class="block text-xs font-bold t-muted uppercase tracking-wider mb-2">🐦 Bird Group <span class="normal-case font-medium t-muted">(optional, select any)</span></label>
                             <div id="practice-group-chips" class="flex flex-wrap gap-1.5"></div>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">🌎 Region <span class="normal-case font-medium text-slate-400">(optional, select any)</span></label>
+                            <label class="block text-xs font-bold t-muted uppercase tracking-wider mb-2">🌎 Region <span class="normal-case font-medium t-muted">(optional, select any)</span></label>
                             <div id="practice-region-chips" class="flex flex-wrap gap-1.5"></div>
                         </div>
                     </div>
 
-                    <p id="practice-tags-empty" class="hidden text-[11px] text-slate-400 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">No practice tags found yet — you'll practice from the full species database.</p>
+                    <p id="practice-tags-empty" class="hidden text-[11px] t-muted t-panel border t-border rounded-xl p-3 text-center">No practice tags found yet — you'll practice from the full species database.</p>
                     <p id="practice-pool-count" class="hidden text-xs text-emerald-700 font-bold text-center bg-emerald-50 border border-emerald-200 rounded-xl p-2"></p>
                 </div>
 
                 <div id="arcade-config-container" class="max-w-md mx-auto mb-6 hidden text-left space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Map Feed Strategy</label>
+                    <div id="arcade-strategy-toggle">
+                        <label class="block text-xs font-bold t-muted uppercase tracking-wider mb-2">Map Feed Strategy</label>
                         <div class="grid grid-cols-2 gap-2">
             
-                            <button id="strategy-hotspot-btn" onclick="setArcadeStrategy('hotspot')" class="py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500">
+                            <button id="strategy-hotspot-btn" onclick="setArcadeStrategy('hotspot')" class="py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center t-panel t-border t-text hover:border-blue-500">
                                 Select Hotspot
                             </button>
                             <button id="strategy-preset-btn" onclick="setArcadeStrategy('preset')" class="py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-blue-50 border-blue-600 text-blue-700">
@@ -236,8 +522,8 @@
                     </div>
 
                     <div id="arcade-preset-panel" class="space-y-2">
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Choose a Curated Zone</label>
-                        <select id="arcade-preset-dropdown" class="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-700 font-semibold focus:outline-none focus:border-blue-500 shadow-sm">
+                        <label class="block text-xs font-bold t-muted uppercase tracking-wider">Choose a Curated Zone</label>
+                        <select id="arcade-preset-dropdown" class="w-full p-3 border-2 t-border rounded-xl t-panel t-text font-semibold focus:outline-none focus:border-blue-500 shadow-sm">
                             <option value="">Loading curated zones…</option>
                         </select>
                         <p id="preset-load-error" class="text-[10px] text-red-500 font-bold mt-1 hidden">Could not load the preset manifest from the repo. Check your connection or the manifest path.</p>
@@ -245,42 +531,42 @@
 
                     <div id="arcade-hotspot-panel" class="space-y-3 hidden">
 
-                        <div id="hotspot-index-loading" class="text-xs font-semibold text-slate-400 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                        <div id="hotspot-index-loading" class="text-xs font-semibold t-muted t-panel border t-border rounded-xl p-3 text-center">
                             ⏳ Loading global hotspot index…
                         </div>
                         <p id="hotspot-index-error" class="hidden text-[11px] text-red-600 font-bold bg-red-50 border border-red-200 rounded-xl p-3">Could not load the hotspot index. Check your connection or the repo path.</p>
 
                         <div id="hotspot-picker-body" class="hidden space-y-3">
-                            <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
-                                <button id="hs-tab-search-btn" onclick="setHotspotTab('search')" class="py-1.5 rounded-lg text-xs font-bold transition bg-white text-blue-700 shadow-sm">🔎 Search</button>
-                                <button id="hs-tab-region-btn" onclick="setHotspotTab('region')" class="py-1.5 rounded-lg text-xs font-bold transition text-slate-500">🗺️ Region</button>
-                                <button id="hs-tab-map-btn" onclick="setHotspotTab('map')" class="py-1.5 rounded-lg text-xs font-bold transition text-slate-500">📍 Map</button>
+                            <div class="grid grid-cols-3 gap-1 t-panel-strong p-1 rounded-xl">
+                                <button id="hs-tab-search-btn" onclick="setHotspotTab('search')" class="py-1.5 rounded-lg text-xs font-bold transition t-panel text-blue-700 shadow-sm">🔎 Search</button>
+                                <button id="hs-tab-region-btn" onclick="setHotspotTab('region')" class="py-1.5 rounded-lg text-xs font-bold transition t-muted">🗺️ Region</button>
+                                <button id="hs-tab-map-btn" onclick="setHotspotTab('map')" class="py-1.5 rounded-lg text-xs font-bold transition t-muted">📍 Map</button>
                             </div>
 
                             <div id="hs-tab-search" class="space-y-1">
                                 <div class="relative">
                                     <input id="hotspot-search-input" type="text" placeholder="Search hotspot name…" autocomplete="off"
-                                           class="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 font-semibold focus:outline-none focus:border-blue-500 shadow-sm"
+                                           class="w-full p-3 border-2 t-border rounded-xl t-panel t-text font-semibold focus:outline-none focus:border-blue-500 shadow-sm"
                                            oninput="handleHotspotSearchInput(this.value)">
-                                    <div id="hotspot-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-52 overflow-y-auto z-50 text-sm font-medium"></div>
+                                    <div id="hotspot-search-results" class="hidden absolute top-full left-0 right-0 mt-1 t-panel border t-border rounded-xl shadow-xl max-h-52 overflow-y-auto z-50 text-sm font-medium"></div>
                                 </div>
-                                <p class="text-[10px] text-slate-400 font-medium">Type at least 2 characters. Searches all loaded hotspot names.</p>
+                                <p class="text-[10px] t-muted font-medium">Type at least 2 characters. Searches all loaded hotspot names.</p>
                             </div>
 
                             <div id="hs-tab-region" class="hidden space-y-2">
                                 <div class="flex items-center gap-1">
                                     <input id="region-search-input" type="text" placeholder="Type a region (e.g. California, Alameda, Taiwan)…" autocomplete="off"
-                                           class="w-full p-2.5 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 font-semibold text-sm focus:outline-none focus:border-blue-500 shadow-sm"
+                                           class="w-full p-2.5 border-2 t-border rounded-xl t-panel t-text font-semibold text-sm focus:outline-none focus:border-blue-500 shadow-sm"
                                            oninput="handleRegionSearchInput(this.value)">
                                 </div>
-                                <div id="region-search-results" class="hidden bg-white border border-slate-200 rounded-xl shadow max-h-40 overflow-y-auto text-sm"></div>
+                                <div id="region-search-results" class="hidden t-panel border t-border rounded-xl shadow max-h-40 overflow-y-auto text-sm"></div>
 
-                                <div id="region-breadcrumb" class="text-[11px] font-bold text-slate-400 flex flex-wrap items-center gap-1"></div>
-                                <div id="region-browser-list" class="bg-slate-50 border border-slate-200 rounded-xl max-h-56 overflow-y-auto divide-y divide-slate-100"></div>
+                                <div id="region-breadcrumb" class="text-[11px] font-bold t-muted flex flex-wrap items-center gap-1"></div>
+                                <div id="region-browser-list" class="t-panel border t-border rounded-xl max-h-56 overflow-y-auto divide-y divide-slate-100"></div>
                             </div>
 
                             <div id="hs-tab-map" class="space-y-2">
-                                <p class="text-xs text-slate-500 font-medium">Browse every hotspot visually on an interactive world map.</p>
+                                <p class="text-xs t-muted font-medium">Browse every hotspot visually on an interactive world map.</p>
                                 <button onclick="openHotspotMapModal()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition text-sm">
                                     🗺️ Open Map Browser
                                 </button>
@@ -289,33 +575,33 @@
                             <div id="hotspot-selected-summary" class="hidden bg-emerald-50 border-2 border-emerald-500 rounded-xl p-3 flex items-center justify-between gap-2">
                                 <div class="min-w-0">
                                     <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Selected Hotspot</p>
-                                    <p id="hotspot-selected-name" class="text-sm font-bold text-slate-800 truncate">—</p>
-                                    <p id="hotspot-selected-meta" class="text-[10px] text-slate-400 font-medium"></p>
+                                    <p id="hotspot-selected-name" class="text-sm font-bold t-text truncate">—</p>
+                                    <p id="hotspot-selected-meta" class="text-[10px] t-muted font-medium"></p>
                                 </div>
-                                <button onclick="clearSelectedHotspot()" class="shrink-0 text-[10px] font-bold text-slate-400 hover:text-red-500 uppercase">Clear</button>
+                                <button onclick="clearSelectedHotspot()" class="shrink-0 text-[10px] font-bold t-muted hover:text-red-500 uppercase">Clear</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="pt-2 border-t border-slate-100">
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Select Difficulty</label>
+                    <div class="pt-2 border-t t-border">
+                        <label class="block text-xs font-bold t-muted uppercase tracking-wider mb-2">Select Difficulty</label>
                         <div class="grid grid-cols-3 gap-2">
                             <button id="diff-easy-btn" onclick="setArcadeDifficulty('easy')" class="py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-emerald-500 border-emerald-600 text-white shadow-sm">
                                 🌱 Explore
                             </button>
-                            <button id="diff-normal-btn" onclick="setArcadeDifficulty('normal')" class="py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500">
+                            <button id="diff-normal-btn" onclick="setArcadeDifficulty('normal')" class="py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center t-panel t-border t-text hover:border-blue-500">
                                 ⚡ Normal
                             </button>
-                            <button id="diff-advanced-btn" onclick="setArcadeDifficulty('advanced')" class="py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500">
+                            <button id="diff-advanced-btn" onclick="setArcadeDifficulty('advanced')" class="py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center t-panel t-border t-text hover:border-blue-500">
                                 🔥 Advanced
                             </button>
                         </div>
-                        <p id="diff-desc" class="text-[10px] text-slate-400 font-medium mt-1.5 text-center">Easy: 5 Lives • 200 Seconds • Multiple Choice</p>
+                        <p id="diff-desc" class="text-[10px] t-muted font-medium mt-1.5 text-center">Easy: 5 Lives • 200 Seconds • Multiple Choice</p>
                     </div>
                 </div>
 
                 <div class="flex space-x-3 max-w-md mx-auto items-center">
-                    <button onclick="changeScreen('mode-selection-screen')" class="w-1/3 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition">
+                    <button onclick="changeScreen('mode-selection-screen')" class="w-1/3 py-3 t-panel-strong hover:bg-slate-200 t-text font-bold rounded-xl transition">
                         Back
                     </button>
                     <button id="launch-button" onclick="launchGameEngine()" class="w-2/3 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
@@ -330,7 +616,7 @@
 
             <div id="practice-quiz-screen" class="hidden screen-fade">
                 <div class="flex justify-between items-center mb-3">
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    <div class="text-xs font-bold t-muted uppercase tracking-wider">
                         🔁 Infinite Practice · <span id="practice-live-tally">0 / 0</span>
                     </div>
                     <button onclick="endPracticeSession()" class="py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition shadow-sm">
@@ -341,33 +627,41 @@
                     <img id="bird-image" src="https://placehold.co/400x300/eeeeee/333333?text=Loading+Image" alt="Bird to identify" 
                          class="w-full h-auto max-h-[48vh] object-contain rounded-xl shadow-md block mx-auto">
                 </div>
+
+                <div class="flex items-center gap-3 mb-2">
+                    <button id="practice-audio-btn" onclick="playRandomBirdCall(currentBirdKey, 'practice-audio-copyright', 'practice-audio-btn')"
+                            class="w-11 h-11 rounded-full t-btn-primary flex items-center justify-center shadow-md transition shrink-0" title="Play call/song (3s clip)">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <span id="practice-audio-copyright" class="text-[10px] t-muted font-medium truncate"></span>
+                </div>
                 
-                <div class="flex justify-between items-center mb-4 px-1 text-slate-400 text-xs font-semibold">
+                <div class="flex justify-between items-center mb-4 px-1 t-muted text-xs font-semibold">
                     <span id="practice-copyright">© Credit Info</span>
                     <button onclick="flagActiveImage('practice')" class="text-red-500 hover:text-red-700 transition">🚩 Flag Broken Asset</button>
                 </div>
                 
                 <div class="relative w-full mb-4">
                     <input id="answer-entry" type="text" placeholder="Start typing bird common or 4-letter code name..." 
-                           class="w-full p-3 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold shadow-sm text-slate-800" 
+                           class="w-full p-3 border-2 t-border rounded-xl focus:outline-none focus:border-blue-500 font-semibold shadow-sm t-text" 
                            oninput="handleTypingSuggestions(this, 'practice-suggestions')"
                            onkeydown="handleSuggestionKeys(event, 'practice-suggestions', this, false)">
-                    <div id="practice-suggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto z-50 text-slate-700 text-sm font-medium"></div>
+                    <div id="practice-suggestions" class="hidden absolute top-full left-0 right-0 t-panel border t-border rounded-xl shadow-xl max-h-48 overflow-y-auto z-50 t-text text-sm font-medium"></div>
                 </div>
                 
-                <button onclick="checkAnswer()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition duration-200">
+                <button onclick="checkAnswer()" class="t-btn-primary w-full py-3 font-bold rounded-xl shadow-md transition duration-200">
                     Submit Guess
                 </button>
 
-                <div class="mt-6 flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <div><span id="score-display" class="text-sm font-bold text-slate-600">Score: 0 / 0</span></div>
+                <div class="mt-6 flex justify-between items-center t-panel p-3 rounded-xl border t-border">
+                    <div><span id="score-display" class="text-sm font-bold t-text">Score: 0 / 0</span></div>
                     <div><span id="streak-display" class="text-sm font-bold text-red-600">Streak: 0</span></div>
                 </div>
 
-                <div id="previous-round-display" class="w-full mt-6 pt-4 border-t border-slate-100">
-                    <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-3">Previous Round Result</h3>
+                <div id="previous-round-display" class="w-full mt-6 pt-4 border-t t-border">
+                    <h3 class="text-xs font-bold t-muted tracking-wider uppercase mb-3">Previous Round Result</h3>
                     <div id="sidebar-content">
-                        <p class="text-slate-400 italic text-xs font-medium">Submit a guess to see review tools.</p>
+                        <p class="t-muted italic text-xs font-medium">Submit a guess to see review tools.</p>
                     </div>
                 </div>
             </div>
@@ -417,17 +711,25 @@
             </div>
 
             <div id="arcade-game-screen" class="hidden screen-fade select-none">
-                <div class="flex justify-between items-center bg-slate-100 p-4 rounded-xl border border-slate-200 mb-4">
+                <div class="flex justify-between items-center t-panel-strong p-4 rounded-xl border t-border mb-4">
                     <div class="flex space-x-6 items-center">
                         <div>
-                            <span class="text-sm font-bold text-slate-500 uppercase tracking-wider block">Score</span>
-                            <span id="arcade-score" class="text-2xl font-black text-slate-800">0</span>
+                            <span class="text-sm font-bold t-muted uppercase tracking-wider block">Score</span>
+                            <span id="arcade-score" class="text-2xl font-black t-text">0</span>
                         </div>
-                        <div>
-                            <span class="text-sm font-bold text-slate-500 uppercase tracking-wider block">Lives Remaining</span>
+                        <div id="arcade-lives-block">
+                            <span class="text-sm font-bold t-muted uppercase tracking-wider block">Lives Remaining</span>
                             <span id="arcade-lives" class="text-2xl font-black text-red-600">❤️❤️❤️</span>
                         </div>
-                        <div id="points-popup" class="opacity-0 transform translate-x-2 transition-all duration-300 flex flex-col justify-center pl-4 border-l border-slate-200">
+                        <div id="blitz-timer-block" class="hidden">
+                            <span class="text-sm font-bold t-muted uppercase tracking-wider block">Time Remaining</span>
+                            <span id="blitz-timer-display" class="text-2xl font-black text-orange-600">12:00</span>
+                        </div>
+                        <div id="blitz-unique-block" class="hidden">
+                            <span class="text-sm font-bold t-muted uppercase tracking-wider block">Unique Species</span>
+                            <span id="blitz-unique-display" class="text-2xl font-black text-cyan-600">0</span>
+                        </div>
+                        <div id="points-popup" class="opacity-0 transform translate-x-2 transition-all duration-300 flex flex-col justify-center pl-4 border-l t-border">
                             <span id="popup-tier" class="text-xs font-black uppercase tracking-widest">COMMON</span>
                             <span id="popup-score" class="text-xl font-black">+1</span>
                         </div>
@@ -435,6 +737,9 @@
                     <div class="flex items-center gap-2">
                         <button onclick="toggleArcadePause()" class="py-2 px-4 bg-slate-600 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition shadow-sm">
                             ⏸ Pause
+                        </button>
+                        <button id="blitz-travel-btn" onclick="openBlitzTravelModal()" class="hidden py-2 px-5 t-btn-botd font-black text-xs uppercase tracking-wider rounded-lg transition shadow-md hover:brightness-110">
+                            🧭 Travel to a New Location!
                         </button>
                         <button onclick="terminateArcadeMatch(true)" class="py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition shadow-sm">
                             End Game
@@ -444,7 +749,7 @@
 
                 <div id="arcade-pause-overlay" class="hidden fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-md flex flex-col items-center justify-center">
                     <div class="text-5xl mb-4">⏸</div>
-                    <button onclick="toggleArcadePause()" class="py-3 px-8 bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest rounded-xl shadow-2xl transition text-lg">
+                    <button onclick="toggleArcadePause()" class="t-btn-primary py-3 px-8 font-black uppercase tracking-widest rounded-xl shadow-2xl transition text-lg hover:brightness-110">
                         ▶ Resume
                     </button>
                 </div>
@@ -459,10 +764,16 @@
                 <p class="text-slate-400 font-semibold">Tallying your results&hellip;</p>
             </div>
 
+            <div id="blitz-timeup-screen" class="hidden screen-fade flex flex-col items-center justify-center text-center py-24">
+                <div class="text-7xl mb-4">🌅</div>
+                <h2 class="text-4xl font-black text-orange-600 uppercase tracking-widest mb-2">Sun's Down!</h2>
+                <p class="text-slate-400 font-semibold">Tallying your Big Day&hellip;</p>
+            </div>
+
             <div id="arcade-results-screen" class="hidden screen-fade max-w-xl mx-auto py-4 font-mono text-slate-800">
                 <div id="scorecard-card-element" class="bg-slate-900 text-emerald-400 p-6 rounded-2xl shadow-2xl border border-slate-800 space-y-5">
                     <div class="text-center border-b border-slate-800 pb-4">
-                        <h2 class="text-2xl font-black tracking-widest uppercase text-white font-sans">Arcade Results</h2>
+                        <h2 id="res-title" class="text-2xl font-black tracking-widest uppercase text-white font-sans">Arcade Results</h2>
                         <div class="flex items-center justify-center gap-2 mt-1 font-sans">
                             <p id="res-location-name" class="text-xs text-amber-400 font-bold">📍 Hotspot Zone</p>
                             <span class="text-slate-600">•</span>
@@ -471,7 +782,7 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 text-sm bg-slate-800/60 p-4 rounded-xl border border-slate-700/50">
-                        <div>
+                        <div id="res-score-tile">
                             <div class="text-xs text-slate-400 uppercase font-sans">🏆 Score</div>
                             <div id="res-score" class="text-xl font-bold text-yellow-400">0 points</div>
                         </div>
@@ -483,10 +794,18 @@
                             <div class="text-xs text-slate-400 uppercase font-sans">🐦 Identified</div>
                             <div id="res-identified" class="text-xl font-bold text-white">0 / 0</div>
                         </div>
-                        <div>
+                        <div id="res-unique-species-tile">
                             <div class="text-xs text-slate-400 uppercase font-sans">🎯 Unique Species</div>
                             <div id="res-unique-species" class="text-xl font-bold text-cyan-300">0</div>
                         </div>
+                    </div>
+
+                    <div id="res-route-section" class="hidden space-y-2">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider font-sans border-b border-slate-800 pb-1 flex justify-between">
+                            <span>🗺️ Big Day Route</span>
+                            <span id="res-route-total-miles" class="text-slate-500 normal-case font-medium"></span>
+                        </div>
+                        <div id="res-route-list" class="space-y-1 text-xs"></div>
                     </div>
 
                     <div id="res-mega-box" class="hidden bg-gradient-to-r from-pink-950/80 via-purple-950/80 to-cyan-950/80 border-2 rounded-xl p-3 chroma-card">
@@ -528,37 +847,45 @@
     </div>
 
     <div id="arcade-guess-overlay" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-150 z-40">
-        <div class="bg-white rounded-2xl shadow-2xl w-[950px] max-w-[95vw] border border-slate-100 transform scale-95 transition-transform duration-150 relative overflow-hidden">
+        <div id="arcade-guess-card" class="t-panel rounded-2xl shadow-2xl w-[950px] max-w-[95vw] border t-border transform scale-95 transition-transform duration-150 relative overflow-hidden">
             <div class="flex">
-                <div id="arcade-preview-container" class="w-[42%] bg-white flex items-center justify-center overflow-hidden relative cursor-zoom-in">
+                <div id="arcade-preview-container" class="w-[42%] t-panel flex items-center justify-center overflow-hidden relative cursor-zoom-in">
                     <img id="arcade-preview-image" src="" class="w-full h-full max-h-[75vh] object-contain transition-transform duration-150 ease-out"
                          onclick="toggleImageZoom(event)" onmousemove="handleZoomPan(event)">
                     <span id="arcade-zoom-hint" class="absolute bottom-2 right-2 bg-slate-900/70 text-white text-[10px] font-bold px-2 py-1 rounded-md pointer-events-none">🔍 Click to zoom</span>
                 </div>
                 <div class="flex-1 p-5">
                     <div class="flex justify-between items-center mb-2">
-                        <span id="guess-slot-badge" class="text-xs font-black px-2 py-0.5 bg-blue-600 text-white rounded-md">Slot 1</span>
+                        <span id="guess-slot-badge" class="t-btn-primary text-xs font-black px-2 py-0.5 rounded-md">Slot 1</span>
                         <button onclick="flagActiveImage('arcade')" class="text-[10px] font-bold text-red-500 hover:underline uppercase">🚩 Flag Photo</button>
                     </div>
                     
                     <div id="arcade-text-input-container" class="relative w-full mb-3">
                         <input id="arcade-input-field" type="text" placeholder="Type bird name or 4-letter alpha..." 
-                               class="w-full p-3 border-2 border-slate-200 rounded-xl font-bold focus:outline-none focus:border-blue-600 text-slate-800 shadow-inner"
+                               class="w-full p-3 border-2 t-border rounded-xl font-bold focus:outline-none focus:border-blue-600 t-text shadow-inner"
                                oninput="handleTypingSuggestions(this, 'arcade-suggestions')"
                                onkeydown="handleSuggestionKeys(event, 'arcade-suggestions', this, true)">
-                        <div id="arcade-suggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-slate-200 rounded-xl shadow-xl max-h-40 overflow-y-auto z-50 text-slate-700 text-sm font-bold"></div>
+                        <div id="arcade-suggestions" class="hidden absolute top-full left-0 right-0 t-panel border t-border rounded-xl shadow-xl max-h-40 overflow-y-auto z-50 t-text text-sm font-bold"></div>
 
-                        <button onclick="submitArcadeGuess()" class="w-full py-2.5 mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition duration-150 text-sm">
+                        <button onclick="submitArcadeGuess()" class="t-btn-primary w-full py-2.5 mt-2 font-bold rounded-xl shadow-md transition duration-150 text-sm hover:brightness-110">
                             Submit Guess
                         </button>
                     </div>
 
                     <div id="arcade-mc-container" class="hidden space-y-2 mb-2">
-                        <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Select the Correct Bird:</label>
+                        <label class="block text-[11px] font-bold t-muted uppercase tracking-wider">Select the Correct Bird:</label>
                         <div id="arcade-mc-options" class="grid grid-cols-1 gap-2"></div>
                     </div>
 
-                    <div class="flex justify-between items-center text-[10px] font-bold text-slate-400">
+                    <div class="flex items-center gap-3 mb-2 pt-2 border-t t-border">
+                        <button id="arcade-audio-btn" onclick="playRandomBirdCall(arcadeState.slots[activeSlotIndex] && arcadeState.slots[activeSlotIndex].code, 'arcade-audio-copyright', 'arcade-audio-btn')"
+                                class="w-10 h-10 rounded-full t-btn-primary flex items-center justify-center shadow-md transition shrink-0" title="Play call/song (3s clip)">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                        <span id="arcade-audio-copyright" class="text-[10px] t-muted font-medium truncate"></span>
+                    </div>
+
+                    <div class="flex justify-between items-center text-[10px] font-bold t-muted">
                         <span id="arcade-copyright-caption" class="truncate w-3/4">© Credit info</span>
                         <span>[Esc] Cancel</span>
                     </div>
@@ -568,7 +895,7 @@
     </div>
 
     <div id="message-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200 p-4 z-50">
-        <div id="modal-content" class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full transform scale-95 transition-transform duration-200">
+        <div id="modal-content" class="t-panel p-6 rounded-2xl shadow-2xl max-w-sm w-full transform scale-95 transition-transform duration-200">
             <h3 id="modal-title" class="text-2xl font-bold mb-2 text-center text-gray-900"></h3>
             <p id="modal-message" class="text-sm text-center mb-5 text-gray-600 font-medium"></p>
             <button onclick="closeModal()" id="modal-ok-button" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-md transition">
@@ -579,44 +906,62 @@
 
 
     <div id="hotspot-map-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-3 z-50">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden border border-slate-100">
-            <div class="flex items-center justify-between p-3 border-b border-slate-200">
+        <div class="t-panel rounded-2xl shadow-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden border t-border">
+            <div class="flex items-center justify-between p-3 border-b t-border">
                 <div class="relative w-72">
                     <input id="hs-map-search" type="text" placeholder="🔍 Search hotspots…" autocomplete="off"
-                           class="w-full p-2 pl-3 text-sm border-2 border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:border-blue-500"
+                           class="w-full p-2 pl-3 text-sm border-2 t-border rounded-lg t-panel focus:outline-none focus:border-blue-500"
                            oninput="handleHotspotMapSearchInput(this.value)">
-                    <div id="hs-map-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-56 overflow-y-auto z-[2000] text-sm"></div>
+                    <div id="hs-map-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-stone-50 border t-border rounded-xl shadow-xl max-h-56 overflow-y-auto z-[2000] text-sm"></div>
                 </div>
-                <button onclick="closeHotspotMapModal()" class="text-slate-400 hover:text-slate-700 font-bold text-2xl leading-none px-2">&times;</button>
+                <button onclick="closeHotspotMapModal()" class="t-muted hover:text-slate-700 font-bold text-2xl leading-none px-2">&times;</button>
             </div>
-            <div id="hs-leaflet-map" class="flex-1 w-full bg-slate-100"></div>
-            <div id="hs-map-details-panel" class="p-3 border-t border-slate-200 bg-slate-50 min-h-[64px] flex items-center justify-between gap-3">
-                <p class="text-xs text-slate-400 font-medium">Click a pin on the map, or search above, to select a hotspot.</p>
+            <div id="hs-leaflet-map" class="flex-1 w-full t-panel-strong"></div>
+            <div id="hs-map-details-panel" class="p-3 border-t t-border t-panel min-h-[64px] flex items-center justify-between gap-3">
+                <p class="text-xs t-muted font-medium">Click a pin on the map, or search above, to select a hotspot.</p>
             </div>
         </div>
     </div>
 
-    <div id="how-to-play-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto">
-            <div class="flex justify-between items-start mb-3">
-                <h3 class="text-2xl font-bold text-slate-800 font-serif">How to Play</h3>
-                <button onclick="toggleHowToPlay(false)" class="text-slate-400 hover:text-slate-700 font-bold text-2xl leading-none px-1">&times;</button>
-            </div>
-            <div class="space-y-4 text-sm text-slate-600 font-medium">
+    <div id="blitz-travel-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-3 z-50">
+        <div class="t-panel rounded-2xl shadow-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden border t-border">
+            <div class="flex items-center justify-between p-3 border-b t-border bg-orange-50">
                 <div>
-                    <h4 class="font-bold text-slate-800 mb-1">🕹️ Arcade Mode</h4>
+                    <h3 class="font-bold t-text text-sm">🧭 Travel to a New Location</h3>
+                    <p class="text-[11px] t-muted">The clock is paused while you choose. Farther trips cost more time — 60 miles ≈ 1.5 min.</p>
+                </div>
+                <button onclick="closeBlitzTravelModal()" class="t-muted hover:text-slate-700 font-bold text-2xl leading-none px-2">&times;</button>
+            </div>
+            <div id="blitz-travel-map" class="flex-1 w-full t-panel-strong min-h-[200px]"></div>
+            <div id="blitz-travel-list" class="h-36 overflow-y-auto border-t t-border divide-y divide-slate-100 bg-white shrink-0"></div>
+            <div id="blitz-travel-confirm-panel" class="p-3 border-t t-border t-panel min-h-[76px] flex items-center justify-between gap-3">
+                <p class="text-xs t-muted font-medium">Click a hotspot on the map or in the list below to see its travel cost.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="how-to-play-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="t-panel rounded-2xl shadow-2xl p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-start mb-3">
+                <h3 class="text-2xl font-bold t-text font-serif">How to Play</h3>
+                <button onclick="toggleHowToPlay(false)" class="t-muted hover:text-slate-700 font-bold text-2xl leading-none px-1">&times;</button>
+            </div>
+            <div class="space-y-4 text-sm t-text font-medium">
+                <div>
+                    <h4 class="font-bold t-text mb-1">🕹️ Arcade Mode</h4>
                     <p>Pick a curated zone or search/browse the global hotspot index for a real eBird location. Eight birds appear on a grid at once, each on its own countdown — click one and type its name before time runs out. Wrong guesses and timeouts cost a life; find as many species as you can before they run out.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-slate-800 mb-1">📖 Practice Mode</h4>
+                    <h4 class="font-bold t-text mb-1">📖 Practice Mode</h4>
                     <p>An untimed, infinite study mode. Filter by bird group and/or region — or leave both blank to draw from every species in the database — and identify birds at your own pace. End the session any time to see your accuracy and a list of what you missed.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-slate-800 mb-1">🐦 Bird of the Day</h4>
-                    <p>A new species is featured every day. Check if you've already found it in Arcade Mode, and use the hint to see the general region it's been recorded in without giving away exact hotspots.</p>
+                    <h4 class="font-bold t-text mb-1">🐦 Bird of the Day</h4>
+                    <p>A new species is featured every day. Type your best guess before revealing the answer, use the hint to see the general region it's been recorded in without giving away exact hotspots, and keep your streak going by getting it right day after day.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-slate-800 mb-1">🏆 Trophy Case &amp; Stats</h4>
+                    <h4 class="font-bold t-text mb-1">🏆 Trophy Case &amp; Stats</h4>
                     <p>Tracks your lifetime totals, rarest finds, high scores, and tiered achievements — all saved locally to this browser.</p>
                 </div>
             </div>
@@ -624,35 +969,39 @@
     </div>
 
     <div id="botd-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
-            <div class="flex justify-between items-center p-4 border-b border-slate-100">
-                <h3 class="text-xl font-bold text-slate-800 font-serif">🐦 Bird of the Day</h3>
-                <button onclick="closeBotdModal()" class="text-slate-400 hover:text-slate-700 font-bold text-2xl leading-none px-1">&times;</button>
+        <div class="t-panel rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+            <div class="flex justify-between items-center p-4 border-b t-border">
+                <div>
+                    <h3 class="text-xl font-bold t-text font-serif">🐦 Bird of the Day</h3>
+                    <p id="botd-streak-line" class="text-[11px] font-bold text-amber-600 hidden">🔥 <span id="botd-streak-count">0</span> day streak</p>
+                </div>
+                <button onclick="closeBotdModal()" class="t-muted hover:text-slate-700 font-bold text-2xl leading-none px-1">&times;</button>
             </div>
 
-            <div id="botd-loading" class="p-8 text-center text-sm font-semibold text-slate-400">⏳ Loading today's bird…</div>
+            <div id="botd-loading" class="p-8 text-center text-sm font-semibold t-muted">⏳ Loading today's bird…</div>
 
             <div id="botd-body" class="hidden">
-                <div class="relative bg-slate-100">
+                <div class="relative t-panel-strong">
                     <img id="botd-image" src="" class="w-full h-56 object-cover" alt="Bird of the Day">
-                    <div id="botd-found-badge" class="hidden absolute top-3 right-3 bg-emerald-500 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-md">✓ Found</div>
+                    <div id="botd-found-badge" class="hidden absolute top-3 right-3 bg-emerald-500 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-md">✓ Found Today</div>
                 </div>
+
                 <div class="p-4 space-y-3">
                     <div>
-                        <h4 id="botd-common-name" class="text-lg font-bold text-slate-800"></h4>
-                        <p id="botd-scientific-name" class="text-xs italic text-slate-400"></p>
+                        <h4 id="botd-common-name" class="text-lg font-bold t-text"></h4>
+                        <p id="botd-scientific-name" class="text-xs italic t-muted"></p>
                     </div>
-                    <p id="botd-status-line" class="text-xs font-semibold text-slate-500"></p>
+                    <p id="botd-status-line" class="text-xs font-semibold t-muted"></p>
 
                     <button id="botd-hint-btn" onclick="showBotdHint()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-sm transition text-sm">
                         💡 Show Region Hint
                     </button>
 
                     <div id="botd-hint-map-wrap" class="hidden">
-                        <div id="botd-hint-map" class="w-full h-48 rounded-xl border border-slate-200 mt-2"></div>
-                        <p class="text-[10px] text-slate-400 font-medium mt-1">Shaded area shows the general region this species has been recorded in — not exact hotspots.</p>
+                        <div id="botd-hint-map" class="w-full h-48 rounded-xl border t-border mt-2"></div>
+                        <p class="text-[10px] t-muted font-medium mt-1">Shaded area shows the general region this species has been recorded in — not exact hotspots.</p>
                     </div>
-                    <p id="botd-hint-empty" class="hidden text-xs text-slate-400 italic text-center py-2">No location hint data available for this species yet.</p>
+                    <p id="botd-hint-empty" class="hidden text-xs t-muted italic text-center py-2">No location hint data available for this species yet.</p>
                 </div>
             </div>
         </div>
@@ -677,6 +1026,26 @@
                 SFX[key].play().catch(() => {}); // Prevent browser autoplay policy errors
             }
         }
+
+        // ===================== Theme System =====================
+        const VALID_THEMES = ['default', 'tropical', 'ranger', 'migration', 'rarehunt', 'midnight', 'coastal', 'misty', 'fieldguide'];
+        function setAppTheme(themeKey) {
+            if (!VALID_THEMES.includes(themeKey)) themeKey = 'default';
+            document.documentElement.setAttribute('data-theme', themeKey);
+            try { localStorage.setItem('appTheme', themeKey); } catch (e) {}
+            const sel = document.getElementById('theme-select');
+            if (sel && sel.value !== themeKey) sel.value = themeKey;
+        }
+        (function initAppTheme() {
+            let saved = 'default';
+            try { saved = localStorage.getItem('appTheme') || 'default'; } catch (e) {}
+            if (!VALID_THEMES.includes(saved)) saved = 'default';
+            document.documentElement.setAttribute('data-theme', saved);
+            document.addEventListener('DOMContentLoaded', () => {
+                const sel = document.getElementById('theme-select');
+                if (sel) sel.value = saved;
+            });
+        })();
 
         const REPO_BASE_URL = "https://raw.githubusercontent.com/birdquizdev/blitz-bird-quiz/main/";
 
@@ -880,7 +1249,7 @@
                 document.getElementById(`hs-tab-${t}`).classList.toggle('hidden', t !== tab);
                 const btn = document.getElementById(`hs-tab-${t}-btn`);
                 btn.className = t === tab
-                    ? "py-1.5 rounded-lg text-xs font-bold transition bg-white text-blue-700 shadow-sm"
+                    ? "py-1.5 rounded-lg text-xs font-bold transition bg-slate-50 text-blue-700 shadow-sm"
                     : "py-1.5 rounded-lg text-xs font-bold transition text-slate-500";
             });
         }
@@ -921,7 +1290,8 @@
                 locId: h.locId,
                 display_name: h.name,
                 latitude: h.latitude,
-                longitude: h.longitude
+                longitude: h.longitude,
+                countryCode: h.countryCode || null
             };
             const summary = document.getElementById('hotspot-selected-summary');
             summary.classList.remove('hidden');
@@ -1109,7 +1479,7 @@
             currentScreen: 'main-menu-screen',
             activeMode: null, 
             selectedDeck: null,
-            arcadeStrategy: 'preset',
+            arcadeStrategy: 'hotspot',
             difficulty: 'easy'
         };
 
@@ -1123,6 +1493,7 @@
         let activeSlotIndex = null; 
         let arcadePaused = false;
         let arcadeState = {
+            mode: 'arcade',            // 'arcade' | 'blitz'
             score: 0,
             lives: 3,
             slots: Array(8).fill(null),
@@ -1130,8 +1501,17 @@
             elapsedSeconds: 0,
             identified: [],
             missed: [],
-            totalSpotted: 0
+            totalSpotted: 0,
+            timeRemaining: 0,          // Blitz only, in seconds
+            route: []                  // Blitz only: [{ locId, display_name, milesFromPrev }]
         };
+
+        const BLITZ_START_SECONDS = 12 * 60;
+        // Real-world driving is assumed to be ~1.5 minutes per mile. The Big Day clock
+        // compresses 12 real hours into a 12-minute match (a 60x time scale), so that
+        // real-world travel time gets compressed by the same factor: 1.5 real-min/mile / 60 =
+        // 0.025 game-min/mile, i.e. 60 real miles costs 1.5 game-minutes.
+        const BLITZ_MINUTES_PER_MILE = 1.5 / 60;
 
         const RARITY_POINTS = { abundant: 1, common: 1, uncommon: 2, rare: 3, vagrant: 5 };
 
@@ -1189,7 +1569,12 @@
             arcadeCorrectTotal: 0,     // lifetime correct IDs, Arcade only (Identification Expert)
             arcadeUniqueSpecies: [],   // lifetime unique species names, Arcade only (Lister)
             topScores: [],             // [{ score, location, difficulty, date }] capped at 5
-            topFinds: []               // [{ species, rarity, location, date }] capped at 5, deduped by species
+            topFinds: [],              // [{ species, rarity, location, date }] capped at 5, deduped by species
+            botdStreak: 0,             // current consecutive-day Bird of the Day found streak
+            botdBestStreak: 0,
+            botdLastFoundDate: null,   // "YYYY-M-D" of the most recent day it was actually caught in Arcade
+            countrySpecies: {},        // lifetime, never resets: country ISO code -> { commonName: true, ... }
+            hotspotsPlayed: []         // lifetime, never resets: unique location identifiers (map_id) played
         };
         let lifetimeStats = Object.assign({}, DEFAULT_LIFETIME_STATS, JSON.parse(localStorage.getItem('bird_quiz_stats')) || {});
         let imageBlacklist = JSON.parse(localStorage.getItem('bird_quiz_blacklist')) || [];
@@ -1214,6 +1599,87 @@
             }
         }
 
+        // ===================== Bird Call Audio =====================
+        // Same shard architecture as images: shard_manifest.json + resolveSpeciesKey() already
+        // tell us which shard a species' audio lives in (same shard name, just under a
+        // different folder), so nothing new is needed there. Audio shards are fetched lazily
+        // and cached per shard, same pattern as image shards and practice mode.
+        //
+        // Playback uses a single shared <audio> element across every button in the game, which
+        // is what makes "click cuts off whatever's currently playing" trivial -- there's only
+        // ever one thing that CAN be playing. Clips are hard-capped at 3 seconds regardless of
+        // the source file's actual length.
+        const AUDIO_SHARD_PATH = (shardName) => `data_pool/audio_shards/${shardName}.json`;
+        const AUDIO_CLIP_MAX_MS = 3000;
+        let audioShardCache = {};
+        let sharedAudioEl = null;
+        let audioStopTimeout = null;
+
+        function getSharedAudioElement() {
+            if (!sharedAudioEl) sharedAudioEl = new Audio();
+            return sharedAudioEl;
+        }
+
+        function stopBirdCall() {
+            clearTimeout(audioStopTimeout);
+            if (sharedAudioEl) sharedAudioEl.pause();
+        }
+
+        async function ensureAudioShardLoaded(shardName) {
+            if (audioShardCache[shardName]) return audioShardCache[shardName];
+            const data = await fetchFromRepo(AUDIO_SHARD_PATH(shardName), true);
+            if (data) audioShardCache[shardName] = data;
+            return data;
+        }
+
+        // code: any species code format resolveSpeciesKey() can handle.
+        // copyrightElId: id of the element to write the audio credit into.
+        // buttonElId: id of the play button, given a brief pulse while the clip plays.
+        async function playRandomBirdCall(code, copyrightElId, buttonElId) {
+            if (!code) return;
+            playSFX('click');
+
+            const copyEl = document.getElementById(copyrightElId);
+            const btnEl = buttonElId ? document.getElementById(buttonElId) : null;
+            const cleanCode = resolveSpeciesKey(code);
+            const shardName = shardManifestCache ? shardManifestCache[cleanCode] : null;
+
+            if (!shardName) {
+                if (copyEl) copyEl.textContent = "🔇 No audio available for this species.";
+                return;
+            }
+
+            const shardData = await ensureAudioShardLoaded(shardName);
+            const entry = shardData && shardData.data && shardData.data[cleanCode];
+            const assets = entry && entry.assets;
+            if (!assets || assets.length === 0) {
+                if (copyEl) copyEl.textContent = "🔇 No audio available for this species.";
+                return;
+            }
+
+            const asset = assets[Math.floor(Math.random() * assets.length)];
+            const audio = getSharedAudioElement();
+
+            // Cut off whatever's currently playing (if anything) and start the new clip.
+            clearTimeout(audioStopTimeout);
+            audio.pause();
+            audio.currentTime = 0;
+            audio.src = asset.url;
+            audio.play().catch(() => {
+                if (copyEl) copyEl.textContent = "⚠️ Couldn't play this clip.";
+            });
+
+            audioStopTimeout = setTimeout(() => audio.pause(), AUDIO_CLIP_MAX_MS);
+
+            if (btnEl) {
+                btnEl.classList.add('animate-pulse');
+                setTimeout(() => btnEl.classList.remove('animate-pulse'), AUDIO_CLIP_MAX_MS);
+            }
+
+            if (copyEl) copyEl.textContent = `🔊 ${asset.copyright || 'Unknown source'}`;
+        }
+        // ===================== end Bird Call Audio =====================
+
         function changeScreen(screenId) {
             playSFX('click');
             document.getElementById(gameState.currentScreen).classList.add('hidden');
@@ -1221,7 +1687,7 @@
             gameState.currentScreen = screenId;
             
             const header = document.getElementById('main-header');
-            if (screenId === 'practice-quiz-screen' || screenId === 'arcade-game-screen' || screenId === 'arcade-results-screen' || screenId === 'arcade-gameover-screen' || screenId === 'practice-results-screen') {
+            if (screenId === 'practice-quiz-screen' || screenId === 'arcade-game-screen' || screenId === 'arcade-results-screen' || screenId === 'arcade-gameover-screen' || screenId === 'practice-results-screen' || screenId === 'blitz-timeup-screen') {
                 header.classList.add('hidden');
             } else {
                 header.classList.remove('hidden');
@@ -1234,6 +1700,7 @@
             const practiceContainer = document.getElementById('practice-config-container');
             const arcadeContainer = document.getElementById('arcade-config-container');
             const launchBtn = document.getElementById('launch-button');
+            const strategyToggle = document.getElementById('arcade-strategy-toggle');
 
             if (modeType === 'practice') {
                 document.getElementById('config-title').textContent = "Configure Practice Session";
@@ -1242,13 +1709,23 @@
                 arcadeContainer.classList.add('hidden');
                 launchBtn.className = "w-2/3 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition";
                 ensurePracticeTagsLoaded();
+            } else if (modeType === 'blitz') {
+                document.getElementById('config-title').textContent = "Configure Blitz Big Day";
+                document.getElementById('config-desc').textContent = "Pick a starting location — you'll be able to travel to nearby hotspots once the clock starts";
+                practiceContainer.classList.add('hidden');
+                arcadeContainer.classList.remove('hidden');
+                launchBtn.className = "w-2/3 py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-md transition";
+                strategyToggle.classList.add('hidden');
+                setArcadeStrategy('hotspot');
+                setArcadeDifficulty('normal');
             } else {
                 document.getElementById('config-title').textContent = "Deploy Arcade Grid";
                 document.getElementById('config-desc').textContent = "Deploy a curated zone or search/browse the global hotspot index";
                 practiceContainer.classList.add('hidden');
                 arcadeContainer.classList.remove('hidden');
                 launchBtn.className = "w-2/3 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition";
-                setArcadeStrategy('preset');
+                strategyToggle.classList.remove('hidden');
+                setArcadeStrategy('hotspot');
                 setArcadeDifficulty('easy');
                 loadPresetManifest();
             }
@@ -1292,7 +1769,10 @@
             document.getElementById('diff-normal-btn').className = diff === 'normal' ? activeClass.normal : inactiveClass;
             document.getElementById('diff-advanced-btn').className = diff === 'advanced' ? activeClass.advanced : inactiveClass;
 
-            document.getElementById('diff-desc').textContent = DIFFICULTY_SETTINGS[diff].desc;
+            const settings = DIFFICULTY_SETTINGS[diff];
+            document.getElementById('diff-desc').textContent = gameState.activeMode === 'blitz'
+                ? `${settings.label}: Birds stay ${settings.birdTimeout}s on the board`
+                : settings.desc;
         }
 
         function setLaunchLoading(isLoading) {
@@ -1303,6 +1783,38 @@
             btn.disabled = isLoading;
             spinner.classList.toggle('hidden', !isLoading);
             label.textContent = isLoading ? "Loading map data…" : "Launch Quiz →";
+        }
+
+        // Fetches a hotspot's seed + every shard its species pool needs, and sets them as the
+        // active match data. Shared by the initial Arcade/Blitz launch and by Blitz's travel
+        // mechanic, since "load a new location mid-match" is the same operation as "load the
+        // starting location" -- just without resetting the rest of arcadeState.
+        async function loadHotspotSeedIntoActiveState(locId, displayNameFallback) {
+            const seedData = await fetchFromRepo(HOTSPOT_SEED_PATH(locId), true);
+            if (!seedData) {
+                alert(`No seed data available yet for ${displayNameFallback || locId} (${locId}). Try another hotspot.`);
+                return false;
+            }
+
+            const ready = await ensureSpeciesDirectoryLoaded();
+            if (!ready) return false;
+
+            const speciesToLoad = Object.keys(seedData.species_pool);
+            const shardsToFetch = [...new Set(speciesToLoad.map(code => shardManifestCache[resolveSpeciesKey(code)]).filter(Boolean))];
+
+            // Fetch every needed shard concurrently instead of one at a time — a real hotspot's
+            // species list often spans far more taxonomic shards than a hand curated preset did,
+            // so doing this sequentially could mean a dozen-plus back-to-back network round trips.
+            const shardResults = await Promise.all(
+                shardsToFetch.map(shardName => fetchFromRepo(`data_pool/image_shards/${shardName}.json`, true))
+            );
+
+            activeMapData = seedData;
+            activeShards = {};
+            shardsToFetch.forEach((shardName, i) => {
+                if (shardResults[i]) activeShards[shardName] = shardResults[i];
+            });
+            return true;
         }
 
         async function launchGameEngine() {
@@ -1335,40 +1847,36 @@
 
                     changeScreen('practice-quiz-screen');
                     await generatePracticeRound();
+                } else if (gameState.activeMode === 'blitz') {
+                    if (!selectedHotspotData) { alert("Please search, browse, or pick a starting hotspot first."); return; }
+                    const loaded = await loadHotspotSeedIntoActiveState(selectedHotspotData.locId, selectedHotspotData.display_name);
+                    if (!loaded) return;
+                    initializeBlitzMatch();
                 } else {
                     if (gameState.arcadeStrategy === 'preset') {
                         const presetZone = document.getElementById('arcade-preset-dropdown').value;
                         if (!presetZone) { alert("Please choose a curated zone first."); return; }
                         activeMapData = await fetchFromRepo(PRESET_SEED_PATH(presetZone));
                         if (!activeMapData) return;
+
+                        const ready = await ensureSpeciesDirectoryLoaded();
+                        if (!ready) return;
+                        const speciesToLoad = Object.keys(activeMapData.species_pool);
+                        const shardsToFetch = [...new Set(speciesToLoad.map(code => shardManifestCache[resolveSpeciesKey(code)]).filter(Boolean))];
+                        const shardResults = await Promise.all(
+                            shardsToFetch.map(shardName => fetchFromRepo(`data_pool/image_shards/${shardName}.json`, true))
+                        );
+                        activeShards = {};
+                        shardsToFetch.forEach((shardName, i) => {
+                            if (shardResults[i]) activeShards[shardName] = shardResults[i];
+                        });
                     } else if (gameState.arcadeStrategy === 'hotspot') {
                         if (!selectedHotspotData) { alert("Please search, browse, or pick a hotspot on the map first."); return; }
-                        activeMapData = await fetchFromRepo(HOTSPOT_SEED_PATH(selectedHotspotData.locId), true);
-                        if (!activeMapData) {
-                            alert(`No seed data available yet for ${selectedHotspotData.display_name} (${selectedHotspotData.locId}). Try another hotspot.`);
-                            return;
-                        }
+                        const loaded = await loadHotspotSeedIntoActiveState(selectedHotspotData.locId, selectedHotspotData.display_name);
+                        if (!loaded) return;
                     } else {
                         return;
                     }
-
-                    const ready = await ensureSpeciesDirectoryLoaded();
-                    if (!ready) return;
-
-                    const speciesToLoad = Object.keys(activeMapData.species_pool);
-                    const shardsToFetch = [...new Set(speciesToLoad.map(code => shardManifestCache[resolveSpeciesKey(code)]).filter(Boolean))];
-
-                    // Fetch every needed shard concurrently instead of one at a time — a real
-                    // hotspot's species list often spans far more taxonomic shards than a hand
-                    // curated preset did, so doing this sequentially could mean a dozen-plus
-                    // back-to-back network round trips before the grid could even render.
-                    activeShards = {};
-                    const shardResults = await Promise.all(
-                        shardsToFetch.map(shardName => fetchFromRepo(`data_pool/image_shards/${shardName}.json`, true))
-                    );
-                    shardsToFetch.forEach((shardName, i) => {
-                        if (shardResults[i]) activeShards[shardName] = shardResults[i];
-                    });
 
                     initializeArcadeGridMatch();
                 }
@@ -1385,7 +1893,7 @@
             let pool = [];
             if (gameState.activeMode === 'practice') {
                 pool = practicePoolNamed;
-            } else if (gameState.activeMode === 'arcade' && activeMapData) {
+            } else if ((gameState.activeMode === 'arcade' || gameState.activeMode === 'blitz') && activeMapData) {
                 Object.keys(activeMapData.species_pool).forEach(code => {
                     const cleanCode = resolveSpeciesKey(code);
                     for (const sKey in activeShards) {
@@ -1606,6 +2114,8 @@
             currentBirdKey = cleanCode;
             currentPracticeShardName = shardName;
             practiceSeenSet.add(bird.common_name);
+            stopBirdCall();
+            document.getElementById('practice-audio-copyright').textContent = '';
 
             let availableAssets = (bird.assets || []).filter(a => !imageBlacklist.includes(a.url));
             if(availableAssets.length === 0) {
@@ -1659,6 +2169,7 @@
 
         function endPracticeSession() {
             playSFX('click');
+            stopBirdCall();
             document.getElementById('practice-res-score').textContent = `${score} / ${rounds}`;
             document.getElementById('practice-res-accuracy').textContent = `${rounds > 0 ? Math.round((score / rounds) * 100) : 0}%`;
             document.getElementById('practice-res-unique').textContent = practiceSeenSet.size;
@@ -1677,12 +2188,26 @@
             changeScreen('practice-results-screen');
         }
 
+        function buildArcadeGridMesh() {
+            const mesh = document.getElementById('arcade-grid-mesh');
+            if (!mesh) return;
+            mesh.innerHTML = '';
+            for (let i = 0; i < 8; i++) {
+                const slotDiv = document.createElement('div');
+                slotDiv.id = `arcade-slot-card-${i}`;
+                slotDiv.className = "t-panel-strong rounded-xl overflow-hidden border-2 t-border relative flex flex-col cursor-pointer t-hover-primary transition group shadow-sm";
+                slotDiv.onclick = () => openSlotGuessField(i);
+                mesh.appendChild(slotDiv);
+            }
+        }
+
         function initializeArcadeGridMatch() {
             const settings = DIFFICULTY_SETTINGS[gameState.difficulty] || DIFFICULTY_SETTINGS.easy;
             arcadePaused = false;
             document.getElementById('arcade-pause-overlay').classList.add('hidden');
 
             arcadeState = {
+                mode: 'arcade',
                 score: 0,
                 lives: settings.lives,
                 slots: Array(8).fill(null),
@@ -1690,26 +2215,22 @@
                 elapsedSeconds: 0,
                 identified: [],
                 missed: [],
-                totalSpotted: 0
+                totalSpotted: 0,
+                timeRemaining: 0,
+                route: []
             };
 
             clearInterval(arcadeTimerInterval);
-            
+
+            document.getElementById('arcade-lives-block').classList.remove('hidden');
+            document.getElementById('blitz-timer-block').classList.add('hidden');
+            document.getElementById('blitz-unique-block').classList.add('hidden');
+            document.getElementById('blitz-travel-btn').classList.add('hidden');
+
             document.getElementById('arcade-score').textContent = "0";
             document.getElementById('arcade-lives').textContent = "❤️".repeat(settings.lives);
-            
-            const mesh = document.getElementById('arcade-grid-mesh');
-            if(mesh) {
-                mesh.innerHTML = '';
-                for (let i = 0; i < 8; i++) {
-                    const slotDiv = document.createElement('div');
-                    slotDiv.id = `arcade-slot-card-${i}`;
-                    slotDiv.className = "bg-slate-100 rounded-xl overflow-hidden border-2 border-slate-200 relative flex flex-col cursor-pointer hover:border-blue-500 transition group shadow-sm";
-                    slotDiv.onclick = () => openSlotGuessField(i);
-                    mesh.appendChild(slotDiv);
-                }
-            }
 
+            buildArcadeGridMesh();
             for (let i = 0; i < 8; i++) {
                 arcadeState.slots[i] = generateWeightedGridSpecies();
                 renderSingleArcadeSlot(i);
@@ -1719,6 +2240,216 @@
             arcadeTimerInterval = setInterval(processArcadeGridTimers, 100);
             window.addEventListener('keydown', handleGlobalArcadeHotkeys);
         }
+
+        function formatMinSec(totalSeconds) {
+            const s = Math.max(0, Math.ceil(totalSeconds));
+            const mins = String(Math.floor(s / 60)).padStart(2, '0');
+            const secs = String(s % 60).padStart(2, '0');
+            return `${mins}:${secs}`;
+        }
+
+        function initializeBlitzMatch() {
+            arcadePaused = false;
+            document.getElementById('arcade-pause-overlay').classList.add('hidden');
+
+            arcadeState = {
+                mode: 'blitz',
+                score: 0,
+                lives: 0,
+                slots: Array(8).fill(null),
+                startTime: Date.now(),
+                elapsedSeconds: 0,
+                identified: [],
+                missed: [],
+                totalSpotted: 0,
+                timeRemaining: BLITZ_START_SECONDS,
+                route: [{ locId: selectedHotspotData.locId, display_name: activeMapData.display_name || selectedHotspotData.display_name, milesFromPrev: 0 }]
+            };
+
+            clearInterval(arcadeTimerInterval);
+
+            document.getElementById('arcade-lives-block').classList.add('hidden');
+            document.getElementById('blitz-timer-block').classList.remove('hidden');
+            document.getElementById('blitz-unique-block').classList.remove('hidden');
+            document.getElementById('blitz-travel-btn').classList.remove('hidden');
+
+            document.getElementById('arcade-score').textContent = "0";
+            document.getElementById('blitz-timer-display').textContent = formatMinSec(arcadeState.timeRemaining);
+            document.getElementById('blitz-unique-display').textContent = "0";
+
+            buildArcadeGridMesh();
+            for (let i = 0; i < 8; i++) {
+                arcadeState.slots[i] = generateWeightedGridSpecies();
+                renderSingleArcadeSlot(i);
+            }
+
+            changeScreen('arcade-game-screen');
+            arcadeTimerInterval = setInterval(processArcadeGridTimers, 100);
+            window.addEventListener('keydown', handleGlobalArcadeHotkeys);
+        }
+
+        // ===================== Blitz Travel =====================
+        let blitzTravelMap = null;
+        let blitzTravelMarkers = new Map(); // locId -> Leaflet marker, for the current candidate set
+        let blitzTravelCandidates = [];     // sorted-by-distance array of {h, miles, minutesCost}
+        let blitzTravelSelected = null;     // the candidate currently previewed for confirm
+
+        function milesBetween(lat1, lng1, lat2, lng2) {
+            return haversineMeters([lat1, lng1], [lat2, lng2]) / 1609.344;
+        }
+
+        function formatTravelCost(minutesCost) {
+            const totalSeconds = minutesCost * 60;
+            if (totalSeconds < 60) return `${totalSeconds.toFixed(0)} sec`;
+            return `${minutesCost.toFixed(1)} min`;
+        }
+
+        async function openBlitzTravelModal() {
+            playSFX('click');
+            arcadePaused = true; // reuse the existing pause guard so timers/hotkeys freeze while this is open
+            document.getElementById('blitz-travel-modal').classList.remove('hidden');
+            document.getElementById('blitz-travel-modal').classList.add('flex');
+            document.getElementById('blitz-travel-confirm-panel').innerHTML = `<p class="text-xs text-slate-400 font-medium">Click a hotspot on the map or in the list below to see its travel cost.</p>`;
+            blitzTravelSelected = null;
+
+            await ensureHotspotIndexLoaded();
+            renderBlitzTravelCandidates();
+            setTimeout(initBlitzTravelMapIfNeeded, 30);
+        }
+
+        function closeBlitzTravelModal() {
+            document.getElementById('blitz-travel-modal').classList.add('hidden');
+            document.getElementById('blitz-travel-modal').classList.remove('flex');
+            arcadePaused = false;
+        }
+
+        function renderBlitzTravelCandidates() {
+            const current = selectedHotspotData;
+            if (!current || !flatHotspots.length) {
+                document.getElementById('blitz-travel-list').innerHTML = `<p class="p-3 text-xs text-slate-400 italic">No nearby hotspot data available.</p>`;
+                blitzTravelCandidates = [];
+                return;
+            }
+
+            blitzTravelCandidates = flatHotspots
+                .filter(h => h.locId !== current.locId && h.latitude != null && h.longitude != null)
+                .map(h => {
+                    const miles = milesBetween(current.latitude, current.longitude, h.latitude, h.longitude);
+                    return { h, miles, minutesCost: miles * BLITZ_MINUTES_PER_MILE };
+                })
+                .sort((a, b) => a.miles - b.miles)
+                .slice(0, 60);
+
+            const listEl = document.getElementById('blitz-travel-list');
+            listEl.innerHTML = blitzTravelCandidates.map((c, i) => `
+                <div class="p-2 hover:bg-orange-50 cursor-pointer flex justify-between items-center text-xs" onclick="previewBlitzTravel(${i})">
+                    <span class="font-semibold text-slate-700 truncate pr-2">📍 ${c.h.name}</span>
+                    <span class="text-slate-400 shrink-0">${c.miles.toFixed(1)} mi · ⏱ ${formatTravelCost(c.minutesCost)}</span>
+                </div>
+            `).join('');
+        }
+
+        function initBlitzTravelMapIfNeeded() {
+            const current = selectedHotspotData;
+            if (!current) return;
+
+            if (!blitzTravelMap) {
+                blitzTravelMap = L.map('blitz-travel-map');
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap'
+                }).addTo(blitzTravelMap);
+            }
+
+            blitzTravelMap.eachLayer(layer => {
+                if (layer instanceof L.Marker) blitzTravelMap.removeLayer(layer);
+            });
+            blitzTravelMarkers.clear();
+
+            const currentIcon = L.divIcon({
+                html: `<div style="width:16px;height:16px;border-radius:50%;background:#f97316;border:3px solid white;box-shadow:0 0 0 2px #f97316;"></div>`,
+                className: '', iconSize: [16, 16], iconAnchor: [8, 8]
+            });
+            L.marker([current.latitude, current.longitude], { icon: currentIcon, zIndexOffset: 1000 })
+                .addTo(blitzTravelMap)
+                .bindTooltip('You are here', { permanent: false });
+
+            blitzTravelCandidates.forEach((c, i) => {
+                const icon = createEBirdPin(getMarkerColor(c.h.species_count));
+                const marker = L.marker([c.h.latitude, c.h.longitude], { icon });
+                marker.on('click', () => previewBlitzTravel(i));
+                marker.addTo(blitzTravelMap);
+                blitzTravelMarkers.set(c.h.locId, marker);
+            });
+
+            const allPoints = [[current.latitude, current.longitude], ...blitzTravelCandidates.slice(0, 20).map(c => [c.h.latitude, c.h.longitude])];
+            blitzTravelMap.fitBounds(L.latLngBounds(allPoints), { padding: [30, 30] });
+            blitzTravelMap.invalidateSize();
+        }
+
+        function previewBlitzTravel(index) {
+            playSFX('click');
+            const c = blitzTravelCandidates[index];
+            if (!c) return;
+            blitzTravelSelected = c;
+
+            const canAfford = c.minutesCost * 60 < arcadeState.timeRemaining;
+            const panel = document.getElementById('blitz-travel-confirm-panel');
+            panel.innerHTML = `
+                <div class="min-w-0">
+                    <p class="font-bold text-slate-800 text-sm truncate">${c.h.name}</p>
+                    <p class="text-[11px] text-slate-500">
+                        📏 ${c.miles.toFixed(1)} miles away · ⏱️ costs <strong class="${canAfford ? 'text-orange-600' : 'text-red-600'}">${formatTravelCost(c.minutesCost)}</strong>
+                        ${canAfford ? '' : ' — not enough time remaining!'}
+                    </p>
+                </div>
+                <button onclick="confirmBlitzTravel()" ${canAfford ? '' : 'disabled'}
+                        class="shrink-0 py-2 px-4 font-bold text-xs rounded-lg shadow-sm transition ${canAfford ? 'bg-orange-500 hover:bg-orange-600 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}">
+                    ✈️ Confirm Travel
+                </button>
+            `;
+        }
+
+        async function confirmBlitzTravel() {
+            const c = blitzTravelSelected;
+            if (!c) return;
+            if (c.minutesCost * 60 >= arcadeState.timeRemaining) return; // safety guard, button should already be disabled
+
+            playSFX('click');
+            const panel = document.getElementById('blitz-travel-confirm-panel');
+            panel.innerHTML = `<p class="text-xs font-semibold text-slate-400 w-full text-center">⏳ Traveling to ${c.h.name}…</p>`;
+
+            const loaded = await loadHotspotSeedIntoActiveState(c.h.locId, c.h.name);
+            if (!loaded) {
+                // Travel failed (no seed data for that hotspot yet) -- don't charge the time or
+                // close the modal, just let them pick a different destination.
+                alert(`Couldn't load seed data for ${c.h.name}. Try a different location.`);
+                previewBlitzTravel(blitzTravelCandidates.indexOf(c));
+                return;
+            }
+
+            arcadeState.timeRemaining -= c.minutesCost * 60;
+            selectedHotspotData = {
+                locId: c.h.locId,
+                display_name: c.h.name,
+                latitude: c.h.latitude,
+                longitude: c.h.longitude,
+                countryCode: c.h.countryCode || null
+            };
+            arcadeState.route.push({ locId: c.h.locId, display_name: c.h.name, milesFromPrev: c.miles });
+
+            closeBlitzTravelModal();
+
+            buildArcadeGridMesh();
+            for (let i = 0; i < 8; i++) {
+                arcadeState.slots[i] = generateWeightedGridSpecies();
+                renderSingleArcadeSlot(i);
+            }
+
+            document.getElementById('blitz-timer-display').textContent = formatMinSec(arcadeState.timeRemaining);
+            arcadePaused = false;
+        }
+        // ===================== end Blitz Travel =====================
 
         function generateWeightedGridSpecies() {
             if (!activeMapData) return null;
@@ -1817,6 +2548,23 @@
 
         function processArcadeGridTimers() {
             if (arcadePaused) return;
+
+            if (arcadeState.mode === 'blitz') {
+                arcadeState.timeRemaining -= 0.1;
+                const display = document.getElementById('blitz-timer-display');
+                if (display) {
+                    display.textContent = formatMinSec(arcadeState.timeRemaining);
+                    display.className = `text-2xl font-black ${arcadeState.timeRemaining <= 60 ? 'text-red-600 animate-pulse' : 'text-orange-600'}`;
+                }
+                if (arcadeState.timeRemaining <= 0) {
+                    clearInterval(arcadeTimerInterval);
+                    window.removeEventListener('keydown', handleGlobalArcadeHotkeys);
+                    changeScreen('blitz-timeup-screen');
+                    setTimeout(() => terminateArcadeMatch(false), 1400);
+                    return;
+                }
+            }
+
             arcadeState.slots.forEach((slot, index) => {
                 if(!slot) return;
                 if (slot.status === 'active') {
@@ -1884,6 +2632,7 @@
             document.getElementById('guess-slot-badge').textContent = `Slot ${index + 1}`;
             document.getElementById('arcade-copyright-caption').textContent = arcadeState.slots[index].copyright;
             document.getElementById('arcade-preview-image').src = arcadeState.slots[index].imageUrl;
+            document.getElementById('arcade-audio-copyright').textContent = '';
             resetImageZoom();
             input.value = '';
             document.getElementById('arcade-suggestions').classList.add('hidden');
@@ -1895,7 +2644,7 @@
                 const mcOptionsEl = document.getElementById('arcade-mc-options');
                 mcOptionsEl.innerHTML = generateMCChoices(arcadeState.slots[index]).map(name => `
                     <button onclick="submitEasyChoice('${name.replace(/'/g, "\\'")}')" 
-                            class="w-full py-2.5 px-4 bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-800 font-bold rounded-xl text-xs text-left transition border border-slate-200 shadow-sm flex items-center justify-between">
+                            class="w-full py-2.5 px-4 t-panel-strong t-hover-fill-primary t-text font-bold rounded-xl text-xs text-left transition border t-border shadow-sm flex items-center justify-between">
                         <span>${name}</span>
                         <span class="text-blue-400">&rarr;</span>
                     </button>
@@ -1906,7 +2655,7 @@
             }
             
             overlay.classList.remove('opacity-0', 'pointer-events-none');
-            overlay.querySelector('.bg-white').classList.add('scale-100');
+            overlay.querySelector('#arcade-guess-card').classList.add('scale-100');
             if (gameState.difficulty !== 'easy') input.focus();
         }
 
@@ -1956,9 +2705,10 @@
         function closeSlotGuessField() {
             activeSlotIndex = null;
             resetImageZoom();
+            stopBirdCall();
             const overlay = document.getElementById('arcade-guess-overlay');
             overlay.classList.add('opacity-0', 'pointer-events-none');
-            overlay.querySelector('.bg-white').classList.remove('scale-100');
+            overlay.querySelector('#arcade-guess-card').classList.remove('scale-100');
             window.focus();
         }
 
@@ -1994,9 +2744,17 @@
 
                 slot.status = 'flashing_correct';
                 slot.flashTimer = 1.5;
+                slot.countryCode = selectedHotspotData ? selectedHotspotData.countryCode : null;
+                slot.mapId = activeMapData ? activeMapData.map_id : null;
                 arcadeState.score += (RARITY_POINTS[slot.tier] || 1);
                 arcadeState.identified.push(slot);
                 document.getElementById('arcade-score').textContent = arcadeState.score;
+
+                if (arcadeState.mode === 'blitz') {
+                    const uniqueCount = new Set(arcadeState.identified.map(s => s.common_name)).size;
+                    const uniqueDisplay = document.getElementById('blitz-unique-display');
+                    if (uniqueDisplay) uniqueDisplay.textContent = uniqueCount;
+                }
 
                 const tier = slot.tier || "common";
                 const theme = TIER_THEMES[tier] || TIER_THEMES.common;
@@ -2071,6 +2829,8 @@
         }
 
         function deductArcadeLife() {
+            if (arcadeState.mode === 'blitz') return; // Blitz has no lives -- only the master countdown ends the match
+
             arcadeState.lives--;
             let hearts = "";
             for (let i = 0; i < arcadeState.lives; i++) hearts += "❤️";
@@ -2101,6 +2861,7 @@
             clearInterval(arcadeTimerInterval);
             window.removeEventListener('keydown', handleGlobalArcadeHotkeys);
             arcadePaused = false;
+            stopBirdCall();
             document.getElementById('arcade-pause-overlay').classList.add('hidden');
 
             arcadeState.elapsedSeconds = Math.floor((Date.now() - arcadeState.startTime) / 1000);
@@ -2111,9 +2872,16 @@
 
             const totalCompleted = arcadeState.identified.length + arcadeState.missed.length;
 
+            const isBlitz = arcadeState.mode === 'blitz';
+            document.getElementById('res-title').textContent = isBlitz ? "Blitz Big Day Results" : "Arcade Results";
+
             // Set Location Name
             let locName = "Hotspot Region";
-            if (activeMapData && activeMapData.display_name) {
+            if (isBlitz && arcadeState.route.length > 0) {
+                locName = arcadeState.route.length > 1
+                    ? `${arcadeState.route[0].display_name} + ${arcadeState.route.length - 1} more`
+                    : arcadeState.route[0].display_name;
+            } else if (activeMapData && activeMapData.display_name) {
                 locName = activeMapData.display_name;
             } else if (gameState.arcadeStrategy === 'preset') {
                 const dropdown = document.getElementById('arcade-preset-dropdown');
@@ -2122,6 +2890,28 @@
                 locName = selectedHotspotData.display_name;
             }
             document.getElementById('res-location-name').textContent = `📍 ${locName}`;
+
+            // Blitz leads with Unique Species instead of Score -- reorder via CSS order so every
+            // existing stat binding below stays untouched.
+            const scoreTile = document.getElementById('res-score-tile');
+            const uniqueTile = document.getElementById('res-unique-species-tile');
+            scoreTile.style.order = isBlitz ? '4' : '0';
+            uniqueTile.style.order = isBlitz ? '-1' : '0';
+
+            const routeSection = document.getElementById('res-route-section');
+            if (isBlitz && arcadeState.route.length > 0) {
+                routeSection.classList.remove('hidden');
+                const totalMiles = arcadeState.route.reduce((sum, r) => sum + (r.milesFromPrev || 0), 0);
+                document.getElementById('res-route-total-miles').textContent = totalMiles > 0 ? `${totalMiles.toFixed(1)} mi traveled` : '';
+                document.getElementById('res-route-list').innerHTML = arcadeState.route.map((r, i) => `
+                    <div class="flex justify-between items-center p-1.5 rounded-lg bg-slate-800/60">
+                        <span class="text-slate-200">${i + 1}. ${r.display_name}</span>
+                        ${r.milesFromPrev > 0 ? `<span class="text-slate-500 text-[10px]">+${r.milesFromPrev.toFixed(1)} mi</span>` : ''}
+                    </div>
+                `).join('');
+            } else {
+                routeSection.classList.add('hidden');
+            }
 
             const diffSettings = DIFFICULTY_SETTINGS[gameState.difficulty] || DIFFICULTY_SETTINGS.easy;
             const diffTagEl = document.getElementById('res-difficulty-tag');
@@ -2210,7 +3000,12 @@
                 missedListEl.innerHTML = `<span class="text-emerald-400 italic">✓ Flawless round! Zero species missed.</span>`;
             }
 
-            recordArcadeMatchToStats(arcadeState.score, locName, diffSettings.label, arcadeState.identified.length, uniqueIdentified);
+            const routeMapIds = arcadeState.route.length > 0
+                ? arcadeState.route.map(r => r.locId)
+                : (activeMapData ? [activeMapData.map_id] : []);
+            recordArcadeMatchToStats(arcadeState.score, locName, diffSettings.label, arcadeState.identified.length, uniqueIdentified, selectedHotspotData ? selectedHotspotData.countryCode : null, routeMapIds);
+            recordMonthlyBingoProgress(arcadeState.identified, selectedHotspotData ? selectedHotspotData.countryCode : null);
+            checkBotdCompletionFromMatch(arcadeState.identified);
 
             changeScreen('arcade-results-screen');
         }
@@ -2307,7 +3102,7 @@
             {
                 id: 'rarity_hunter',
                 title: 'Rarity Hunter',
-                icon: '🦅',
+                icon: '✨',
                 desc: 'Identify mega-rarity species in Arcade Mode',
                 tiers: [1, 10, 50, 100, 250],
                 getValue: (stats) => stats.megaRareCount || 0
@@ -2327,6 +3122,85 @@
                 desc: 'Identify unique species in Arcade Mode',
                 tiers: [10, 100, 500, 1000, 2500],
                 getValue: (stats) => (stats.arcadeUniqueSpecies ? stats.arcadeUniqueSpecies.length : 0)
+            },
+            {
+                id: 'north_america_explorer',
+                title: 'North America Explorer',
+                icon: '🦅',
+                desc: 'Identify unique species across North America',
+                tiers: [100, 250, 500, 800, 1200],
+                getValue: () => getLifetimeUniqueSpeciesInRegion('North America')
+            },
+            {
+                id: 'south_america_explorer',
+                title: 'South America Explorer',
+                icon: '🦜',
+                desc: 'Identify unique species across South America',
+                tiers: [250, 500, 750, 1250, 2000],
+                getValue: () => getLifetimeUniqueSpeciesInRegion('South America')
+            },
+            {
+                id: 'europe_explorer',
+                title: 'Europe Explorer',
+                icon: '🕊️',
+                desc: 'Identify unique species across Europe',
+                tiers: [100, 200, 300, 400, 500],
+                getValue: () => getLifetimeUniqueSpeciesInRegion('Europe')
+            },
+            {
+                id: 'africa_explorer',
+                title: 'Africa Explorer',
+                icon: '🦩',
+                desc: 'Identify unique species across Africa',
+                tiers: [200, 500, 750, 1000, 1500],
+                getValue: () => getLifetimeUniqueSpeciesInRegion('Africa')
+            },
+            {
+                id: 'asia_explorer',
+                title: 'Asia Explorer',
+                icon: '🦚',
+                desc: 'Identify unique species across Asia',
+                tiers: [200, 400, 800, 1200, 1800],
+                getValue: () => getLifetimeUniqueSpeciesInRegion('Asia')
+            },
+            {
+                id: 'oceania_explorer',
+                title: 'Oceania Explorer',
+                icon: '🦢',
+                desc: 'Identify unique species across Australia, New Zealand & New Guinea',
+                tiers: [100, 200, 300, 450, 600],
+                getValue: () => getLifetimeUniqueSpeciesInRegion('Oceania')
+            },
+            {
+                id: 'antarctica_explorer',
+                title: 'Antarctica Explorer',
+                icon: '🐧',
+                desc: 'Identify unique species recorded in Antarctica',
+                tiers: [10, 20, 30, 40, 50],
+                getValue: () => getLifetimeUniqueSpeciesInRegion('Antarctica')
+            },
+            {
+                id: 'world_traveler',
+                title: 'World Traveler',
+                icon: '🧭',
+                desc: 'Play matches across unique hotspots',
+                tiers: [10, 50, 100, 250, 500],
+                getValue: (stats) => (stats.hotspotsPlayed ? stats.hotspotsPlayed.length : 0)
+            },
+            {
+                id: 'botd_streak',
+                title: 'Bird of the Day Streak',
+                icon: '🔥',
+                desc: 'Reach a Bird of the Day streak (best ever)',
+                tiers: [5, 10, 25, 50, 100],
+                getValue: (stats) => stats.botdBestStreak || 0
+            },
+            {
+                id: 'blitz_master',
+                title: 'Blitz Master',
+                icon: '⚡',
+                desc: 'Coming soon with Blitz Mode',
+                comingSoon: true
             }
         ];
 
@@ -2334,8 +3208,55 @@
         // totalCorrectThisMatch is a raw catch count (repeats included) for the "Identification
         // Expert" grind counter; uniqueIdentifiedList is deduped-by-species for everything else,
         // so catching the same mega twice in one match doesn't inflate the unique trackers.
-        function recordArcadeMatchToStats(score, locationName, difficultyLabel, totalCorrectThisMatch, uniqueIdentifiedList) {
+        // Country/territory ISO code -> continent, for aggregating country-level lifetime
+        // tracking into continent-scoped stats/achievements (e.g. "1000 species in North
+        // America"). Not exhaustive -- extend as you add hotspots from new regions; anything
+        // missing here just won't roll up into a continent bucket (its own country bucket
+        // still works fine on its own).
+        const COUNTRY_TO_CONTINENT = {
+            US: 'North America', CA: 'North America', MX: 'North America',
+            GT: 'North America', BZ: 'North America', HN: 'North America', SV: 'North America',
+            NI: 'North America', CR: 'North America', PA: 'North America', CU: 'North America',
+            JM: 'North America', HT: 'North America', DO: 'North America', BS: 'North America',
+            AR: 'South America', BR: 'South America', CL: 'South America', CO: 'South America',
+            PE: 'South America', EC: 'South America', BO: 'South America', PY: 'South America',
+            UY: 'South America', VE: 'South America', GY: 'South America', SR: 'South America',
+            GB: 'Europe', FR: 'Europe', DE: 'Europe', ES: 'Europe', IT: 'Europe', PT: 'Europe',
+            NL: 'Europe', BE: 'Europe', CH: 'Europe', AT: 'Europe', SE: 'Europe', NO: 'Europe',
+            FI: 'Europe', DK: 'Europe', IE: 'Europe', PL: 'Europe', GR: 'Europe', IS: 'Europe',
+            CN: 'Asia', JP: 'Asia', IN: 'Asia', TH: 'Asia', VN: 'Asia', ID: 'Asia', MY: 'Asia',
+            PH: 'Asia', KR: 'Asia', TW: 'Asia', MN: 'Asia', KZ: 'Asia',
+            AU: 'Oceania', NZ: 'Oceania', PG: 'Oceania', FJ: 'Oceania',
+            ZA: 'Africa', KE: 'Africa', TZ: 'Africa', UG: 'Africa', MG: 'Africa', NA: 'Africa',
+            BW: 'Africa', ET: 'Africa', GH: 'Africa', MA: 'Africa', EG: 'Africa',
+            AQ: 'Antarctica'
+        };
+
+        // Reads lifetime unique-species-per-country tracking. Pass a country ISO code
+        // ("MX") for that country alone, or a continent name ("North America") to aggregate
+        // every tracked country within it.
+        function getLifetimeUniqueSpeciesInRegion(regionCode) {
+            const countrySpecies = lifetimeStats.countrySpecies || {};
+            const isContinent = Object.values(COUNTRY_TO_CONTINENT).includes(regionCode);
+            if (!isContinent) return Object.keys(countrySpecies[regionCode] || {}).length;
+
+            const combined = new Set();
+            Object.entries(COUNTRY_TO_CONTINENT).forEach(([iso, continent]) => {
+                if (continent === regionCode && countrySpecies[iso]) {
+                    Object.keys(countrySpecies[iso]).forEach(name => combined.add(name));
+                }
+            });
+            return combined.size;
+        }
+
+        function recordArcadeMatchToStats(score, locationName, difficultyLabel, totalCorrectThisMatch, uniqueIdentifiedList, countryCode, mapIds) {
             const dateStr = new Date().toLocaleDateString();
+
+            const mapIdList = Array.isArray(mapIds) ? mapIds : (mapIds ? [mapIds] : []);
+            if (!lifetimeStats.hotspotsPlayed) lifetimeStats.hotspotsPlayed = [];
+            mapIdList.forEach(id => {
+                if (id && !lifetimeStats.hotspotsPlayed.includes(id)) lifetimeStats.hotspotsPlayed.push(id);
+            });
 
             if (score > 0) {
                 lifetimeStats.topScores.push({ score, location: locationName || 'Hotspot', difficulty: difficultyLabel || '', date: dateStr });
@@ -2344,6 +3265,7 @@
             }
 
             lifetimeStats.arcadeCorrectTotal = (lifetimeStats.arcadeCorrectTotal || 0) + totalCorrectThisMatch;
+            if (!lifetimeStats.countrySpecies) lifetimeStats.countrySpecies = {};
 
             uniqueIdentifiedList.forEach(item => {
                 const rawPct = (item.weight / item.totalWeight) * 100;
@@ -2352,6 +3274,14 @@
                 }
                 if (!lifetimeStats.arcadeUniqueSpecies.includes(item.common_name)) {
                     lifetimeStats.arcadeUniqueSpecies.push(item.common_name);
+                }
+                // Prefer the country the bird was actually caught in (tagged at catch time,
+                // matters for Blitz where the active location changes mid-match); fall back to
+                // the match-level country for older callers.
+                const itemCountry = item.countryCode || countryCode;
+                if (itemCountry) {
+                    if (!lifetimeStats.countrySpecies[itemCountry]) lifetimeStats.countrySpecies[itemCountry] = {};
+                    lifetimeStats.countrySpecies[itemCountry][item.common_name] = true;
                 }
                 lifetimeStats.topFinds.push({
                     species: item.common_name,
@@ -2395,18 +3325,94 @@
         let botdCode = null;
         let botdShardName = null;
         let botdHintMap = null;
+        let botdHintShapeLayer = null;
 
         function getDailySeedString() {
             const d = new Date();
             return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
         }
 
-        function seededIndex(seedStr, max) {
+        function mixHash(seedStr) {
             let hash = 0;
             for (let i = 0; i < seedStr.length; i++) {
                 hash = (Math.imul(hash, 31) + seedStr.charCodeAt(i)) >>> 0;
             }
-            return hash % max;
+            // The raw polynomial hash above gives the LAST character weight 1 -- so for two
+            // seed strings differing only in a single trailing digit (e.g. day 27 vs day 28),
+            // the hashes differ by exactly 1. Left unmixed, that means every "small single
+            // digit change" walks the result forward by 1, landing on whatever happens to sit
+            // next to yesterday's pick for potentially weeks at a stretch. This finalizer
+            // (Murmur3's 32-bit mix) scrambles small input deltas into large, well-distributed
+            // output deltas so nearby seed strings land unpredictably.
+            hash ^= hash >>> 16;
+            hash = Math.imul(hash, 0x85ebca6b) >>> 0;
+            hash ^= hash >>> 13;
+            hash = Math.imul(hash, 0xc2b2ae35) >>> 0;
+            hash ^= hash >>> 16;
+            return hash >>> 0;
+        }
+
+        function seededIndex(seedStr, max) {
+            return mixHash(seedStr) % max;
+        }
+
+        function mulberry32(seed) {
+            return function () {
+                seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+                let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+                t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        function seededShuffle(array, seedStr) {
+            const rand = mulberry32(mixHash(seedStr));
+            const arr = array.slice();
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(rand() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        let botdBird = null; // {common_name, scientific_name} for the currently-loaded bird, cached after fetch
+
+        // Deterministically resolves today's Bird of the Day species code, independent of
+        // whether the modal is even open -- this lets terminateArcadeMatch() check for a catch
+        // without the player needing to have looked at the popup first.
+        function getTodaysBotdCode() {
+            if (!speciesDirectoryCache) return null;
+            const allCodes = Object.keys(speciesDirectoryCache);
+            const seed = getDailySeedString();
+            const ebirdCode = allCodes[seededIndex(seed, allCodes.length)];
+            return resolveSpeciesKey(ebirdCode);
+        }
+
+        function getYesterdaySeedString() {
+            const d = new Date();
+            d.setDate(d.getDate() - 1);
+            return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        }
+
+        // Called from terminateArcadeMatch() for every match, regardless of whether the BOTD
+        // modal was ever opened. Streak only advances when today's bird was actually caught
+        // in a real match on this calendar day -- not from viewing the popup or from having
+        // found it in Arcade at some point in the past.
+        function checkBotdCompletionFromMatch(identifiedList) {
+            const todaysCode = getTodaysBotdCode();
+            if (!todaysCode) return;
+            const foundToday = identifiedList.some(item => resolveSpeciesKey(item.code) === todaysCode);
+            if (!foundToday) return;
+
+            const today = getDailySeedString();
+            if (lifetimeStats.botdLastFoundDate === today) return; // already recorded today
+
+            const yesterday = getYesterdaySeedString();
+            const wasConsecutive = lifetimeStats.botdLastFoundDate === yesterday;
+            lifetimeStats.botdStreak = wasConsecutive ? (lifetimeStats.botdStreak || 0) + 1 : 1;
+            lifetimeStats.botdBestStreak = Math.max(lifetimeStats.botdBestStreak || 0, lifetimeStats.botdStreak);
+            lifetimeStats.botdLastFoundDate = today;
+            localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
         }
 
         async function openBotdModal() {
@@ -2420,16 +3426,19 @@
             document.getElementById('botd-hint-empty').classList.add('hidden');
             document.getElementById('botd-hint-btn').classList.remove('hidden');
 
+            const streakLine = document.getElementById('botd-streak-line');
+            const streak = lifetimeStats.botdStreak || 0;
+            streakLine.classList.toggle('hidden', streak === 0);
+            document.getElementById('botd-streak-count').textContent = streak;
+
             const ready = await ensureSpeciesDirectoryLoaded();
             if (!ready || !speciesDirectoryCache) {
                 document.getElementById('botd-loading').textContent = "⚠️ Could not load species data.";
                 return;
             }
 
-            const allCodes = Object.keys(speciesDirectoryCache);
             const seed = getDailySeedString();
-            const ebirdCode = allCodes[seededIndex(seed, allCodes.length)];
-            botdCode = resolveSpeciesKey(ebirdCode);
+            botdCode = getTodaysBotdCode();
             botdShardName = shardManifestCache[botdCode];
 
             if (!botdShardName) {
@@ -2443,19 +3452,19 @@
                 document.getElementById('botd-loading').textContent = "⚠️ Couldn't load today's bird. Try again shortly.";
                 return;
             }
+            botdBird = bird;
 
             const assets = (bird.assets || []).filter(a => !imageBlacklist.includes(a.url));
             const asset = (assets.length > 0 ? assets : bird.assets || [])[0];
-
             document.getElementById('botd-image').src = asset ? asset.url : "https://placehold.co/400x300?text=No+Image";
             document.getElementById('botd-common-name').textContent = bird.common_name;
             document.getElementById('botd-scientific-name').textContent = bird.scientific_name || '';
 
-            const alreadyFound = (lifetimeStats.arcadeUniqueSpecies || []).includes(bird.common_name);
-            document.getElementById('botd-found-badge').classList.toggle('hidden', !alreadyFound);
-            document.getElementById('botd-status-line').textContent = alreadyFound
-                ? "You've already identified this species in Arcade Mode!"
-                : "You haven't identified this one in Arcade Mode yet — go find it!";
+            const foundToday = lifetimeStats.botdLastFoundDate === seed;
+            document.getElementById('botd-found-badge').classList.toggle('hidden', !foundToday);
+            document.getElementById('botd-status-line').textContent = foundToday
+                ? "✅ You've found today's bird in Arcade Mode!"
+                : "Not found yet today — head into Arcade Mode and track it down!";
 
             document.getElementById('botd-loading').classList.add('hidden');
             document.getElementById('botd-body').classList.remove('hidden');
@@ -2499,6 +3508,49 @@
             return lower.concat(upper);
         }
 
+        function haversineMeters(p1, p2) {
+            const R = 6371000;
+            const toRad = d => d * Math.PI / 180;
+            const dLat = toRad(p2[0] - p1[0]);
+            const dLng = toRad(p2[1] - p1[1]);
+            const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(p1[0])) * Math.cos(toRad(p2[0])) * Math.sin(dLng / 2) ** 2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
+        // Shared by Bird of the Day and Explore Species. Creates the Leaflet map on first use
+        // (reused after that), clears any shape left over from a previous species, and draws
+        // the right shape for however many points there are: a polygon for 3+, a circle
+        // centered on the midpoint (sized to cover both points) for exactly 2, or a fixed
+        // ~40km circle for a single point.
+        function renderHintShapeOnMap(existingMap, existingShapeLayer, containerId, coords) {
+            let map = existingMap;
+            if (!map) {
+                map = L.map(containerId, { zoomControl: false, attributionControl: false });
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+            }
+            if (existingShapeLayer) {
+                map.removeLayer(existingShapeLayer);
+            }
+
+            const hull = computeConvexHull(coords);
+            const style = { color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 };
+            let shape;
+            if (hull.length >= 3) {
+                shape = L.polygon(hull, style);
+            } else if (hull.length === 2) {
+                const midpoint = [(hull[0][0] + hull[1][0]) / 2, (hull[0][1] + hull[1][1]) / 2];
+                const radius = Math.max(40000, haversineMeters(hull[0], hull[1]) / 2 + 15000);
+                shape = L.circle(midpoint, Object.assign({ radius }, style));
+            } else {
+                shape = L.circle(hull[0] || coords[0], Object.assign({ radius: 40000 }, style));
+            }
+
+            shape.addTo(map);
+            map.fitBounds(shape.getBounds(), { padding: [20, 20] });
+            map.invalidateSize();
+            return { map, shape };
+        }
+
         async function showBotdHint() {
             playSFX('click');
             const ready = await ensureSpeciesLocationsLoaded();
@@ -2517,22 +3569,395 @@
             mapWrap.classList.remove('hidden');
 
             setTimeout(() => {
-                if (!botdHintMap) {
-                    botdHintMap = L.map('botd-hint-map', { zoomControl: false, attributionControl: false });
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(botdHintMap);
-                }
-
-                const hull = computeConvexHull(coords);
-                const shape = hull.length >= 3
-                    ? L.polygon(hull, { color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 })
-                    : L.circle(coords[0], { radius: 40000, color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 });
-
-                shape.addTo(botdHintMap);
-                botdHintMap.fitBounds(shape.getBounds ? shape.getBounds() : L.latLngBounds(coords), { padding: [20, 20] });
-                botdHintMap.invalidateSize();
+                const result = renderHintShapeOnMap(botdHintMap, botdHintShapeLayer, 'botd-hint-map', coords);
+                botdHintMap = result.map;
+                botdHintShapeLayer = result.shape;
             }, 30);
         }
         // ===================== end Bird of the Day =====================
+
+        // ===================== Explore Species Profiles =====================
+        // Pure lookup/gallery feature -- no stats tracking. Search by name only; a
+        // region/family browser felt redundant given this is already a "look up one specific
+        // bird" tool, not a discovery/browsing one (that's what Practice Mode's tag filters and
+        // the hotspot Region browser are for).
+        let exploreCode = null;
+        let exploreBird = null;
+        let exploreAssets = [];
+        let exploreIndex = 0;
+        let exploreHintMap = null;
+        let exploreHintShapeLayer = null;
+
+        async function openExploreScreen() {
+            playSFX('click');
+            changeScreen('explore-screen');
+            resetExploreSearch();
+            ensureSpeciesDirectoryLoaded(); // warm the cache in the background; search box checks readiness itself
+        }
+
+        function resetExploreSearch() {
+            stopBirdCall();
+            document.getElementById('explore-search-section').classList.remove('hidden');
+            document.getElementById('explore-gallery-section').classList.add('hidden');
+            document.getElementById('explore-search-input').value = '';
+            document.getElementById('explore-search-results').classList.add('hidden');
+            document.getElementById('explore-search-input').focus();
+        }
+
+        function handleExploreSearchInput(value) {
+            const resultsDiv = document.getElementById('explore-search-results');
+            const q = cleanString(value.trim());
+            if (q.length < 2 || !speciesDirectoryCache) { resultsDiv.classList.add('hidden'); resultsDiv.innerHTML = ''; return; }
+
+            const matches = Object.values(speciesDirectoryCache)
+                .filter(e => e.common_name && cleanString(e.common_name).includes(q))
+                .slice(0, 20);
+
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = `<div class="p-3 text-slate-400 text-xs italic">No species found.</div>`;
+            } else {
+                resultsDiv.innerHTML = matches.map(e => `
+                    <div class="p-2.5 hover:bg-teal-50 cursor-pointer border-b border-slate-50 text-xs font-semibold text-slate-700"
+                         onclick="loadExploreSpecies('${e.ebird_code}')">
+                        ${e.common_name} <span class="text-slate-400 font-normal italic">${e.scientific_name || ''}</span>
+                    </div>
+                `).join('');
+            }
+            resultsDiv.classList.remove('hidden');
+        }
+
+        async function loadExploreSpecies(ebirdCode) {
+            playSFX('click');
+            stopBirdCall();
+            document.getElementById('explore-audio-copyright').textContent = '';
+            document.getElementById('explore-search-section').classList.add('hidden');
+            document.getElementById('explore-gallery-section').classList.remove('hidden');
+            document.getElementById('explore-gallery-loading').classList.remove('hidden');
+            document.getElementById('explore-gallery-loading').textContent = "⏳ Loading species data…";
+            document.getElementById('explore-gallery-body').classList.add('hidden');
+            document.getElementById('explore-hint-map-wrap').classList.add('hidden');
+            document.getElementById('explore-hint-empty').classList.add('hidden');
+            document.getElementById('explore-hint-btn').classList.remove('hidden');
+
+            const ready = await ensureSpeciesDirectoryLoaded();
+            if (!ready) { document.getElementById('explore-gallery-loading').textContent = "⚠️ Could not load species data."; return; }
+
+            exploreCode = resolveSpeciesKey(ebirdCode);
+            const shardName = shardManifestCache[exploreCode];
+            if (!shardName) { document.getElementById('explore-gallery-loading').textContent = "⚠️ No image data found for this species."; return; }
+
+            const shardContent = await fetchFromRepo(`data_pool/image_shards/${shardName}.json`, true);
+            const bird = shardContent && shardContent.data[exploreCode];
+            if (!bird) { document.getElementById('explore-gallery-loading').textContent = "⚠️ Could not load this species."; return; }
+
+            exploreBird = bird;
+            exploreAssets = (bird.assets || []).filter(a => !imageBlacklist.includes(a.url));
+            if (exploreAssets.length === 0) exploreAssets = bird.assets && bird.assets.length > 0 ? bird.assets : [{ url: "https://placehold.co/600x400?text=No+Images", copyright: "" }];
+            exploreIndex = 0;
+
+            document.getElementById('explore-common-name').textContent = bird.common_name;
+            document.getElementById('explore-scientific-name').textContent = bird.scientific_name || '';
+            renderExploreImage();
+
+            document.getElementById('explore-gallery-loading').classList.add('hidden');
+            document.getElementById('explore-gallery-body').classList.remove('hidden');
+        }
+
+        function renderExploreImage() {
+            const asset = exploreAssets[exploreIndex];
+            document.getElementById('explore-gallery-image').src = asset.url;
+            document.getElementById('explore-gallery-backdrop').src = asset.url;
+            document.getElementById('explore-copyright').textContent = asset.copyright || '';
+            document.getElementById('explore-image-counter').textContent = `${exploreIndex + 1} / ${exploreAssets.length}`;
+        }
+
+        function exploreShowPrev() {
+            if (exploreAssets.length === 0) return;
+            playSFX('click');
+            exploreIndex = (exploreIndex - 1 + exploreAssets.length) % exploreAssets.length;
+            renderExploreImage();
+        }
+
+        function exploreShowNext() {
+            if (exploreAssets.length === 0) return;
+            playSFX('click');
+            exploreIndex = (exploreIndex + 1) % exploreAssets.length;
+            renderExploreImage();
+        }
+
+        async function showExploreHint() {
+            playSFX('click');
+            const ready = await ensureSpeciesLocationsLoaded();
+            const hintBtn = document.getElementById('explore-hint-btn');
+            const mapWrap = document.getElementById('explore-hint-map-wrap');
+            const emptyMsg = document.getElementById('explore-hint-empty');
+
+            const coords = ready && speciesLocationsIndex[exploreCode];
+            if (!coords || coords.length === 0) {
+                hintBtn.classList.add('hidden');
+                emptyMsg.classList.remove('hidden');
+                return;
+            }
+
+            hintBtn.classList.add('hidden');
+            mapWrap.classList.remove('hidden');
+
+            setTimeout(() => {
+                const result = renderHintShapeOnMap(exploreHintMap, exploreHintShapeLayer, 'explore-hint-map', coords);
+                exploreHintMap = result.map;
+                exploreHintShapeLayer = result.shape;
+            }, 30);
+        }
+
+        // Left/Right arrow keys cycle the gallery while Explore is open and the search box
+        // isn't focused (so typing "left"/"right" adjacent characters in a species name isn't
+        // hijacked).
+        window.addEventListener('keydown', (e) => {
+            if (gameState.currentScreen !== 'explore-screen') return;
+            if (document.activeElement && document.activeElement.id === 'explore-search-input') return;
+            if (e.key === 'ArrowLeft') exploreShowPrev();
+            if (e.key === 'ArrowRight') exploreShowNext();
+        });
+        // ===================== end Explore Species Profiles =====================
+
+        // ===================== Monthly Hotspot Bingo =====================
+        // Goals come from dist/bingo_goals.json (converted from your spreadsheet), each shaped
+        // like { category: "Family"|"Country"|"Name"|"NameWordCount", difficulty, text, target, parameter }.
+        // Progress is tracked in the background during normal Arcade play and reset whenever the
+        // calendar month changes -- no separate "bingo mode" to launch, it just accumulates.
+        const BINGO_GOALS_URL = "dist/bingo_goals.json";
+        const BINGO_GRID_SIZE = 25; // 5x5 card
+        let bingoGoalsPool = null;
+        let bingoGoalsLoading = false;
+
+        const DEFAULT_MONTHLY_STATE = {
+            monthKey: null,
+            familySpecies: {},  // shard family (e.g. "woodwarblers") -> { commonName: true, ... } (unique species this month)
+            countrySpecies: {}, // ISO country code -> { commonName: true, ... } (unique species this month)
+            speciesCounts: {}   // common_name -> raw catch count this month (used for Name goals, which are inherently unique via Object.keys)
+        };
+        let monthlyState = Object.assign({}, DEFAULT_MONTHLY_STATE, JSON.parse(localStorage.getItem('bird_quiz_monthly')) || {});
+
+        function getCurrentMonthKey() {
+            const d = new Date();
+            return `${d.getFullYear()}-${d.getMonth() + 1}`;
+        }
+
+        function ensureMonthlyStateFresh() {
+            const key = getCurrentMonthKey();
+            if (monthlyState.monthKey !== key) {
+                monthlyState = Object.assign({}, DEFAULT_MONTHLY_STATE, { monthKey: key });
+                localStorage.setItem('bird_quiz_monthly', JSON.stringify(monthlyState));
+            }
+        }
+
+        // Called once at the end of every Arcade match. "Identify 20 gulls" means 20 distinct
+        // gull species, not 20 catches of the same one -- so family/country goals track unique
+        // species names, not raw counts. Country goals only apply to real hotspots; curated
+        // presets have no country attached, so they simply don't contribute there.
+        function recordMonthlyBingoProgress(identifiedList, countryCode) {
+            ensureMonthlyStateFresh();
+
+            identifiedList.forEach(item => {
+                const shardName = shardManifestCache ? shardManifestCache[resolveSpeciesKey(item.code)] : null;
+                if (shardName) {
+                    const family = shardName.replace(/_shard$/, '');
+                    if (!monthlyState.familySpecies[family]) monthlyState.familySpecies[family] = {};
+                    monthlyState.familySpecies[family][item.common_name] = true;
+                }
+                const itemCountry = item.countryCode || countryCode;
+                if (itemCountry) {
+                    if (!monthlyState.countrySpecies[itemCountry]) monthlyState.countrySpecies[itemCountry] = {};
+                    monthlyState.countrySpecies[itemCountry][item.common_name] = true;
+                }
+                monthlyState.speciesCounts[item.common_name] = (monthlyState.speciesCounts[item.common_name] || 0) + 1;
+            });
+
+            localStorage.setItem('bird_quiz_monthly', JSON.stringify(monthlyState));
+        }
+
+        // goal.parameter is usually a single string, but can be an array of alternatives --
+        // e.g. a taxonomic family that's split across two shard files ["tyrant_flycatchers_a",
+        // "tyrant_flycatchers_b"], or a Name goal covering multiple words ["heron", "egret"].
+        // Family/Country union the unique-species sets across every listed value; Name treats
+        // the list as OR (a species counts if its name contains ANY of them).
+        function asParamList(parameter) {
+            return Array.isArray(parameter) ? parameter : [parameter];
+        }
+
+        function getGoalProgress(goal) {
+            switch (goal.category) {
+                case 'Family': {
+                    const combined = new Set();
+                    asParamList(goal.parameter).forEach(fam => {
+                        Object.keys(monthlyState.familySpecies[fam] || {}).forEach(name => combined.add(name));
+                    });
+                    return combined.size;
+                }
+                case 'Country': {
+                    const combined = new Set();
+                    asParamList(goal.parameter).forEach(country => {
+                        Object.keys(monthlyState.countrySpecies[country] || {}).forEach(name => combined.add(name));
+                    });
+                    return combined.size;
+                }
+                case 'Name': {
+                    const needles = asParamList(goal.parameter).map(p => p.toLowerCase().trim());
+                    return Object.keys(monthlyState.speciesCounts)
+                        .filter(name => needles.some(q => name.toLowerCase().includes(q)))
+                        .length;
+                }
+                case 'NameWordCount':
+                    return Object.keys(monthlyState.speciesCounts).some(name => name.trim().split(/\s+/).length >= goal.target) ? 1 : 0;
+                default:
+                    return 0;
+            }
+        }
+
+        async function ensureBingoGoalsLoaded() {
+            if (bingoGoalsPool) return true;
+            if (bingoGoalsLoading) return false;
+            bingoGoalsLoading = true;
+            const goals = await fetchFromRepo(BINGO_GOALS_URL, true);
+            bingoGoalsLoading = false;
+            if (!goals || !Array.isArray(goals)) return false;
+            bingoGoalsPool = goals;
+            return true;
+        }
+
+        // The 25-goal card for a given month is a deterministic, seeded shuffle -- everyone
+        // (and every device) gets the same card for the same month, and it doesn't reroll
+        // every time the screen is opened. Enforces a fixed difficulty mix (not too many Hard
+        // goals) and avoids picking two goals with the same category+parameter (e.g. both an
+        // Easy and a Hard "Species in Colombia" goal on one board).
+        const BINGO_DIFFICULTY_QUOTAS = { Easy: 9, Medium: 9, Hard: 7 };
+
+        function getMonthlyBingoCard() {
+            const key = getCurrentMonthKey();
+            const shuffled = seededShuffle(bingoGoalsPool, `bingo-${key}`);
+            const usedParams = new Set();
+            const card = [];
+
+            for (const difficulty of Object.keys(BINGO_DIFFICULTY_QUOTAS)) {
+                const quota = BINGO_DIFFICULTY_QUOTAS[difficulty];
+                const pool = shuffled.filter(g => g.difficulty === difficulty);
+                const picked = [];
+
+                for (const g of pool) {
+                    if (picked.length >= quota) break;
+                    const paramKey = `${g.category}:${JSON.stringify(g.parameter)}`;
+                    if (usedParams.has(paramKey)) continue;
+                    usedParams.add(paramKey);
+                    picked.push(g);
+                }
+                // Fallback if this difficulty doesn't have enough unique-parameter goals yet
+                // (e.g. bingo_goals.json is still sparse) -- fill the quota with repeats
+                // rather than leaving the board short.
+                if (picked.length < quota) {
+                    for (const g of pool) {
+                        if (picked.length >= quota) break;
+                        if (!picked.includes(g)) picked.push(g);
+                    }
+                }
+                card.push(...picked);
+            }
+
+            // Shuffle final placement so difficulties aren't visually grouped in blocks.
+            return seededShuffle(card, `bingo-order-${key}`);
+        }
+
+        const BINGO_DIFFICULTY_STYLES = {
+            Easy: 'bg-emerald-50 border-emerald-200 text-emerald-700',
+            Medium: 'bg-amber-50 border-amber-200 text-amber-700',
+            Hard: 'bg-red-50 border-red-200 text-red-700'
+        };
+        const BINGO_DIFFICULTY_STARS = { Easy: '⭐', Medium: '⭐⭐', Hard: '⭐⭐⭐' };
+
+        async function openBingoScreen() {
+            playSFX('click');
+            ensureMonthlyStateFresh();
+            changeScreen('bingo-screen');
+
+            const monthLabel = new Date().toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+            document.getElementById('bingo-month-label').textContent = `${monthLabel} Bingo Board`;
+
+            const loadingEl = document.getElementById('bingo-loading');
+            const gridWrapEl = document.getElementById('bingo-grid-wrap');
+            loadingEl.classList.remove('hidden');
+            gridWrapEl.classList.add('hidden');
+
+            const ready = await ensureBingoGoalsLoaded();
+            if (!ready) {
+                loadingEl.textContent = "⚠️ Could not load this month's goals. Check your connection or the dist/bingo_goals.json path.";
+                return;
+            }
+
+            renderBingoGrid();
+            loadingEl.classList.add('hidden');
+            gridWrapEl.classList.remove('hidden');
+        }
+
+        function renderBingoGrid() {
+            const card = getMonthlyBingoCard();
+            const gridEl = document.getElementById('bingo-grid');
+            const completedFlags = [];
+            let completedCount = 0;
+
+            
+
+            const cellsHtml = card.map(goal => {
+                const progress = getGoalProgress(goal);
+                const isDone = progress >= goal.target;
+                completedFlags.push(isDone);
+                if (isDone) completedCount++;
+                const style = BINGO_DIFFICULTY_STYLES[goal.difficulty] || BINGO_DIFFICULTY_STYLES.Medium;
+                const stars = BINGO_DIFFICULTY_STARS[goal.difficulty] || '';
+
+                return `
+                    <div class="relative aspect-square border-2 rounded-lg p-1.5 flex flex-col items-center justify-center text-center overflow-hidden ${isDone ? 'bg-emerald-500 border-emerald-600 text-white' : style}">
+                        <span class="absolute top-1 right-1 text-[9px] leading-none ${isDone ? 'opacity-90' : 'opacity-70'}" title="${goal.difficulty}">${stars}</span>
+                        ${isDone ? '<div class="absolute top-1 left-1 text-xs">✅</div>' : ''}
+                        <p class="text-[9px] sm:text-[10px] font-bold leading-tight px-0.5">${goal.text}</p>
+                        <p class="text-[9px] sm:text-[10px] font-black mt-0.5 ${isDone ? 'text-white' : ''}">${Math.min(progress, goal.target)} / ${goal.target}</p>
+                    </div>
+                `;
+            }).join('');
+
+            gridEl.innerHTML =  cellsHtml;
+
+            document.getElementById('bingo-completed-count').textContent = `${completedCount} / ${BINGO_GRID_SIZE} goals complete`;
+
+            const gridWrapForChroma = document.getElementById('bingo-grid-wrap');
+            if (gridWrapForChroma) {
+                gridWrapForChroma.classList.toggle('board-complete', completedCount >= BINGO_GRID_SIZE);
+            }
+
+            const bingoLines = countBingoLines(completedFlags);
+            const bannerEl = document.getElementById('bingo-line-banner');
+            if (bingoLines > 0) {
+                bannerEl.textContent = `🎉 BINGO! ${bingoLines} line${bingoLines > 1 ? 's' : ''} complete!`;
+                bannerEl.classList.remove('hidden');
+            } else {
+                bannerEl.classList.add('hidden');
+            }
+        }
+
+        // Classic 5x5 bingo line detection (rows, columns, both diagonals) over a flat
+        // 25-element completed/not-completed array.
+        function countBingoLines(flags) {
+            const size = 5;
+            let lines = 0;
+            for (let r = 0; r < size; r++) {
+                if ([0, 1, 2, 3, 4].every(c => flags[r * size + c])) lines++;
+            }
+            for (let c = 0; c < size; c++) {
+                if ([0, 1, 2, 3, 4].every(r => flags[r * size + c])) lines++;
+            }
+            if ([0, 1, 2, 3, 4].every(i => flags[i * size + i])) lines++;
+            if ([0, 1, 2, 3, 4].every(i => flags[i * size + (size - 1 - i)])) lines++;
+            return lines;
+        }
+        // ===================== end Monthly Hotspot Bingo =====================
 
         function openStatsHub() {
             playSFX('click');
@@ -2585,6 +4010,21 @@
 
             const achContainer = document.getElementById('achievements-container');
             achContainer.innerHTML = ACHIEVEMENT_CONFIGS.map(ach => {
+                if (ach.comingSoon) {
+                    return `
+                        <div class="t-panel p-4 rounded-xl border-2 border-dashed t-border flex flex-col justify-between opacity-60">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="text-3xl p-2 t-panel-strong rounded-xl grayscale">${ach.icon}</span>
+                                <div>
+                                    <h4 class="font-bold t-muted text-sm">${ach.title}</h4>
+                                    <span class="text-xs font-bold t-muted uppercase tracking-wider">🔒 Locked</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] t-muted font-medium">${ach.desc}</p>
+                        </div>
+                    `;
+                }
+
                 const val = ach.getValue(lifetimeStats);
                 let tierIdx = 0;
                 ach.tiers.forEach((t, i) => { if (val >= t) tierIdx = i + 1; });
@@ -2594,25 +4034,32 @@
                 const segPct = isMax ? 100 : Math.min(100, Math.max(0, Math.round(((val - prevTarget) / (nextTarget - prevTarget)) * 100)));
                 const romanNumerals = ['I', 'II', 'III', 'IV', 'V'];
 
+                // tierIdx = number of tiers actually EARNED so far (0 = none earned yet).
+                // Display must reflect what's been achieved, not the tier being worked toward.
+                const tierAchievedLabel = tierIdx === 0
+                    ? 'Not Yet Ranked'
+                    : (isMax ? 'MAX TIER UNLOCKED!' : `Tier ${romanNumerals[tierIdx - 1]} Achieved`);
+                const tierBorderClass = tierIdx === 0 ? '' : `ach-tier-${Math.min(tierIdx, 5)}`;
+
                 return `
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col justify-between shadow-sm">
+                    <div class="t-panel p-4 rounded-xl border-2 t-border ${tierBorderClass} flex flex-col justify-between shadow-sm">
                         <div class="flex items-center space-x-3 mb-3">
-                            <span class="text-3xl p-2 bg-slate-100 rounded-xl">${ach.icon}</span>
+                            <span class="text-3xl p-2 t-panel-strong rounded-xl">${ach.icon}</span>
                             <div>
-                                <h4 class="font-bold text-slate-800 text-sm">${ach.title}</h4>
-                                <span class="text-xs font-bold ${isMax ? 'text-amber-500' : 'text-emerald-600'}">
-                                    ${isMax ? 'MAX TIER UNLOCKED!' : `Tier ${romanNumerals[tierIdx]}`}
+                                <h4 class="font-bold t-text text-sm">${ach.title}</h4>
+                                <span class="text-xs font-bold ${isMax ? 'text-amber-500' : (tierIdx === 0 ? 't-muted' : 'text-emerald-600')}">
+                                    ${tierAchievedLabel}
                                 </span>
                             </div>
                         </div>
-                        <p class="text-[10px] text-slate-400 font-medium mb-2">${ach.desc}</p>
+                        <p class="text-[10px] t-muted font-medium mb-2">${ach.desc}</p>
                         <div class="space-y-1">
-                            <div class="flex justify-between text-[11px] font-bold text-slate-500">
-                                <span>Progress: <strong class="text-slate-800">${val.toLocaleString()}</strong></span>
-                                ${isMax ? '' : `<span>Next: <strong class="text-slate-800">${nextTarget.toLocaleString()}</strong></span>`}
+                            <div class="flex justify-between text-[11px] font-bold t-muted">
+                                <span>Progress: <strong class="t-text">${val.toLocaleString()}</strong></span>
+                                ${isMax ? '' : `<span>Next: <strong class="t-text">${nextTarget.toLocaleString()}</strong></span>`}
                             </div>
-                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
-                                <div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${segPct}%"></div>
+                            <div class="w-full t-panel-strong h-2.5 rounded-full overflow-hidden border t-border">
+                                <div class="h-full t-fill-primary transition-all duration-500" style="width: ${segPct}%"></div>
                             </div>
                         </div>
                     </div>
