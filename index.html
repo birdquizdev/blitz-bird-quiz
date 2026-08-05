@@ -272,13 +272,13 @@
                     <label for="theme-select" class="text-[10px] font-bold t-muted uppercase tracking-wider whitespace-nowrap">🎨 Theme</label>
                     <select id="theme-select" onchange="setAppTheme(this.value)" class="bg-transparent t-text text-xs font-bold pr-1 focus:outline-none cursor-pointer">
                         <option value="default">Sunlit Field Guide</option>
-                       
+                        <optgroup label="Original Concepts">
                             <option value="tropical">Tropical Canopy</option>
                             <option value="ranger">National Park Ranger</option>
                             <option value="migration">Migration Map</option>
                             <option value="rarehunt">Rare Bird Hunt</option>
                         </optgroup>
-                  
+                        <optgroup label="New Concepts">
                             <option value="midnight">Midnight Meadow</option>
                             <option value="coastal">Deep Ocean Coastal</option>
                             <option value="misty">Misty Forest Dawn</option>
@@ -299,7 +299,7 @@
 
                     <button onclick="selectMode('arcade')" class="p-6 t-panel border-2 t-border t-hover-secondary rounded-xl shadow-sm transition flex flex-col items-center text-center group">
                         <span class="text-xl font-bold t-text group-hover:text-blue-600 mb-2 transition">Arcade Mode(default)</span>
-                        <span class="text-xs t-muted font-medium">Fast-paced, infinite. Identify species across an active 2x4 board before they fly away!</span>
+                        <span class="text-xs t-muted font-medium">Fast-paced, individual countdowns with limited mistakes allowed. Identify species across an active 2x4 board before they fly away!</span>
                     </button>
 
                     <button onclick="selectMode('blitz')" class="p-6 t-panel border-2 t-border t-hover-accent rounded-xl shadow-sm transition flex flex-col items-center text-center group">
@@ -428,7 +428,7 @@
                         <input id="explore-search-input" type="text" placeholder="Search for a species…" autocomplete="off"
                                class="w-full p-3 border-2 t-border rounded-xl t-panel t-text font-semibold focus:outline-none focus:border-teal-500 shadow-sm"
                                oninput="handleExploreSearchInput(this.value)">
-                        <div id="explore-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border t-border rounded-xl shadow-xl max-h-96 overflow-y-auto z-50 text-sm"></div>
+                        <div id="explore-search-results" class="hidden absolute top-full left-0 right-0 mt-1 t-panel border t-border rounded-xl shadow-xl max-h-96 overflow-y-auto z-50 text-sm"></div>
                     </div>
                 </div>
 
@@ -572,7 +572,7 @@
                                 </button>
                             </div>
 
-                            <div id="hotspot-selected-summary" class="hidden bg-emerald-50 border-2 border-emerald-500 rounded-xl p-3 flex items-center justify-between gap-2">
+                            <div id="hotspot-selected-summary" class="hidden t-panel-strong border-2 border-emerald-500 rounded-xl p-3 flex items-center justify-between gap-2">
                                 <div class="min-w-0">
                                     <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Selected Hotspot</p>
                                     <p id="hotspot-selected-name" class="text-sm font-bold t-text truncate">—</p>
@@ -761,13 +761,13 @@
             <div id="arcade-gameover-screen" class="hidden screen-fade flex flex-col items-center justify-center text-center py-24">
                 <div class="text-7xl mb-4">💀</div>
                 <h2 class="text-4xl font-black text-red-600 uppercase tracking-widest mb-2">Game Over</h2>
-                <p class="text-slate-400 font-semibold">Tallying your results&hellip;</p>
+                <p class="t-muted font-semibold">Tallying your results&hellip;</p>
             </div>
 
             <div id="blitz-timeup-screen" class="hidden screen-fade flex flex-col items-center justify-center text-center py-24">
                 <div class="text-7xl mb-4">🌅</div>
                 <h2 class="text-4xl font-black text-orange-600 uppercase tracking-widest mb-2">Sun's Down!</h2>
-                <p class="text-slate-400 font-semibold">Tallying your Big Day&hellip;</p>
+                <p class="t-muted font-semibold">Tallying your Big Day&hellip;</p>
             </div>
 
             <div id="arcade-results-screen" class="hidden screen-fade max-w-xl mx-auto py-4 font-mono text-slate-800">
@@ -896,9 +896,9 @@
 
     <div id="message-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200 p-4 z-50">
         <div id="modal-content" class="t-panel p-6 rounded-2xl shadow-2xl max-w-sm w-full transform scale-95 transition-transform duration-200">
-            <h3 id="modal-title" class="text-2xl font-bold mb-2 text-center text-gray-900"></h3>
-            <p id="modal-message" class="text-sm text-center mb-5 text-gray-600 font-medium"></p>
-            <button onclick="closeModal()" id="modal-ok-button" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-md transition">
+            <h3 id="modal-title" class="text-2xl font-bold mb-2 text-center t-text"></h3>
+            <p id="modal-message" class="text-sm text-center mb-5 t-muted font-medium"></p>
+            <button onclick="closeModal()" id="modal-ok-button" class="t-btn-primary w-full py-2.5 font-bold rounded-xl shadow-md transition hover:brightness-110">
                 OK
             </button>
         </div>
@@ -925,7 +925,7 @@
 
     <div id="blitz-travel-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-3 z-50">
         <div class="t-panel rounded-2xl shadow-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden border t-border">
-            <div class="flex items-center justify-between p-3 border-b t-border bg-orange-50">
+            <div class="flex items-center justify-between p-3 border-b t-border t-panel-strong">
                 <div>
                     <h3 class="font-bold t-text text-sm">🧭 Travel to a New Location</h3>
                     <p class="text-[11px] t-muted">The clock is paused while you choose. Farther trips cost more time — 60 miles ≈ 1.5 min.</p>
@@ -933,7 +933,7 @@
                 <button onclick="closeBlitzTravelModal()" class="t-muted hover:text-slate-700 font-bold text-2xl leading-none px-2">&times;</button>
             </div>
             <div id="blitz-travel-map" class="flex-1 w-full t-panel-strong min-h-[200px]"></div>
-            <div id="blitz-travel-list" class="h-36 overflow-y-auto border-t t-border divide-y divide-slate-100 bg-white shrink-0"></div>
+            <div id="blitz-travel-list" class="h-36 overflow-y-auto border-t t-border divide-y divide-slate-100 t-panel shrink-0"></div>
             <div id="blitz-travel-confirm-panel" class="p-3 border-t t-border t-panel min-h-[76px] flex items-center justify-between gap-3">
                 <p class="text-xs t-muted font-medium">Click a hotspot on the map or in the list below to see its travel cost.</p>
             </div>
@@ -1249,8 +1249,8 @@
                 document.getElementById(`hs-tab-${t}`).classList.toggle('hidden', t !== tab);
                 const btn = document.getElementById(`hs-tab-${t}-btn`);
                 btn.className = t === tab
-                    ? "py-1.5 rounded-lg text-xs font-bold transition bg-slate-50 text-blue-700 shadow-sm"
-                    : "py-1.5 rounded-lg text-xs font-bold transition text-slate-500";
+                    ? "py-1.5 rounded-lg text-xs font-bold transition t-panel text-blue-700 shadow-sm"
+                    : "py-1.5 rounded-lg text-xs font-bold transition t-muted";
             });
         }
 
@@ -1262,12 +1262,12 @@
 
             const matches = flatHotspots.filter(h => h.name && h.name.toLowerCase().includes(q)).slice(0, 30);
             if (matches.length === 0) {
-                resultsDiv.innerHTML = `<div class="p-3 text-slate-400 text-xs italic">No hotspots found.</div>`;
+                resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No hotspots found.</div>`;
             } else {
                 resultsDiv.innerHTML = matches.map((h, i) => `
-                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b border-slate-50 text-xs" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)}, 'hotspot-search-results')">
-                        <span class="font-bold text-slate-800">${h.name}</span>
-                        <span class="text-slate-400"> — ${h.species_count != null ? h.species_count + ' sp.' : 'N/A'} · ${h.subnational1Code || h.countryCode || ''}</span>
+                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)}, 'hotspot-search-results')">
+                        <span class="font-bold t-text">${h.name}</span>
+                        <span class="t-muted"> — ${h.species_count != null ? h.species_count + ' sp.' : 'N/A'} · ${h.subnational1Code || h.countryCode || ''}</span>
                     </div>
                 `).join('');
             }
@@ -1316,9 +1316,9 @@
             let cur = node;
             while (cur) { trail.unshift(cur); cur = cur.parentCode ? regionTree.get(cur.parentCode) : null; }
             document.getElementById('region-breadcrumb').innerHTML = trail.map((n, i) => `
-                <span class="${i === trail.length - 1 ? 'text-blue-600' : 'text-slate-400 hover:text-blue-500 cursor-pointer underline'}"
+                <span class="${i === trail.length - 1 ? 'text-blue-600' : 't-muted hover:text-blue-500 cursor-pointer underline'}"
                       ${i === trail.length - 1 ? '' : `onclick="renderRegionBrowser('${n.code}')"`}>${n.display_name}</span>
-                ${i < trail.length - 1 ? '<span class="text-slate-300">/</span>' : ''}
+                ${i < trail.length - 1 ? '<span class="t-muted">/</span>' : ''}
             `).join('');
 
             const children = getRegionChildren(code);
@@ -1332,8 +1332,8 @@
                 }, 0);
                 html += `
                     <div class="p-2.5 hover:bg-blue-50 cursor-pointer flex justify-between items-center text-sm" onclick="renderRegionBrowser('${child.code}')">
-                        <span class="font-semibold text-slate-700">📁 ${child.display_name}</span>
-                        <span class="text-slate-400 text-[10px]">${count > 0 ? count + ' hs' : ''} ▸</span>
+                        <span class="font-semibold t-text">📁 ${child.display_name}</span>
+                        <span class="t-muted text-[10px]">${count > 0 ? count + ' hs' : ''} ▸</span>
                     </div>`;
             });
 
@@ -1343,13 +1343,13 @@
                     .forEach(h => {
                         html += `
                             <div class="p-2.5 hover:bg-emerald-50 cursor-pointer flex justify-between items-center text-sm" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)})">
-                                <span class="font-semibold text-slate-700">📍 ${h.name}</span>
-                                <span class="text-slate-400 text-[10px]">${h.species_count != null ? h.species_count + ' sp.' : 'N/A'}</span>
+                                <span class="font-semibold t-text">📍 ${h.name}</span>
+                                <span class="t-muted text-[10px]">${h.species_count != null ? h.species_count + ' sp.' : 'N/A'}</span>
                             </div>`;
                     });
             }
 
-            if (!html) html = `<div class="p-3 text-slate-400 text-xs italic">No sub-regions or hotspots here.</div>`;
+            if (!html) html = `<div class="p-3 t-muted text-xs italic">No sub-regions or hotspots here.</div>`;
             listEl.innerHTML = html;
         }
 
@@ -1363,12 +1363,12 @@
                 .slice(0, 25);
 
             if (matches.length === 0) {
-                resultsDiv.innerHTML = `<div class="p-3 text-slate-400 text-xs italic">No regions found.</div>`;
+                resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No regions found.</div>`;
             } else {
                 resultsDiv.innerHTML = matches.map(n => `
-                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b border-slate-50 text-xs font-semibold text-slate-700"
+                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs font-semibold t-text"
                          onclick="renderRegionBrowser('${n.code}'); document.getElementById('region-search-results').classList.add('hidden'); document.getElementById('region-search-input').value='';">
-                        🗺️ ${n.display_name} <span class="text-slate-400 font-normal">(${n.code})</span>
+                        🗺️ ${n.display_name} <span class="t-muted font-normal">(${n.code})</span>
                     </div>
                 `).join('');
             }
@@ -1417,8 +1417,8 @@
             const color = getMarkerColor(h.species_count);
             panel.innerHTML = `
                 <div class="min-w-0">
-                    <p class="font-bold text-slate-800 text-sm truncate">${h.name}</p>
-                    <p class="text-[11px] text-slate-500">
+                    <p class="font-bold t-text text-sm truncate">${h.name}</p>
+                    <p class="text-[11px] t-muted">
                         <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${color};margin-right:4px;"></span>
                         ${h.species_count != null ? h.species_count + ' species' : 'Species count N/A'} · ${h.locId} · ${h.subnational1Code || h.countryCode || ''}
                     </p>
@@ -1441,9 +1441,9 @@
 
             const matches = flatHotspots.filter(h => h.name && h.name.toLowerCase().includes(q)).slice(0, 25);
             resultsDiv.innerHTML = matches.map(h => `
-                <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b border-slate-50 text-xs font-semibold text-slate-700"
+                <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs font-semibold t-text"
                      onclick="flyToHotspotOnMap('${h.locId}')">${h.name}</div>
-            `).join('') || `<div class="p-3 text-slate-400 text-xs italic">No hotspots found.</div>`;
+            `).join('') || `<div class="p-3 t-muted text-xs italic">No hotspots found.</div>`;
             resultsDiv.classList.remove('hidden');
         }
 
@@ -1517,14 +1517,14 @@
 
         const TIER_THEMES = {
             abundant:{text:"ABUNDANT",points:"+1",color:"text-emerald-500"},
-            common:{text:"COMMON",points:"+1",color:"text-slate-600"},
+            common:{text:"COMMON",points:"+1",color:"t-text"},
             uncommon:{text:"UNCOMMON",points:"+2",color:"text-amber-500"},
             rare:{text:"RARE!",points:"+3",color:"text-blue-600"},
             vagrant:{text:"MEGA!!!",points:"+5",color:"text-red-800 animate-bounce"}
         };
 
         const TIER_COLOR_MAP = {
-            abundant: "text-slate-300",
+            abundant: "t-muted",
             common: "text-slate-200",
             uncommon: "text-amber-400 font-bold",
             rare: "text-blue-400 font-bold",
@@ -1742,12 +1742,12 @@
 
             if(strategy === 'preset') {
                 presetBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-blue-50 border-blue-600 text-blue-700";
-                hotspotBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500";
+                hotspotBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center t-panel t-border t-text hover:border-blue-500";
                 presetPanel.classList.remove('hidden');
                 hotspotPanel.classList.add('hidden');
             } else {
                 hotspotBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-blue-50 border-blue-600 text-blue-700";
-                presetBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500";
+                presetBtn.className = "py-2.5 px-4 rounded-xl border-2 text-sm font-bold transition text-center t-panel t-border t-text hover:border-blue-500";
                 hotspotPanel.classList.remove('hidden');
                 presetPanel.classList.add('hidden');
                 ensureHotspotIndexLoaded();
@@ -1758,7 +1758,7 @@
             playSFX('click');
             gameState.difficulty = diff;
 
-            const inactiveClass = "py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-500";
+            const inactiveClass = "py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center t-panel t-border t-text hover:border-blue-500";
             const activeClass = {
                 easy: "py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-emerald-500 border-emerald-600 text-white shadow-sm",
                 normal: "py-2 px-3 rounded-xl border-2 text-xs font-black uppercase transition text-center bg-blue-600 border-blue-700 text-white shadow-sm",
@@ -1843,7 +1843,7 @@
                     scoreDisplay.textContent = "Score: 0 / 0";
                     streakDisplay.textContent = "Streak: 0";
                     document.getElementById('practice-live-tally').textContent = "0 / 0";
-                    sidebarContent.innerHTML = `<p class="text-slate-400 italic text-xs font-medium">Submit a guess to see review tools.</p>`;
+                    sidebarContent.innerHTML = `<p class="t-muted italic text-xs font-medium">Submit a guess to see review tools.</p>`;
 
                     changeScreen('practice-quiz-screen');
                     await generatePracticeRound();
@@ -1958,12 +1958,12 @@
             const container = document.getElementById(containerId);
             if (!container) return;
             if (tags.length === 0) {
-                container.innerHTML = `<span class="text-xs text-slate-400 italic">None tagged yet</span>`;
+                container.innerHTML = `<span class="text-xs t-muted italic">None tagged yet</span>`;
                 return;
             }
             container.innerHTML = tags.map(tag => `
                 <button type="button" onclick="togglePracticeTag('${containerId}', '${tag}')"
-                        class="px-3 py-1.5 rounded-full border-2 text-xs font-bold transition ${selectedSet.has(tag) ? 'bg-emerald-500 border-emerald-600 text-white' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-emerald-400'}">
+                        class="px-3 py-1.5 rounded-full border-2 text-xs font-bold transition ${selectedSet.has(tag) ? 'bg-emerald-500 border-emerald-600 text-white' : 't-panel t-border t-text hover:border-emerald-400'}">
                     ${tag}
                 </button>
             `).join('');
@@ -2032,11 +2032,11 @@
 
             container.innerHTML = matches.map((b, idx) => `
                 <div
-                    class="flex items-center p-2.5 cursor-pointer hover:bg-blue-50 border-b border-slate-100 last:border-none select-choice ${idx === 0 ? 'bg-blue-50/50' : ''}"
+                    class="flex items-center p-2.5 cursor-pointer hover:bg-blue-50 border-b t-border last:border-none select-choice ${idx === 0 ? 'bg-blue-50/50' : ''}"
                     data-name="${b.name}"
                     onclick="selectSuggestion(this.dataset.name, '${inputEl.id}', '${containerId}')">
                
-                    <span class="inline-flex items-center justify-center min-w-[52px] text-xs bg-slate-200 text-slate-700 font-mono font-bold uppercase px-2 py-1 rounded-md mr-3">
+                    <span class="inline-flex items-center justify-center min-w-[52px] text-xs t-panel-strong t-text font-mono font-bold uppercase px-2 py-1 rounded-md mr-3">
                         ${b.code}
                     </span>
 
@@ -2309,7 +2309,7 @@
             arcadePaused = true; // reuse the existing pause guard so timers/hotkeys freeze while this is open
             document.getElementById('blitz-travel-modal').classList.remove('hidden');
             document.getElementById('blitz-travel-modal').classList.add('flex');
-            document.getElementById('blitz-travel-confirm-panel').innerHTML = `<p class="text-xs text-slate-400 font-medium">Click a hotspot on the map or in the list below to see its travel cost.</p>`;
+            document.getElementById('blitz-travel-confirm-panel').innerHTML = `<p class="text-xs t-muted font-medium">Click a hotspot on the map or in the list below to see its travel cost.</p>`;
             blitzTravelSelected = null;
 
             await ensureHotspotIndexLoaded();
@@ -2326,7 +2326,7 @@
         function renderBlitzTravelCandidates() {
             const current = selectedHotspotData;
             if (!current || !flatHotspots.length) {
-                document.getElementById('blitz-travel-list').innerHTML = `<p class="p-3 text-xs text-slate-400 italic">No nearby hotspot data available.</p>`;
+                document.getElementById('blitz-travel-list').innerHTML = `<p class="p-3 text-xs t-muted italic">No nearby hotspot data available.</p>`;
                 blitzTravelCandidates = [];
                 return;
             }
@@ -2343,8 +2343,8 @@
             const listEl = document.getElementById('blitz-travel-list');
             listEl.innerHTML = blitzTravelCandidates.map((c, i) => `
                 <div class="p-2 hover:bg-orange-50 cursor-pointer flex justify-between items-center text-xs" onclick="previewBlitzTravel(${i})">
-                    <span class="font-semibold text-slate-700 truncate pr-2">📍 ${c.h.name}</span>
-                    <span class="text-slate-400 shrink-0">${c.miles.toFixed(1)} mi · ⏱ ${formatTravelCost(c.minutesCost)}</span>
+                    <span class="font-semibold t-text truncate pr-2">📍 ${c.h.name}</span>
+                    <span class="t-muted shrink-0">${c.miles.toFixed(1)} mi · ⏱ ${formatTravelCost(c.minutesCost)}</span>
                 </div>
             `).join('');
         }
@@ -2397,14 +2397,14 @@
             const panel = document.getElementById('blitz-travel-confirm-panel');
             panel.innerHTML = `
                 <div class="min-w-0">
-                    <p class="font-bold text-slate-800 text-sm truncate">${c.h.name}</p>
-                    <p class="text-[11px] text-slate-500">
+                    <p class="font-bold t-text text-sm truncate">${c.h.name}</p>
+                    <p class="text-[11px] t-muted">
                         📏 ${c.miles.toFixed(1)} miles away · ⏱️ costs <strong class="${canAfford ? 'text-orange-600' : 'text-red-600'}">${formatTravelCost(c.minutesCost)}</strong>
                         ${canAfford ? '' : ' — not enough time remaining!'}
                     </p>
                 </div>
                 <button onclick="confirmBlitzTravel()" ${canAfford ? '' : 'disabled'}
-                        class="shrink-0 py-2 px-4 font-bold text-xs rounded-lg shadow-sm transition ${canAfford ? 'bg-orange-500 hover:bg-orange-600 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}">
+                        class="shrink-0 py-2 px-4 font-bold text-xs rounded-lg shadow-sm transition ${canAfford ? 'bg-orange-500 hover:bg-orange-600 text-white' : 't-panel-strong t-muted cursor-not-allowed'}">
                     ✈️ Confirm Travel
                 </button>
             `;
@@ -2417,7 +2417,7 @@
 
             playSFX('click');
             const panel = document.getElementById('blitz-travel-confirm-panel');
-            panel.innerHTML = `<p class="text-xs font-semibold text-slate-400 w-full text-center">⏳ Traveling to ${c.h.name}…</p>`;
+            panel.innerHTML = `<p class="text-xs font-semibold t-muted w-full text-center">⏳ Traveling to ${c.h.name}…</p>`;
 
             const loaded = await loadHotspotSeedIntoActiveState(c.h.locId, c.h.name);
             if (!loaded) {
@@ -2536,11 +2536,11 @@
                     ${index + 1}
                 </div>
                 
-                <div class="relative w-full aspect-video bg-slate-200 overflow-hidden pointer-events-none">
+                <div class="relative w-full aspect-video t-panel-strong overflow-hidden pointer-events-none">
                     <img src="${slot.imageUrl}" class="w-full h-full object-cover transition transform duration-200 group-hover:scale-105">
                     ${flashOverlay}
                 </div>
-                <div class="w-full h-2 bg-slate-200 pointer-events-none">
+                <div class="w-full h-2 t-panel-strong pointer-events-none">
                     <div id="arcade-bar-${index}" class="h-full ${barColor} transition-all duration-100 ease-linear" style="width: ${timerPct}%"></div>
                 </div>
             `;
@@ -2906,7 +2906,7 @@
                 document.getElementById('res-route-list').innerHTML = arcadeState.route.map((r, i) => `
                     <div class="flex justify-between items-center p-1.5 rounded-lg bg-slate-800/60">
                         <span class="text-slate-200">${i + 1}. ${r.display_name}</span>
-                        ${r.milesFromPrev > 0 ? `<span class="text-slate-500 text-[10px]">+${r.milesFromPrev.toFixed(1)} mi</span>` : ''}
+                        ${r.milesFromPrev > 0 ? `<span class="text-slate-400 text-[10px]">+${r.milesFromPrev.toFixed(1)} mi</span>` : ''}
                     </div>
                 `).join('');
             } else {
@@ -3614,12 +3614,12 @@
                 .slice(0, 20);
 
             if (matches.length === 0) {
-                resultsDiv.innerHTML = `<div class="p-3 text-slate-400 text-xs italic">No species found.</div>`;
+                resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No species found.</div>`;
             } else {
                 resultsDiv.innerHTML = matches.map(e => `
-                    <div class="p-2.5 hover:bg-teal-50 cursor-pointer border-b border-slate-50 text-xs font-semibold text-slate-700"
+                    <div class="p-2.5 t-hover-fill-primary cursor-pointer border-b t-border text-xs font-semibold t-text"
                          onclick="loadExploreSpecies('${e.ebird_code}')">
-                        ${e.common_name} <span class="text-slate-400 font-normal italic">${e.scientific_name || ''}</span>
+                        ${e.common_name} <span class="t-muted font-normal italic">${e.scientific_name || ''}</span>
                     </div>
                 `).join('');
             }
@@ -3979,16 +3979,16 @@
                         <div>
                             <span class="font-bold text-amber-400">#${idx + 1}</span>
                             <span class="ml-2 font-medium text-slate-200">${item.location}</span>
-                            ${item.difficulty ? `<span class="ml-1 text-[10px] text-slate-500">(${item.difficulty})</span>` : ''}
+                            ${item.difficulty ? `<span class="ml-1 text-[10px] text-slate-400">(${item.difficulty})</span>` : ''}
                         </div>
                         <div class="text-right">
                             <span class="text-emerald-400 font-extrabold">${item.score.toLocaleString()} pts</span>
-                            <span class="text-[10px] text-slate-500 block">${item.date}</span>
+                            <span class="text-[10px] text-slate-400 block">${item.date}</span>
                         </div>
                     </div>
                 `).join('');
             } else {
-                scoresContainer.innerHTML = `<p class="text-slate-500 italic">No high scores logged yet.</p>`;
+                scoresContainer.innerHTML = `<p class="text-slate-400 italic">No high scores logged yet.</p>`;
             }
 
             const findsContainer = document.getElementById('top-finds-list');
@@ -4005,7 +4005,7 @@
                     </div>
                 `).join('');
             } else {
-                findsContainer.innerHTML = `<p class="text-slate-500 italic">No rare birds logged yet.</p>`;
+                findsContainer.innerHTML = `<p class="text-slate-400 italic">No rare birds logged yet.</p>`;
             }
 
             const achContainer = document.getElementById('achievements-container');
@@ -4070,13 +4070,13 @@
             if (lifetimeStats.lifeList.length > 0) {
                 const reversedLifeList = lifetimeStats.lifeList.slice().reverse();
                 lifeListEl.innerHTML = reversedLifeList.map((item, idx) => `
-                    <div class="flex justify-between items-center py-1 border-b border-slate-100 last:border-none">
+                    <div class="flex justify-between items-center py-1 border-b t-border last:border-none">
                         <span>${lifetimeStats.lifeList.length - idx}. ${item}</span>
                         <span class="text-emerald-600 font-bold">✓</span>
                     </div>
                 `).join('');
             } else {
-                lifeListEl.innerHTML = `<span class="text-slate-400 italic">No species logged yet.</span>`;
+                lifeListEl.innerHTML = `<span class="t-muted italic">No species logged yet.</span>`;
             }
         }
         // ===================== end Trophy Case & Stats Hub =====================
