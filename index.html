@@ -246,9 +246,9 @@
                     Play!
                 </button>
                 
-                <div class="t-mode-tag px-4 py-1.5 font-sans font-extrabold text-xs uppercase tracking-wider rounded-full shadow-sm">
-                    Select Mode inside!
-                </div>
+                <button onclick="toggleHowToPlay(true)" class="t-mode-tag px-4 py-1.5 font-sans font-extrabold text-xs uppercase tracking-wider rounded-full shadow-sm transition hover:brightness-110 cursor-pointer">
+                    📖 How to Play
+                </button>
 
                 <div class="flex flex-col space-y-2">
                     <button onclick="openBotdModal()" class="t-btn-botd w-72 py-3 font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95 hover:brightness-110">
@@ -369,7 +369,7 @@
                     <h3 class="text-lg font-bold t-text flex items-center gap-2">
                         <span>🎖️</span> Achievements
                     </h3>
-                    <p class="text-[11px] t-muted font-medium -mt-2">Tiers I&ndash;V, scored from Arcade Mode only. Progress keeps counting past Tier V.</p>
+                    <p class="text-[11px] t-muted font-medium -mt-2">Tiers I&ndash;V, scored from Arcade Mode only.</p>
                     <div id="achievements-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
                 </div>
 
@@ -950,7 +950,11 @@
             <div class="space-y-4 text-sm t-text font-medium">
                 <div>
                     <h4 class="font-bold t-text mb-1">🕹️ Arcade Mode</h4>
-                    <p>Pick a curated zone or search/browse the global hotspot index for a real eBird location. Eight birds appear on a grid at once, each on its own countdown — click one and type its name before time runs out. Wrong guesses and timeouts cost a life; find as many species as you can before they run out.</p>
+                    <p>Pick a curated zone or search/browse the global hotspot index for a real eBird location. Eight birds appear on a grid at once, each on its own countdown — click one and type or select its name before time runs out. Wrong guesses and timeouts cost a life; find as many species as you can before they run out.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold t-text mb-1">⚡ Blitz Mode</h4>
+                    <p>A race-the-clock Big Day: no lives, just a single master countdown. Identify as many species as possible before time runs out, and spend time to travel to new hotspots along the way — farther trips cost more of the clock.</p>
                 </div>
                 <div>
                     <h4 class="font-bold t-text mb-1">📖 Practice Mode</h4>
@@ -958,11 +962,15 @@
                 </div>
                 <div>
                     <h4 class="font-bold t-text mb-1">🐦 Bird of the Day</h4>
-                    <p>A new species is featured every day. Type your best guess before revealing the answer, use the hint to see the general region it's been recorded in without giving away exact hotspots, and keep your streak going by getting it right day after day.</p>
+                    <p>A new species is featured every day. Track it down in Arcade or Blitz mode using the hint to see the general region it's been recorded in, and keep your streak going by getting it right day after day.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold t-text mb-1">🎲 Monthly Bingo</h4>
+                    <p>A fresh 25-goal board is generated at the start of every month. Complete goals by identifying matching species or visiting requested regions in Arcade or Blitz mode.</p>
                 </div>
                 <div>
                     <h4 class="font-bold t-text mb-1">🏆 Trophy Case &amp; Stats</h4>
-                    <p>Tracks your lifetime totals, rarest finds, high scores, and tiered achievements — all saved locally to this browser.</p>
+                    <p>Tracks your lifetime totals, rarest finds, high scores, and tiered achievements — all saved locally to your browser.</p>
                 </div>
             </div>
         </div>
@@ -1052,7 +1060,7 @@
         let activeMapData = null; 
         let activeShards = {};    
 
-        // ===================== v3.0 Hotspot Data Layer =====================
+        // =====================  Hotspot Data  =====================
         const PRESET_MANIFEST_URL = "data_pool/map_seeds/presets/manifest.json";
         const PRESET_SEED_PATH = (id) => `data_pool/map_seeds/presets/${id}.json`;
         const HOTSPOT_INDEX_URL = "dist/master_hotspots_index_updated.json";
@@ -1075,7 +1083,7 @@
         //   - hotspot_seeds (Select Hotspot):  4-letter alpha codes, e.g. "DCCO"
         //   - preset seeds  (Preset Maps):     6-letter eBird species codes, e.g. "comrav"
         // shard_manifest.json / the image shard files themselves are keyed by lowercase alpha
-        // code (with the ~8,985 species that have no real banding code keyed by their lowercase
+        // code (with the ~8,985 species that have no real alpha code keyed by their lowercase
         // eBird code as a stand-in). resolveSpeciesKey() normalizes either input format to
         // whichever key actually unlocks the manifest/shard data.
         const SPECIES_DIRECTORY_URL = "dist/master_species_directory_updated.json";
@@ -1176,11 +1184,6 @@
         }
 
         // ---- Flatten every hotspot into one array + build a navigable region tree ----
-        // The raw index is a flat dict keyed by region code. Some entries are fully-formed
-        // (region_code/display_name/hierarchy/hotspots), others are "orphan" buckets that only
-        // hold hotspots directly assigned to that admin level (e.g. offshore pelagic spots with
-        // no county). We synthesize any missing parent nodes (e.g. country-level "US") from the
-        // hierarchy info found on their descendants.
         function buildFlatHotspotsAndTree(raw) {
             flatHotspots = [];
             const nodes = new Map();
@@ -1215,9 +1218,7 @@
             world.display_name = 'World';
             world.parentCode = null;
 
-            // Backfill display names for synthesized/orphan nodes (e.g. the implicit "US" country
-            // node, or a raw leftover bucket like "US-CA" with no hierarchy of its own) by finding
-            // any descendant that carries a hierarchy array and reading the matching depth off it.
+            // Backfill display names for synthesized/orphan nodes 
             for (const node of nodes.values()) {
                 if (node.code === 'WORLD' || node.display_name) continue;
                 const partsCount = node.code.split('-').filter(p => p.length > 0).length;
@@ -1473,7 +1474,7 @@
             presetManifestLoaded = true;
             dropdown.innerHTML = manifest.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
         }
-        // ===================== end v3.0 Hotspot Data Layer =====================
+        // ===================== end Hotspot Data Layer =====================
 
         let gameState = {
             currentScreen: 'main-menu-screen',
@@ -1532,13 +1533,6 @@
         };
 
         // ===================== Practice Mode Data Layer (tag-driven, infinite) =====================
-        // Tags live inside each image shard file as a "practice_tags" field per species. Rather
-        // than requiring the client to download every shard just to know which tags exist, a
-        // separate lightweight companion index lists tags per species without any image data:
-        //   { "<code>": { "groups": ["warblers"], "regions": ["california","argentina"] } }
-        // Species not yet tagged simply won't appear when a filter is active; with no filter
-        // selected at all, practice draws from the full species directory regardless of tagging
-        // progress, so the mode works before tagging is finished, and gets more precise with it.
         const PRACTICE_TAGS_URL = "dist/practice_tags.json";
         let practiceTagsIndex = null;      // { code: {groups:[], regions:[]} }
         let practiceTagsLoaded = false;
@@ -1565,7 +1559,7 @@
             totalGuesses: 0,
             correctGuesses: 0,
             lifeList: [],
-            megaRareCount: 0,          // lifetime mega/vagrant-tier catches, Arcade only (Rarity Hunter)
+            megaRareCount: 0,          // lifetime mega-tier catches, Arcade only (Rarity Hunter)
             arcadeCorrectTotal: 0,     // lifetime correct IDs, Arcade only (Identification Expert)
             arcadeUniqueSpecies: [],   // lifetime unique species names, Arcade only (Lister)
             topScores: [],             // [{ score, location, difficulty, date }] capped at 5
@@ -1574,7 +1568,9 @@
             botdBestStreak: 0,
             botdLastFoundDate: null,   // "YYYY-M-D" of the most recent day it was actually caught in Arcade
             countrySpecies: {},        // lifetime, never resets: country ISO code -> { commonName: true, ... }
-            hotspotsPlayed: []         // lifetime, never resets: unique location identifiers (map_id) played
+            hotspotsPlayed: [],        // lifetime, never resets: unique location identifiers (map_id) played
+            bingoBoardsCompleted: 0,   // lifetime count of fully-completed (25/25) Monthly Bingo boards (Bingo Fanatic)
+            blitzBestDayCount: 0       // best-ever unique species total in a single Blitz Big Day match (Century Chaser)
         };
         let lifetimeStats = Object.assign({}, DEFAULT_LIFETIME_STATS, JSON.parse(localStorage.getItem('bird_quiz_stats')) || {});
         let imageBlacklist = JSON.parse(localStorage.getItem('bird_quiz_blacklist')) || [];
@@ -1601,16 +1597,10 @@
 
         // ===================== Bird Call Audio =====================
         // Same shard architecture as images: shard_manifest.json + resolveSpeciesKey() already
-        // tell us which shard a species' audio lives in (same shard name, just under a
-        // different folder), so nothing new is needed there. Audio shards are fetched lazily
-        // and cached per shard, same pattern as image shards and practice mode.
-        //
-        // Playback uses a single shared <audio> element across every button in the game, which
-        // is what makes "click cuts off whatever's currently playing" trivial -- there's only
-        // ever one thing that CAN be playing. Clips are hard-capped at 3 seconds regardless of
-        // the source file's actual length.
+        // tells which shard a species' audio lives in (same shard name, just under a
+        // different folder)
         const AUDIO_SHARD_PATH = (shardName) => `data_pool/audio_shards/${shardName}.json`;
-        const AUDIO_CLIP_MAX_MS = 3000;
+        const AUDIO_CLIP_MAX_MS = 5000;
         let audioShardCache = {};
         let sharedAudioEl = null;
         let audioStopTimeout = null;
@@ -1632,9 +1622,7 @@
             return data;
         }
 
-        // code: any species code format resolveSpeciesKey() can handle.
-        // copyrightElId: id of the element to write the audio credit into.
-        // buttonElId: id of the play button, given a brief pulse while the clip plays.
+    
         async function playRandomBirdCall(code, copyrightElId, buttonElId) {
             if (!code) return;
             playSFX('click');
@@ -3003,6 +2991,13 @@
             const routeMapIds = arcadeState.route.length > 0
                 ? arcadeState.route.map(r => r.locId)
                 : (activeMapData ? [activeMapData.map_id] : []);
+
+            // Century Chaser: tracks the best-ever unique species total from a single Blitz
+            // Big Day match specifically (Arcade matches don't count toward this one).
+            if (isBlitz) {
+                lifetimeStats.blitzBestDayCount = Math.max(lifetimeStats.blitzBestDayCount || 0, uniqueIdentified.length);
+            }
+
             recordArcadeMatchToStats(arcadeState.score, locName, diffSettings.label, arcadeState.identified.length, uniqueIdentified, selectedHotspotData ? selectedHotspotData.countryCode : null, routeMapIds);
             recordMonthlyBingoProgress(arcadeState.identified, selectedHotspotData ? selectedHotspotData.countryCode : null);
             checkBotdCompletionFromMatch(arcadeState.identified);
@@ -3010,12 +3005,7 @@
             changeScreen('arcade-results-screen');
         }
 
-        // The Macaulay/eBird asset host doesn't send CORS headers, so html2canvas can't read
-        // its pixels directly. Setting crossorigin on the live <img> tags "fixes" the export
-        // but breaks normal display (the browser refuses to load the image at all without a
-        // CORS response). Instead, only for the moment of capture, we swap each image inside
-        // the scorecard to a CORS-friendly proxy (images.weserv.nl mirrors the image and adds
-        // Access-Control-Allow-Origin: *), capture, then restore the original src immediately.
+        
         function toProxiedImageUrl(url) {
             if (!url) return url;
             const stripped = url.replace(/^https?:\/\//, '');
@@ -3196,11 +3186,20 @@
                 getValue: (stats) => stats.botdBestStreak || 0
             },
             {
-                id: 'blitz_master',
-                title: 'Blitz Master',
-                icon: '⚡',
-                desc: 'Coming soon with Blitz Mode',
-                comingSoon: true
+                id: 'bingo_fanatic',
+                title: 'Bingo Fanatic',
+                icon: '🎲',
+                desc: 'Fully complete Monthly Bingo boards',
+                tiers: [1, 3, 5, 7, 10],
+                getValue: (stats) => stats.bingoBoardsCompleted || 0
+            },
+            {
+                id: 'century_chaser',
+                title: 'Century Chaser',
+                icon: '🌅',
+                desc: 'Identify the most species in a single Blitz Big Day',
+                tiers: [50, 100, 150, 200, 250],
+                getValue: (stats) => stats.blitzBestDayCount || 0
             }
         ];
 
@@ -3210,9 +3209,7 @@
         // so catching the same mega twice in one match doesn't inflate the unique trackers.
         // Country/territory ISO code -> continent, for aggregating country-level lifetime
         // tracking into continent-scoped stats/achievements (e.g. "1000 species in North
-        // America"). Not exhaustive -- extend as you add hotspots from new regions; anything
-        // missing here just won't roll up into a continent bucket (its own country bucket
-        // still works fine on its own).
+        // America").
         const COUNTRY_TO_CONTINENT = {
             US: 'North America', CA: 'North America', MX: 'North America',
             GT: 'North America', BZ: 'North America', HN: 'North America', SV: 'North America',
@@ -3337,13 +3334,7 @@
             for (let i = 0; i < seedStr.length; i++) {
                 hash = (Math.imul(hash, 31) + seedStr.charCodeAt(i)) >>> 0;
             }
-            // The raw polynomial hash above gives the LAST character weight 1 -- so for two
-            // seed strings differing only in a single trailing digit (e.g. day 27 vs day 28),
-            // the hashes differ by exactly 1. Left unmixed, that means every "small single
-            // digit change" walks the result forward by 1, landing on whatever happens to sit
-            // next to yesterday's pick for potentially weeks at a stretch. This finalizer
-            // (Murmur3's 32-bit mix) scrambles small input deltas into large, well-distributed
-            // output deltas so nearby seed strings land unpredictably.
+            
             hash ^= hash >>> 16;
             hash = Math.imul(hash, 0x85ebca6b) >>> 0;
             hash ^= hash >>> 13;
@@ -3734,7 +3725,8 @@
             monthKey: null,
             familySpecies: {},  // shard family (e.g. "woodwarblers") -> { commonName: true, ... } (unique species this month)
             countrySpecies: {}, // ISO country code -> { commonName: true, ... } (unique species this month)
-            speciesCounts: {}   // common_name -> raw catch count this month (used for Name goals, which are inherently unique via Object.keys)
+            speciesCounts: {},  // common_name -> raw catch count this month (used for Name goals, which are inherently unique via Object.keys)
+            boardCompletionCounted: false // guards Bingo Fanatic so a fully-completed board is only counted once per month
         };
         let monthlyState = Object.assign({}, DEFAULT_MONTHLY_STATE, JSON.parse(localStorage.getItem('bird_quiz_monthly')) || {});
 
@@ -3930,6 +3922,15 @@
             const gridWrapForChroma = document.getElementById('bingo-grid-wrap');
             if (gridWrapForChroma) {
                 gridWrapForChroma.classList.toggle('board-complete', completedCount >= BINGO_GRID_SIZE);
+            }
+
+            // Bingo Fanatic: count this board once, the first time it's rendered fully complete.
+            // boardCompletionCounted resets to false each month alongside the rest of monthlyState.
+            if (completedCount >= BINGO_GRID_SIZE && !monthlyState.boardCompletionCounted) {
+                monthlyState.boardCompletionCounted = true;
+                localStorage.setItem('bird_quiz_monthly', JSON.stringify(monthlyState));
+                lifetimeStats.bingoBoardsCompleted = (lifetimeStats.bingoBoardsCompleted || 0) + 1;
+                localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
             }
 
             const bingoLines = countBingoLines(completedFlags);
