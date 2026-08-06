@@ -369,7 +369,7 @@
                     <h3 class="text-lg font-bold t-text flex items-center gap-2">
                         <span>🎖️</span> Achievements
                     </h3>
-                    <p class="text-[11px] t-muted font-medium -mt-2">Tiers I&ndash;V, scored from Arcade Mode only.</p>
+                    <p class="text-[11px] t-muted font-medium -mt-2">Tiers I&ndash;V, scored from Arcade Mode only. Progress keeps counting past Tier V.</p>
                     <div id="achievements-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
                 </div>
 
@@ -950,11 +950,11 @@
             <div class="space-y-4 text-sm t-text font-medium">
                 <div>
                     <h4 class="font-bold t-text mb-1">🕹️ Arcade Mode</h4>
-                    <p>Pick a curated zone or search/browse the global hotspot index for a real eBird location. Eight birds appear on a grid at once, each on its own countdown — click one and type or select its name before time runs out. Wrong guesses and timeouts cost a life; find as many species as you can before they run out.</p>
+                    <p>Pick a curated zone or search/browse the global hotspot index for a real eBird location. Eight birds appear on a grid at once, each on its own countdown — click one and type its name before time runs out. Wrong guesses and timeouts cost a life; find as many species as you can before they run out.</p>
                 </div>
                 <div>
                     <h4 class="font-bold t-text mb-1">⚡ Blitz Mode</h4>
-                    <p>A race-the-clock Big Day: no lives, just a single master countdown. Identify as many species as possible before time runs out, and spend time to travel to new hotspots along the way — farther trips cost more of the clock.</p>
+                    <p>A race-the-clock Big Day: no lives, just a single master countdown. Identify as many species as possible before time runs out, and spend time to travel to new hotspots along the way — farther trips cost more of the clock. Every species you catch here also counts toward your lifetime stats, achievements, and Monthly Bingo goals, same as Arcade.</p>
                 </div>
                 <div>
                     <h4 class="font-bold t-text mb-1">📖 Practice Mode</h4>
@@ -962,15 +962,15 @@
                 </div>
                 <div>
                     <h4 class="font-bold t-text mb-1">🐦 Bird of the Day</h4>
-                    <p>A new species is featured every day. Track it down in Arcade or Blitz mode using the hint to see the general region it's been recorded in, and keep your streak going by getting it right day after day.</p>
+                    <p>A new species is featured every day. Type your best guess before revealing the answer, use the hint to see the general region it's been recorded in without giving away exact hotspots, and keep your streak going by getting it right day after day.</p>
                 </div>
                 <div>
                     <h4 class="font-bold t-text mb-1">🎲 Monthly Bingo</h4>
-                    <p>A fresh 25-goal board is generated at the start of every month. Complete goals by identifying matching species or visiting requested regions in Arcade or Blitz mode.</p>
+                    <p>A fresh 25-goal board is generated at the start of every month, the same board for everyone. Complete goals by identifying matching species in Arcade or Blitz — a family, a country, a name pattern — and fully completing the board earns a special glowing border and counts toward the Bingo Fanatic achievement.</p>
                 </div>
                 <div>
                     <h4 class="font-bold t-text mb-1">🏆 Trophy Case &amp; Stats</h4>
-                    <p>Tracks your lifetime totals, rarest finds, high scores, and tiered achievements — all saved locally to your browser.</p>
+                    <p>Tracks your lifetime totals, rarest finds, high scores, and tiered achievements — all saved locally to this browser.</p>
                 </div>
             </div>
         </div>
@@ -1060,7 +1060,7 @@
         let activeMapData = null; 
         let activeShards = {};    
 
-        // =====================  Hotspot Data  =====================
+        // ===================== v3.0 Hotspot Data Layer =====================
         const PRESET_MANIFEST_URL = "data_pool/map_seeds/presets/manifest.json";
         const PRESET_SEED_PATH = (id) => `data_pool/map_seeds/presets/${id}.json`;
         const HOTSPOT_INDEX_URL = "dist/master_hotspots_index_updated.json";
@@ -1083,7 +1083,7 @@
         //   - hotspot_seeds (Select Hotspot):  4-letter alpha codes, e.g. "DCCO"
         //   - preset seeds  (Preset Maps):     6-letter eBird species codes, e.g. "comrav"
         // shard_manifest.json / the image shard files themselves are keyed by lowercase alpha
-        // code (with the ~8,985 species that have no real alpha code keyed by their lowercase
+        // code (with the ~8,985 species that have no real banding code keyed by their lowercase
         // eBird code as a stand-in). resolveSpeciesKey() normalizes either input format to
         // whichever key actually unlocks the manifest/shard data.
         const SPECIES_DIRECTORY_URL = "dist/master_species_directory_updated.json";
@@ -1104,22 +1104,20 @@
             ]);
             speciesDirectoryLoading = false;
 
-            if (!manifest) return false;
+            if (!manifest || !directory) return false;
             shardManifestCache = manifest;
 
             ebirdToAlphaLower = {};
-            speciesDirectoryCache = directory || {};
-            if (directory) {
-                for (const entry of Object.values(directory)) {
-                    if (entry.ebird_code && entry.alpha_code) {
-                        ebirdToAlphaLower[entry.ebird_code.toLowerCase()] = entry.alpha_code.toLowerCase();
-                    }
-                    if (entry.ebird_code && entry.common_name) {
-                        codeToCommonName[entry.ebird_code.toLowerCase()] = entry.common_name;
-                    }
-                    if (entry.alpha_code && entry.common_name) {
-                        codeToCommonName[entry.alpha_code.toLowerCase()] = entry.common_name;
-                    }
+            speciesDirectoryCache = directory;
+            for (const entry of Object.values(directory)) {
+                if (entry.ebird_code && entry.alpha_code) {
+                    ebirdToAlphaLower[entry.ebird_code.toLowerCase()] = entry.alpha_code.toLowerCase();
+                }
+                if (entry.ebird_code && entry.common_name) {
+                    codeToCommonName[entry.ebird_code.toLowerCase()] = entry.common_name;
+                }
+                if (entry.alpha_code && entry.common_name) {
+                    codeToCommonName[entry.alpha_code.toLowerCase()] = entry.common_name;
                 }
             }
             return true;
@@ -1184,6 +1182,11 @@
         }
 
         // ---- Flatten every hotspot into one array + build a navigable region tree ----
+        // The raw index is a flat dict keyed by region code. Some entries are fully-formed
+        // (region_code/display_name/hierarchy/hotspots), others are "orphan" buckets that only
+        // hold hotspots directly assigned to that admin level (e.g. offshore pelagic spots with
+        // no county). We synthesize any missing parent nodes (e.g. country-level "US") from the
+        // hierarchy info found on their descendants.
         function buildFlatHotspotsAndTree(raw) {
             flatHotspots = [];
             const nodes = new Map();
@@ -1218,7 +1221,9 @@
             world.display_name = 'World';
             world.parentCode = null;
 
-            // Backfill display names for synthesized/orphan nodes 
+            // Backfill display names for synthesized/orphan nodes (e.g. the implicit "US" country
+            // node, or a raw leftover bucket like "US-CA" with no hierarchy of its own) by finding
+            // any descendant that carries a hierarchy array and reading the matching depth off it.
             for (const node of nodes.values()) {
                 if (node.code === 'WORLD' || node.display_name) continue;
                 const partsCount = node.code.split('-').filter(p => p.length > 0).length;
@@ -1474,7 +1479,7 @@
             presetManifestLoaded = true;
             dropdown.innerHTML = manifest.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
         }
-        // ===================== end Hotspot Data Layer =====================
+        // ===================== end v3.0 Hotspot Data Layer =====================
 
         let gameState = {
             currentScreen: 'main-menu-screen',
@@ -1533,6 +1538,13 @@
         };
 
         // ===================== Practice Mode Data Layer (tag-driven, infinite) =====================
+        // Tags live inside each image shard file as a "practice_tags" field per species. Rather
+        // than requiring the client to download every shard just to know which tags exist, a
+        // separate lightweight companion index lists tags per species without any image data:
+        //   { "<code>": { "groups": ["warblers"], "regions": ["california","argentina"] } }
+        // Species not yet tagged simply won't appear when a filter is active; with no filter
+        // selected at all, practice draws from the full species directory regardless of tagging
+        // progress, so the mode works before tagging is finished, and gets more precise with it.
         const PRACTICE_TAGS_URL = "dist/practice_tags.json";
         let practiceTagsIndex = null;      // { code: {groups:[], regions:[]} }
         let practiceTagsLoaded = false;
@@ -1559,7 +1571,7 @@
             totalGuesses: 0,
             correctGuesses: 0,
             lifeList: [],
-            megaRareCount: 0,          // lifetime mega-tier catches, Arcade only (Rarity Hunter)
+            megaRareCount: 0,          // lifetime mega/vagrant-tier catches, Arcade only (Rarity Hunter)
             arcadeCorrectTotal: 0,     // lifetime correct IDs, Arcade only (Identification Expert)
             arcadeUniqueSpecies: [],   // lifetime unique species names, Arcade only (Lister)
             topScores: [],             // [{ score, location, difficulty, date }] capped at 5
@@ -1597,10 +1609,16 @@
 
         // ===================== Bird Call Audio =====================
         // Same shard architecture as images: shard_manifest.json + resolveSpeciesKey() already
-        // tells which shard a species' audio lives in (same shard name, just under a
-        // different folder)
+        // tell us which shard a species' audio lives in (same shard name, just under a
+        // different folder), so nothing new is needed there. Audio shards are fetched lazily
+        // and cached per shard, same pattern as image shards and practice mode.
+        //
+        // Playback uses a single shared <audio> element across every button in the game, which
+        // is what makes "click cuts off whatever's currently playing" trivial -- there's only
+        // ever one thing that CAN be playing. Clips are hard-capped at 3 seconds regardless of
+        // the source file's actual length.
         const AUDIO_SHARD_PATH = (shardName) => `data_pool/audio_shards/${shardName}.json`;
-        const AUDIO_CLIP_MAX_MS = 5000;
+        const AUDIO_CLIP_MAX_MS = 3000;
         let audioShardCache = {};
         let sharedAudioEl = null;
         let audioStopTimeout = null;
@@ -1622,7 +1640,9 @@
             return data;
         }
 
-    
+        // code: any species code format resolveSpeciesKey() can handle.
+        // copyrightElId: id of the element to write the audio credit into.
+        // buttonElId: id of the play button, given a brief pulse while the clip plays.
         async function playRandomBirdCall(code, copyrightElId, buttonElId) {
             if (!code) return;
             playSFX('click');
@@ -3005,7 +3025,12 @@
             changeScreen('arcade-results-screen');
         }
 
-        
+        // The Macaulay/eBird asset host doesn't send CORS headers, so html2canvas can't read
+        // its pixels directly. Setting crossorigin on the live <img> tags "fixes" the export
+        // but breaks normal display (the browser refuses to load the image at all without a
+        // CORS response). Instead, only for the moment of capture, we swap each image inside
+        // the scorecard to a CORS-friendly proxy (images.weserv.nl mirrors the image and adds
+        // Access-Control-Allow-Origin: *), capture, then restore the original src immediately.
         function toProxiedImageUrl(url) {
             if (!url) return url;
             const stripped = url.replace(/^https?:\/\//, '');
@@ -3209,7 +3234,9 @@
         // so catching the same mega twice in one match doesn't inflate the unique trackers.
         // Country/territory ISO code -> continent, for aggregating country-level lifetime
         // tracking into continent-scoped stats/achievements (e.g. "1000 species in North
-        // America").
+        // America"). Not exhaustive -- extend as you add hotspots from new regions; anything
+        // missing here just won't roll up into a continent bucket (its own country bucket
+        // still works fine on its own).
         const COUNTRY_TO_CONTINENT = {
             US: 'North America', CA: 'North America', MX: 'North America',
             GT: 'North America', BZ: 'North America', HN: 'North America', SV: 'North America',
@@ -3318,7 +3345,7 @@
         // plainly instead of failing silently.
         const SPECIES_LOCATIONS_URL = "dist/species_hotspot_locations.json";
         let speciesLocationsIndex = null;
-        let speciesLocationsLoading = false;
+        let speciesLocationsPromise = null; // in-flight fetch, shared so concurrent callers don't race each other
         let botdCode = null;
         let botdShardName = null;
         let botdHintMap = null;
@@ -3334,7 +3361,13 @@
             for (let i = 0; i < seedStr.length; i++) {
                 hash = (Math.imul(hash, 31) + seedStr.charCodeAt(i)) >>> 0;
             }
-            
+            // The raw polynomial hash above gives the LAST character weight 1 -- so for two
+            // seed strings differing only in a single trailing digit (e.g. day 27 vs day 28),
+            // the hashes differ by exactly 1. Left unmixed, that means every "small single
+            // digit change" walks the result forward by 1, landing on whatever happens to sit
+            // next to yesterday's pick for potentially weeks at a stretch. This finalizer
+            // (Murmur3's 32-bit mix) scrambles small input deltas into large, well-distributed
+            // output deltas so nearby seed strings land unpredictably.
             hash ^= hash >>> 16;
             hash = Math.imul(hash, 0x85ebca6b) >>> 0;
             hash ^= hash >>> 13;
@@ -3467,21 +3500,45 @@
             modal.classList.remove('flex');
         }
 
+        // A failed fetch (network blip, slow connection, CDN hiccup) must NOT get cached as a
+        // permanent "loaded but empty" success -- species_hotspot_locations.json is one of the
+        // largest assets in the game, so it's the one most likely to occasionally fail to load
+        // among everything else fetching at once. If it fails, speciesLocationsIndex is left
+        // unset so the next hint click retries instead of silently showing "no data" for the
+        // rest of the session. Concurrent callers (Explore + Bird of the Day hints both use
+        // this) share the same in-flight promise instead of racing each other.
         async function ensureSpeciesLocationsLoaded() {
             if (speciesLocationsIndex) return true;
-            if (speciesLocationsLoading) return false;
-            speciesLocationsLoading = true;
-            const data = await fetchFromRepo(SPECIES_LOCATIONS_URL, true);
-            speciesLocationsLoading = false;
-            speciesLocationsIndex = data || {};
-            return true;
+            if (!speciesLocationsPromise) {
+                speciesLocationsPromise = fetchFromRepo(SPECIES_LOCATIONS_URL, true).then(data => {
+                    speciesLocationsPromise = null;
+                    if (data) speciesLocationsIndex = data;
+                    return !!data;
+                });
+            }
+            return speciesLocationsPromise;
         }
 
         // Andrew's monotone chain convex hull. Returns points in CCW order, or the input
         // points as-is if there are fewer than 3 (nothing to hull).
+        //
+        // Points reaching here are already geographically clustered (via haversine distance,
+        // which handles the antimeridian correctly), so if they still span more than 180
+        // degrees of raw longitude, that's the 180th-meridian wraparound, not a genuinely huge
+        // span -- e.g. a cluster near the Alaska/Russia border can have points at both +179 and
+        // -179 longitude, only ~2 degrees apart in reality but 358 apart as raw numbers. Left
+        // alone, that breaks the sort this algorithm depends on. Longitudes are temporarily
+        // shifted into a continuous space so they sort correctly, then shifted back afterward.
         function computeConvexHull(points) {
             if (points.length < 3) return points;
-            const pts = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+
+            const lngs = points.map(p => p[1]);
+            const spansDateline = (Math.max(...lngs) - Math.min(...lngs)) > 180;
+            const workingPoints = spansDateline
+                ? points.map(p => [p[0], p[1] < 0 ? p[1] + 360 : p[1]])
+                : points;
+
+            const pts = workingPoints.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
             const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
 
             const lower = [];
@@ -3496,7 +3553,9 @@
                 upper.push(p);
             }
             lower.pop(); upper.pop();
-            return lower.concat(upper);
+            const hull = lower.concat(upper);
+
+            return spansDateline ? hull.map(p => [p[0], p[1] > 180 ? p[1] - 360 : p[1]]) : hull;
         }
 
         function haversineMeters(p1, p2) {
@@ -3508,38 +3567,136 @@
             return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         }
 
+        // Any two points closer together than this are allowed to join the same range shape.
+        // Tuned to keep a single sparsely-recorded population together (eBird hotspot coverage
+        // can leave a few hundred km between points even within one contiguous range) while
+        // still splitting genuinely disjunct populations apart -- e.g. a species with separate
+        // breeding grounds in North America and South America, with nothing recorded in
+        // between, ends up as two shapes instead of one polygon bridging the whole gap.
+        // Lower this if shapes still feel like they're over-connecting; raise it if a species
+        // you know has one continuous range is coming out fragmented.
+        const HINT_CLUSTER_MAX_GAP_KM = 600;
+
+        // Union-find (disjoint set) clustering: two points join the same cluster if they're
+        // within HINT_CLUSTER_MAX_GAP_KM of each other, transitively -- so a chain of hotspots
+        // each a couple hundred km from the next still reads as one continuous range, but a
+        // single big gap (an ocean, an uninhabited stretch) breaks the chain in two.
+        // O(n^2) in point count; fine for a one-off click, but capped below for safety on
+        // species with unusually dense hotspot coverage.
+        function clusterCoordsByDistance(coords, maxDistanceKm) {
+            const maxDistanceMeters = maxDistanceKm * 1000;
+            const n = coords.length;
+            const parent = Array.from({ length: n }, (_, i) => i);
+            function find(i) {
+                while (parent[i] !== i) { parent[i] = parent[parent[i]]; i = parent[i]; }
+                return i;
+            }
+            function union(i, j) {
+                const ri = find(i), rj = find(j);
+                if (ri !== rj) parent[ri] = rj;
+            }
+
+            for (let i = 0; i < n; i++) {
+                for (let j = i + 1; j < n; j++) {
+                    if (haversineMeters(coords[i], coords[j]) <= maxDistanceMeters) union(i, j);
+                }
+            }
+
+            const groups = new Map();
+            for (let i = 0; i < n; i++) {
+                const root = find(i);
+                if (!groups.has(root)) groups.set(root, []);
+                groups.get(root).push(coords[i]);
+            }
+            return Array.from(groups.values());
+        }
+
         // Shared by Bird of the Day and Explore Species. Creates the Leaflet map on first use
-        // (reused after that), clears any shape left over from a previous species, and draws
-        // the right shape for however many points there are: a polygon for 3+, a circle
-        // centered on the midpoint (sized to cover both points) for exactly 2, or a fixed
-        // ~40km circle for a single point.
+        // (reused after that), clears any shapes left over from a previous species, and draws
+        // one shape per geographic cluster of points (see clusterCoordsByDistance above) rather
+        // than a single hull over everything -- so a species with disjunct populations gets
+        // multiple separate shapes instead of one polygon bridging the gap between them.
+        // Each cluster gets a polygon for 3+ points, a circle centered on the midpoint (sized
+        // to cover both) for exactly 2, or a fixed ~40km circle for a single isolated point.
+        //
+        // Defensive by design: a handful of malformed entries in the source data (null, NaN, or
+        // out-of-range lat/lng -- not uncommon in large scraped datasets) used to throw inside
+        // Leaflet with nothing catching it, leaving the map container permanently blank with no
+        // fallback. Bad points are filtered out up front, and the whole shape-building step is
+        // wrapped so any remaining surprise fails soft (a single circle, or the empty state)
+        // instead of silently leaving a dead map on screen.
         function renderHintShapeOnMap(existingMap, existingShapeLayer, containerId, coords) {
             let map = existingMap;
             if (!map) {
                 map = L.map(containerId, { zoomControl: false, attributionControl: false });
+                // Leaflet needs a view (center + zoom) established before any layer can compute
+                // pixel-based geometry -- Circle.getBounds() in particular converts its radius
+                // to a geographic extent via the map's projection, which isn't ready until a
+                // view exists. Without this line, the very first circle-shaped cluster (any
+                // cluster with only 1-2 points) rendered on a freshly-created map throws inside
+                // Leaflet itself. Since this map is cached and reused for every hint viewed for
+                // the rest of the session, that one failure silently breaks the hint for every
+                // species after it too, not just the one that triggered it.
+                map.setView([0, 0], 1);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
             }
             if (existingShapeLayer) {
                 map.removeLayer(existingShapeLayer);
             }
 
-            const hull = computeConvexHull(coords);
-            const style = { color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 };
-            let shape;
-            if (hull.length >= 3) {
-                shape = L.polygon(hull, style);
-            } else if (hull.length === 2) {
-                const midpoint = [(hull[0][0] + hull[1][0]) / 2, (hull[0][1] + hull[1][1]) / 2];
-                const radius = Math.max(40000, haversineMeters(hull[0], hull[1]) / 2 + 15000);
-                shape = L.circle(midpoint, Object.assign({ radius }, style));
-            } else {
-                shape = L.circle(hull[0] || coords[0], Object.assign({ radius: 40000 }, style));
+            const validCoords = coords.filter(p =>
+                Array.isArray(p) && p.length === 2 &&
+                Number.isFinite(p[0]) && Number.isFinite(p[1]) &&
+                p[0] >= -90 && p[0] <= 90 && p[1] >= -180 && p[1] <= 180
+            );
+            if (validCoords.length === 0) {
+                return { map, shape: null };
             }
 
-            shape.addTo(map);
-            map.fitBounds(shape.getBounds(), { padding: [20, 20] });
-            map.invalidateSize();
-            return { map, shape };
+            // Safety cap for unusually dense species (the clustering below is O(n^2)) -- an
+            // even sample keeps the shapes representative without the click hanging.
+            let clusterInput = validCoords;
+            const HINT_MAX_POINTS = 2000;
+            if (clusterInput.length > HINT_MAX_POINTS) {
+                const stride = clusterInput.length / HINT_MAX_POINTS;
+                clusterInput = Array.from({ length: HINT_MAX_POINTS }, (_, i) => clusterInput[Math.floor(i * stride)]);
+            }
+
+            try {
+                const clusters = clusterCoordsByDistance(clusterInput, HINT_CLUSTER_MAX_GAP_KM);
+                const style = { color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 };
+
+                const shapes = clusters.map(clusterPoints => {
+                    const hull = computeConvexHull(clusterPoints);
+                    if (hull.length >= 3) {
+                        return L.polygon(hull, style);
+                    } else if (hull.length === 2) {
+                        const midpoint = [(hull[0][0] + hull[1][0]) / 2, (hull[0][1] + hull[1][1]) / 2];
+                        const radius = Math.max(40000, haversineMeters(hull[0], hull[1]) / 2 + 15000);
+                        return L.circle(midpoint, Object.assign({ radius }, style));
+                    } else {
+                        return L.circle(hull[0] || clusterPoints[0], Object.assign({ radius: 40000 }, style));
+                    }
+                });
+
+                const shapeGroup = L.featureGroup(shapes);
+                shapeGroup.addTo(map);
+                map.fitBounds(shapeGroup.getBounds(), { padding: [20, 20] });
+                map.invalidateSize();
+                return { map, shape: shapeGroup };
+            } catch (err) {
+                console.error('Hint shape rendering failed, falling back to a single marker circle:', err);
+                try {
+                    const fallback = L.circle(validCoords[0], { radius: 60000, color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 });
+                    fallback.addTo(map);
+                    map.fitBounds(fallback.getBounds(), { padding: [20, 20] });
+                    map.invalidateSize();
+                    return { map, shape: fallback };
+                } catch (err2) {
+                    console.error('Fallback hint shape also failed:', err2);
+                    return { map, shape: null };
+                }
+            }
         }
 
         async function showBotdHint() {
@@ -3563,6 +3720,10 @@
                 const result = renderHintShapeOnMap(botdHintMap, botdHintShapeLayer, 'botd-hint-map', coords);
                 botdHintMap = result.map;
                 botdHintShapeLayer = result.shape;
+                if (!result.shape) {
+                    mapWrap.classList.add('hidden');
+                    emptyMsg.classList.remove('hidden');
+                }
             }, 30);
         }
         // ===================== end Bird of the Day =====================
@@ -3697,6 +3858,10 @@
                 const result = renderHintShapeOnMap(exploreHintMap, exploreHintShapeLayer, 'explore-hint-map', coords);
                 exploreHintMap = result.map;
                 exploreHintShapeLayer = result.shape;
+                if (!result.shape) {
+                    mapWrap.classList.add('hidden');
+                    emptyMsg.classList.remove('hidden');
+                }
             }, 30);
         }
 
