@@ -1618,7 +1618,7 @@
         // ever one thing that CAN be playing. Clips are hard-capped at 3 seconds regardless of
         // the source file's actual length.
         const AUDIO_SHARD_PATH = (shardName) => `data_pool/audio_shards/${shardName}.json`;
-        const AUDIO_CLIP_MAX_MS = 3000;
+        const AUDIO_CLIP_MAX_MS = 5000;
         let audioShardCache = {};
         let sharedAudioEl = null;
         let audioStopTimeout = null;
