@@ -3529,16 +3529,14 @@
         // -179 longitude, only ~2 degrees apart in reality but 358 apart as raw numbers. Left
         // alone, that breaks the sort this algorithm depends on. Longitudes are temporarily
         // shifted into a continuous space so they sort correctly, then shifted back afterward.
+        // Andrew's monotone chain convex hull. Returns points in CCW order, or the input points
+        // as-is if there are fewer than 3 (nothing to hull). Pure math -- no antimeridian
+        // handling here, that's done once by computeClusterHull below before either hull
+        // algorithm runs. Used as the safety-net fallback for computeConcaveHull, since a
+        // convex hull can always be computed for any point set and never fails.
         function computeConvexHull(points) {
             if (points.length < 3) return points;
-
-            const lngs = points.map(p => p[1]);
-            const spansDateline = (Math.max(...lngs) - Math.min(...lngs)) > 180;
-            const workingPoints = spansDateline
-                ? points.map(p => [p[0], p[1] < 0 ? p[1] + 360 : p[1]])
-                : points;
-
-            const pts = workingPoints.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+            const pts = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
             const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
 
             const lower = [];
@@ -3553,9 +3551,154 @@
                 upper.push(p);
             }
             lower.pop(); upper.pop();
-            const hull = lower.concat(upper);
+            return lower.concat(upper);
+        }
 
-            return spansDateline ? hull.map(p => [p[0], p[1] > 180 ? p[1] - 360 : p[1]]) : hull;
+        // ---- Concave hull (k-nearest-neighbors / Moreira-Santos algorithm) ----
+        // A convex hull can't represent a curved or bent distribution -- it always "cuts across"
+        // the bend, filling in area the species was never actually recorded in. This matters a
+        // lot for island chains and coastlines (e.g. the Aleutian Islands curving from mainland
+        // Alaska out toward Russia): a convex hull of that chain fills in the open Bering Sea in
+        // between, while a concave hull hugs the actual chain of points instead.
+        //
+        // The algorithm walks from point to point, at each step picking the sharpest allowed
+        // right-hand turn among the k nearest unused neighbors that doesn't cross an edge already
+        // drawn, until it loops back to the start. If that fails (no valid turn, or the resulting
+        // shape doesn't actually contain every point), k is increased and it retries -- a bigger k
+        // considers more candidate neighbors per step, which eventually converges; the highest k
+        // tried is capped for performance, and computeConvexHull is always available as a fallback
+        // that's guaranteed to succeed if concave hull can't find a valid shape.
+        function distSq(a, b) {
+            const dx = a[0] - b[0], dy = a[1] - b[1];
+            return dx * dx + dy * dy;
+        }
+        function angleBetween(a, b) {
+            let angle = Math.atan2(b[1] - a[1], b[0] - a[0]);
+            if (angle < 0) angle += 2 * Math.PI;
+            return angle;
+        }
+        function segmentsIntersect(p1, p2, p3, p4) {
+            const orientation = (a, b, c) => {
+                const val = (b[1] - a[1]) * (c[0] - b[0]) - (b[0] - a[0]) * (c[1] - b[1]);
+                if (Math.abs(val) < 1e-12) return 0;
+                return val > 0 ? 1 : 2;
+            };
+            const onSegment = (a, b, c) =>
+                Math.min(a[0], c[0]) <= b[0] && b[0] <= Math.max(a[0], c[0]) &&
+                Math.min(a[1], c[1]) <= b[1] && b[1] <= Math.max(a[1], c[1]);
+            const o1 = orientation(p1, p2, p3), o2 = orientation(p1, p2, p4);
+            const o3 = orientation(p3, p4, p1), o4 = orientation(p3, p4, p2);
+            if (o1 !== o2 && o3 !== o4) return true;
+            if (o1 === 0 && onSegment(p1, p3, p2)) return true;
+            if (o2 === 0 && onSegment(p1, p4, p2)) return true;
+            if (o3 === 0 && onSegment(p3, p1, p4)) return true;
+            if (o4 === 0 && onSegment(p3, p2, p4)) return true;
+            return false;
+        }
+        function pointInPolygon(point, polygon) {
+            let inside = false;
+            for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+                const xi = polygon[i][0], yi = polygon[i][1];
+                const xj = polygon[j][0], yj = polygon[j][1];
+                const intersect = ((yi > point[1]) !== (yj > point[1])) &&
+                    (point[0] < (xj - xi) * (point[1] - yi) / (yj - yi) + xi);
+                if (intersect) inside = !inside;
+            }
+            return inside;
+        }
+        function kNearestNeighbors(point, points, k) {
+            return points
+                .map(p => ({ p, d: distSq(point, p) }))
+                .sort((a, b) => a.d - b.d)
+                .slice(0, k)
+                .map(o => o.p);
+        }
+        function computeConcaveHullAttempt(uniquePoints, k) {
+            const kAdj = Math.min(Math.max(k, 3), uniquePoints.length - 1);
+            let dataset = uniquePoints.slice();
+            let firstPoint = dataset.reduce((min, p) => p[0] < min[0] ? p : min, dataset[0]);
+            const hull = [firstPoint];
+            let currentPoint = firstPoint;
+            dataset = dataset.filter(p => p !== firstPoint);
+            let prevAngle = 0;
+            let step = 1;
+
+            while ((currentPoint !== firstPoint || step === 1) && dataset.length > 0) {
+                if (step === 4) dataset.push(firstPoint); // allow closing the loop after a few steps
+
+                let candidates = kNearestNeighbors(currentPoint, dataset, kAdj);
+                candidates.sort((a, b) => {
+                    const angleA = ((angleBetween(currentPoint, a) - prevAngle + 3 * Math.PI) % (2 * Math.PI));
+                    const angleB = ((angleBetween(currentPoint, b) - prevAngle + 3 * Math.PI) % (2 * Math.PI));
+                    return angleB - angleA; // sharpest allowed right-hand turn first
+                });
+
+                let its = true, i = -1;
+                while (its && i < candidates.length - 1) {
+                    i++;
+                    let lastPoint = (candidates[i] === firstPoint) ? 1 : 0;
+                    let j = 2;
+                    its = false;
+                    while (!its && j < hull.length - lastPoint) {
+                        its = segmentsIntersect(hull[hull.length - 1], candidates[i], hull[hull.length - 1 - j], hull[hull.length - j]);
+                        j++;
+                    }
+                }
+                if (its) return null; // no valid non-crossing turn found with this k
+
+                currentPoint = candidates[i];
+                hull.push(currentPoint);
+                prevAngle = angleBetween(hull[hull.length - 2], currentPoint);
+                dataset = dataset.filter(p => p !== currentPoint);
+                step++;
+            }
+
+            for (const p of uniquePoints) {
+                if (!pointInPolygon(p, hull) && !hull.includes(p)) return null; // shape doesn't cover every point
+            }
+            return hull;
+        }
+        function computeConcaveHull(points) {
+            if (points.length < 3) return points;
+            const seen = new Set();
+            const uniquePoints = [];
+            for (const p of points) {
+                const key = p[0].toFixed(6) + ',' + p[1].toFixed(6);
+                if (!seen.has(key)) { seen.add(key); uniquePoints.push(p); }
+            }
+            if (uniquePoints.length < 3) return uniquePoints;
+
+            const maxK = Math.min(uniquePoints.length - 1, 20);
+            for (let k = 3; k <= maxK; k++) {
+                const result = computeConcaveHullAttempt(uniquePoints, k);
+                if (result && result.length >= 3) return result;
+            }
+            return computeConvexHull(points);
+        }
+
+        // Single entry point used by renderHintShapeOnMap: shifts points that span the
+        // antimeridian into a continuous longitude space once (points reaching here are already
+        // geographically clustered via haversine distance, so a raw longitude span over 180
+        // degrees means dateline wraparound, not a genuinely huge span -- see
+        // clusterCoordsByDistance above), then hulls in that space.
+        //
+        // Deliberately does NOT shift the result back to the standard -180..180 range: Leaflet
+        // projects each vertex's raw longitude to a pixel X position, and draws polygon edges as
+        // straight lines between consecutive vertices in that pixel space. Two vertices that are
+        // geographically ~10 degrees apart but numerically ~350 apart (e.g. -171 and +177) render
+        // as an edge stretching across almost the entire visible map if snapped back to -180..180
+        // -- Leaflet has no concept of "wrap around and take the short way". Keeping the longitude
+        // continuous (e.g. 189 instead of -171) means Leaflet renders it exactly where it
+        // geographically belongs, just past the edge of the base map, with no visual stretch.
+        function computeClusterHull(points) {
+            if (points.length < 3) return points;
+            const lngs = points.map(p => p[1]);
+            const spansDateline = (Math.max(...lngs) - Math.min(...lngs)) > 180;
+            const working = spansDateline
+                ? points.map(p => [p[0], p[1] < 0 ? p[1] + 360 : p[1]])
+                : points;
+
+            return computeConcaveHull(working);
         }
 
         function haversineMeters(p1, p2) {
@@ -3667,11 +3810,21 @@
                 const style = { color: '#f59e0b', fillColor: '#fbbf24', fillOpacity: 0.35, weight: 2 };
 
                 const shapes = clusters.map(clusterPoints => {
-                    const hull = computeConvexHull(clusterPoints);
+                    const hull = computeClusterHull(clusterPoints);
                     if (hull.length >= 3) {
                         return L.polygon(hull, style);
                     } else if (hull.length === 2) {
-                        const midpoint = [(hull[0][0] + hull[1][0]) / 2, (hull[0][1] + hull[1][1]) / 2];
+                        // Naively averaging raw longitudes breaks for a dateline-adjacent pair --
+                        // e.g. -179 and 179 (only ~2 degrees apart) would average to 0, landing
+                        // the circle near Greenwich instead of near the actual midpoint. Shift
+                        // the negative one into continuous space first, same reasoning as
+                        // computeClusterHull above, and leave the result unshifted for Leaflet.
+                        let [p0, p1] = hull;
+                        if (Math.abs(p0[1] - p1[1]) > 180) {
+                            p0 = p0[1] < 0 ? [p0[0], p0[1] + 360] : p0;
+                            p1 = p1[1] < 0 ? [p1[0], p1[1] + 360] : p1;
+                        }
+                        const midpoint = [(p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2];
                         const radius = Math.max(40000, haversineMeters(hull[0], hull[1]) / 2 + 15000);
                         return L.circle(midpoint, Object.assign({ radius }, style));
                     } else {
