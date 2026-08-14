@@ -164,6 +164,21 @@
 
         .t-panel { background-color: var(--t-panel) !important; transition: background-color 0.3s ease; }
         .t-panel-strong { background-color: var(--t-panel-strong) !important; transition: background-color 0.3s ease; }
+<<<<<<< HEAD
+=======
+        /* Buttons whose resting state is already t-panel-strong get a brightness lift on
+           hover instead of a hardcoded light color swap -- brightness() works uniformly
+           regardless of how light or dark the underlying theme color is. */
+        .t-panel-strong:hover { filter: brightness(1.15); }
+        /* Dropdown/list rows (hotspot search, region browser, autocomplete, travel list) use
+           this instead of a fixed hover:bg-color-50 -- those broke badly on dark themes since
+           the row text is t-text (light on dark themes) sitting on a near-white hover
+           background. t-panel-strong is already guaranteed to contrast with t-text in every
+           theme, so reusing it here for hover keeps every dropdown readable regardless of
+           which theme is active. */
+        .t-row-hover:hover { background-color: var(--t-panel-strong) !important; }
+        .t-row-selected { background-color: var(--t-panel-strong); }
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
         .t-text { color: var(--t-text) !important; }
         .t-muted { color: var(--t-muted) !important; }
         .t-border { border-color: var(--t-border) !important; }
@@ -237,7 +252,11 @@
                        class="text-[11px] font-bold t-muted hover:text-blue-600 underline decoration-dotted transition whitespace-nowrap">
                         Submit Feedback ↗
                     </a>
+<<<<<<< HEAD
                     <button onclick="toggleHowToPlay(true)" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full t-panel-strong hover:bg-slate-200 t-muted font-black text-sm transition" title="How to Play">
+=======
+                    <button onclick="toggleHowToPlay(true)" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full t-panel-strong t-muted font-black text-sm transition" title="How to Play">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         ⓘ
                     </button>
                 </div>
@@ -263,7 +282,11 @@
                     <button onclick="openExploreScreen()" class="t-btn-explore w-72 py-3 font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95 hover:brightness-110">
                         🔎 Explore Species Profiles
                     </button>
+<<<<<<< HEAD
                     <button onclick="dumpBlacklistLog()" class="w-72 py-2 t-panel-strong hover:bg-slate-300 t-text font-sans text-xs font-bold rounded-xl transition">
+=======
+                    <button onclick="dumpBlacklistLog()" class="w-72 py-2 t-panel-strong t-text font-sans text-xs font-bold rounded-xl transition">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         📋 Export Flagged Blacklist Log
                     </button>
                 </div>
@@ -321,7 +344,11 @@
                         </h2>
                         <p class="text-xs t-muted font-medium">Track your lifetime birding milestones and rare finds</p>
                     </div>
+<<<<<<< HEAD
                     <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+=======
+                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         &larr; Main Menu
                     </button>
                 </div>
@@ -392,7 +419,11 @@
                         </h2>
                         <p class="text-xs t-muted font-medium">Goals track your Arcade Mode play automatically all month — no need to start anything separately.</p>
                     </div>
+<<<<<<< HEAD
                     <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+=======
+                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         &larr; Main Menu
                     </button>
                 </div>
@@ -418,7 +449,11 @@
                         </h2>
                         <p class="text-xs t-muted font-medium">Search any species to browse its full photo gallery</p>
                     </div>
+<<<<<<< HEAD
                     <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+=======
+                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         &larr; Main Menu
                     </button>
                 </div>
@@ -601,7 +636,11 @@
                 </div>
 
                 <div class="flex space-x-3 max-w-md mx-auto items-center">
+<<<<<<< HEAD
                     <button onclick="changeScreen('mode-selection-screen')" class="w-1/3 py-3 t-panel-strong hover:bg-slate-200 t-text font-bold rounded-xl transition">
+=======
+                    <button onclick="changeScreen('mode-selection-screen')" class="w-1/3 py-3 t-panel-strong t-text font-bold rounded-xl transition">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         Back
                     </button>
                     <button id="launch-button" onclick="launchGameEngine()" class="w-2/3 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
@@ -1271,7 +1310,11 @@
                 resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No hotspots found.</div>`;
             } else {
                 resultsDiv.innerHTML = matches.map((h, i) => `
+<<<<<<< HEAD
                     <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)}, 'hotspot-search-results')">
+=======
+                    <div class="p-2.5 t-row-hover cursor-pointer border-b t-border text-xs" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)}, 'hotspot-search-results')">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         <span class="font-bold t-text">${h.name}</span>
                         <span class="t-muted"> — ${h.species_count != null ? h.species_count + ' sp.' : 'N/A'} · ${h.subnational1Code || h.countryCode || ''}</span>
                     </div>
@@ -1337,7 +1380,11 @@
                     return sum + (n ? n.hotspots.length : 0);
                 }, 0);
                 html += `
+<<<<<<< HEAD
                     <div class="p-2.5 hover:bg-blue-50 cursor-pointer flex justify-between items-center text-sm" onclick="renderRegionBrowser('${child.code}')">
+=======
+                    <div class="p-2.5 t-row-hover cursor-pointer flex justify-between items-center text-sm" onclick="renderRegionBrowser('${child.code}')">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         <span class="font-semibold t-text">📁 ${child.display_name}</span>
                         <span class="t-muted text-[10px]">${count > 0 ? count + ' hs' : ''} ▸</span>
                     </div>`;
@@ -1348,7 +1395,11 @@
                     .slice().sort((a, b) => (b.species_count || 0) - (a.species_count || 0))
                     .forEach(h => {
                         html += `
+<<<<<<< HEAD
                             <div class="p-2.5 hover:bg-emerald-50 cursor-pointer flex justify-between items-center text-sm" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)})">
+=======
+                            <div class="p-2.5 t-row-hover cursor-pointer flex justify-between items-center text-sm" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)})">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                                 <span class="font-semibold t-text">📍 ${h.name}</span>
                                 <span class="t-muted text-[10px]">${h.species_count != null ? h.species_count + ' sp.' : 'N/A'}</span>
                             </div>`;
@@ -1372,7 +1423,11 @@
                 resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No regions found.</div>`;
             } else {
                 resultsDiv.innerHTML = matches.map(n => `
+<<<<<<< HEAD
                     <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs font-semibold t-text"
+=======
+                    <div class="p-2.5 t-row-hover cursor-pointer border-b t-border text-xs font-semibold t-text"
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                          onclick="renderRegionBrowser('${n.code}'); document.getElementById('region-search-results').classList.add('hidden'); document.getElementById('region-search-input').value='';">
                         🗺️ ${n.display_name} <span class="t-muted font-normal">(${n.code})</span>
                     </div>
@@ -1447,7 +1502,11 @@
 
             const matches = flatHotspots.filter(h => h.name && h.name.toLowerCase().includes(q)).slice(0, 25);
             resultsDiv.innerHTML = matches.map(h => `
+<<<<<<< HEAD
                 <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs font-semibold t-text"
+=======
+                <div class="p-2.5 t-row-hover cursor-pointer border-b t-border text-xs font-semibold t-text"
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                      onclick="flyToHotspotOnMap('${h.locId}')">${h.name}</div>
             `).join('') || `<div class="p-3 t-muted text-xs italic">No hotspots found.</div>`;
             resultsDiv.classList.remove('hidden');
@@ -2040,7 +2099,11 @@
 
             container.innerHTML = matches.map((b, idx) => `
                 <div
+<<<<<<< HEAD
                     class="flex items-center p-2.5 cursor-pointer hover:bg-blue-50 border-b t-border last:border-none select-choice ${idx === 0 ? 'bg-blue-50/50' : ''}"
+=======
+                    class="flex items-center p-2.5 cursor-pointer t-row-hover border-b t-border last:border-none select-choice ${idx === 0 ? 't-row-selected' : ''}"
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                     data-name="${b.name}"
                     onclick="selectSuggestion(this.dataset.name, '${inputEl.id}', '${containerId}')">
                
@@ -2350,7 +2413,11 @@
 
             const listEl = document.getElementById('blitz-travel-list');
             listEl.innerHTML = blitzTravelCandidates.map((c, i) => `
+<<<<<<< HEAD
                 <div class="p-2 hover:bg-orange-50 cursor-pointer flex justify-between items-center text-xs" onclick="previewBlitzTravel(${i})">
+=======
+                <div class="p-2 t-row-hover cursor-pointer flex justify-between items-center text-xs" onclick="previewBlitzTravel(${i})">
+>>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                     <span class="font-semibold t-text truncate pr-2">📍 ${c.h.name}</span>
                     <span class="t-muted shrink-0">${c.miles.toFixed(1)} mi · ⏱ ${formatTravelCost(c.minutesCost)}</span>
                 </div>

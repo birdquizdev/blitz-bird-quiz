@@ -1,159 +1,327 @@
 {
   "shard_family": "new_zealand_parrots",
   "data": {
-    "kakapo2": {
-      "assets": [
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203919621/mp3",
-          "copyright": "© Josep del Hoyo"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/424682531/mp3",
-          "copyright": "© Oscar Thomas"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/434489191/mp3",
-          "copyright": "© Donavin de Jager"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/430569401/mp3",
-          "copyright": "© Oscar Thomas"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/396753181/mp3",
-          "copyright": "© Donavin de Jager"
-        }
-      ]
-    },
     "kea1": {
       "assets": [
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203922031/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_0.mp3",
           "copyright": "© Josep del Hoyo"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/645689184/mp3",
-          "copyright": "© Ben Ackerley"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/596502591/mp3",
-          "copyright": "© Katy Banning"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/590054591/mp3",
-          "copyright": "© Jeffrey Hale"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/419751971/mp3",
-          "copyright": "© Esteban Martinez Fredes"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203993351/mp3",
-          "copyright": "© Nicholas Talbot"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/622058449/mp3",
-          "copyright": "© Samuel Amaris"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/612379048/mp3",
-          "copyright": "© Shifaan Thowfeequ"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/538219271/mp3",
-          "copyright": "© Marian W"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/534286111/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_1.mp3",
           "copyright": "© Ting-Wei (廷維) HUNG (洪)"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/623340354/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_2.mp3",
           "copyright": "© Katie McKay"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/630176072/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_3.mp3",
           "copyright": "© Alex Mann"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/630173244/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_4.mp3",
           "copyright": "© Alex Mann"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/433664811/mp3",
-          "copyright": "© Dan Burgin"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/569231411/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_6.mp3",
           "copyright": "© Abby Ladd"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/623516934/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_7.mp3",
           "copyright": "© Ronald Schmidt"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_9.mp3",
+          "copyright": "© Alex Mann"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_10.mp3",
+          "copyright": "© Alex Mann"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_11.mp3",
+          "copyright": "© Alex Mann"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_12.mp3",
+          "copyright": "© Ben Ackerley"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_13.mp3",
+          "copyright": "© Katy Banning"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_14.mp3",
+          "copyright": "© Jeffrey Hale"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_15.mp3",
+          "copyright": "© Esteban Martinez Fredes"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_16.mp3",
+          "copyright": "© Nicholas Talbot"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_17.mp3",
+          "copyright": "© Samuel Amaris"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_18.mp3",
+          "copyright": "© Shifaan Thowfeequ"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_19.mp3",
+          "copyright": "© Marian W"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_22.mp3",
+          "copyright": "© Samuel Amaris"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_23.mp3",
+          "copyright": "© Cole Gaerber"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_24.mp3",
+          "copyright": "© Jean Jack"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_25.mp3",
+          "copyright": "© Richard Littauer"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_26.mp3",
+          "copyright": "© Po-Wei Chi"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_27.mp3",
+          "copyright": "© Teal'c Mills"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_28.mp3",
+          "copyright": "© Ben Ackerley"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_29.mp3",
+          "copyright": "© Richard Schofield"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_30.mp3",
+          "copyright": "© Richard Schofield"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_31.mp3",
+          "copyright": "© Katy Banning"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kea1_32.mp3",
+          "copyright": "© Nancy Houlihan"
         }
       ]
     },
     "nezkak1": {
       "assets": [
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/212043291/mp3",
-          "copyright": "© Alex Berryman"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203886821/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_0.mp3",
           "copyright": "© Pieter de Groot Boersma"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203921931/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_1.mp3",
           "copyright": "© Josep del Hoyo"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/632130020/mp3",
-          "copyright": "© Bradley Shields"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203920081/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_2.mp3",
           "copyright": "© Josep del Hoyo"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203921791/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_3.mp3",
           "copyright": "© Josep del Hoyo"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/619926806/mp3",
-          "copyright": "© Janina Castro"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/616174600/mp3",
-          "copyright": "© Ann Richards"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203938051/mp3",
-          "copyright": "© Doug and Denise Norris"
-        },
-        {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203922181/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_4.mp3",
           "copyright": "© Josep del Hoyo"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203921921/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_5.mp3",
           "copyright": "© Josep del Hoyo"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203921911/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_6.mp3",
           "copyright": "© Josep del Hoyo"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/203921781/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_7.mp3",
           "copyright": "© Josep del Hoyo"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/638312331/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_8.mp3",
           "copyright": "© Ramit Singal"
         },
         {
-          "url": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/648283693/mp3",
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_9.mp3",
           "copyright": "© Hanyang Ye"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_10.mp3",
+          "copyright": "© Nicholas Talbot"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_11.mp3",
+          "copyright": "© Ulises Cabrera Miranda"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_12.mp3",
+          "copyright": "© Dan Burgin"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_13.mp3",
+          "copyright": "© Scott  Connop"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_14.mp3",
+          "copyright": "© Tom Auer"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_15.mp3",
+          "copyright": "© Richard Schofield"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_16.mp3",
+          "copyright": "© Isabella Webb"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_17.mp3",
+          "copyright": "© Luca Morones-Calcagno"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_18.mp3",
+          "copyright": "© Avery Fish"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_19.mp3",
+          "copyright": "© Dan Burgin"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_20.mp3",
+          "copyright": "© Jim Kirker"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_21.mp3",
+          "copyright": "© Jim Kirker"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_22.mp3",
+          "copyright": "© Russell Cannings"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_23.mp3",
+          "copyright": "© Luca Morones-Calcagno"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_24.mp3",
+          "copyright": "© Luca Morones-Calcagno"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_25.mp3",
+          "copyright": "© Sidney Ashby"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_27.mp3",
+          "copyright": "© Ulises Cabrera Miranda"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_28.mp3",
+          "copyright": "© Alex Berryman"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_29.mp3",
+          "copyright": "© Bradley Shields"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_30.mp3",
+          "copyright": "© Janina Castro"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_32.mp3",
+          "copyright": "© Doug and Denise Norris"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_33.mp3",
+          "copyright": "© Ben Ackerley"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_34.mp3",
+          "copyright": "© Mike Bickerdike"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_35.mp3",
+          "copyright": "© Matt Simcox"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_36.mp3",
+          "copyright": "© Richard Littauer"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_37.mp3",
+          "copyright": "© Richard Littauer"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_38.mp3",
+          "copyright": "© Kandace Glanville"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_39.mp3",
+          "copyright": "© Herb Elliott"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_40.mp3",
+          "copyright": "© Herb Elliott"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_41.mp3",
+          "copyright": "© Ben Ackerley"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_42.mp3",
+          "copyright": "© Po-Wei Chi"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_43.mp3",
+          "copyright": "© Jim Norris"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_44.mp3",
+          "copyright": "© Lorenzo Lavas"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_45.mp3",
+          "copyright": "© Ken George"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_46.mp3",
+          "copyright": "© Ulises Cabrera Miranda"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/nezkak1_47.mp3",
+          "copyright": "© Esteban Martinez Fredes"
+        }
+      ]
+    },
+    "kakapo2": {
+      "assets": [
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kakapo2_0.mp3",
+          "copyright": "© Josep del Hoyo"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kakapo2_2.mp3",
+          "copyright": "© Donavin de Jager"
+        },
+        {
+          "url": "https://pub-d60a4f186ea942ba8e1a9ac592d29a50.r2.dev/kakapo2_4.mp3",
+          "copyright": "© Donavin de Jager"
         }
       ]
     }
