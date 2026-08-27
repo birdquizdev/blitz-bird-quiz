@@ -45,6 +45,22 @@
             animation: chromaGlow 3s linear infinite;
         }
 
+        /* ============ Mega Rare identification effect (Arcade/Blitz) ============ */
+        #outer-app-card {
+            border: 3px solid transparent;
+        }
+        #outer-app-card.mega-rare-pulse {
+            animation: megaRareBorderPulse 2.8s cubic-bezier(0.22, 1, 0.36, 1) 1;
+        }
+        @keyframes megaRareBorderPulse {
+            0%   { border-color: transparent; box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); }
+            8%   { border-color: #ff0055; box-shadow: 0 0 0 8px rgba(255, 0, 85, 0.35), 0 0 40px 6px rgba(255, 0, 85, 0.55); }
+            28%  { border-color: #ffb700; box-shadow: 0 0 0 4px rgba(255, 183, 0, 0.25), 0 0 40px 6px rgba(255, 183, 0, 0.5); }
+            48%  { border-color: #00f0ff; box-shadow: 0 0 0 8px rgba(0, 240, 255, 0.3), 0 0 45px 8px rgba(0, 240, 255, 0.55); }
+            68%  { border-color: #a855f7; box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25), 0 0 35px 6px rgba(168, 85, 247, 0.5); }
+            100% { border-color: transparent; box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+        }
+
         /* ============ THEME SYSTEM ============ */
         html[data-theme] { transition: background 0.25s ease; }
 
@@ -164,8 +180,6 @@
 
         .t-panel { background-color: var(--t-panel) !important; transition: background-color 0.3s ease; }
         .t-panel-strong { background-color: var(--t-panel-strong) !important; transition: background-color 0.3s ease; }
-<<<<<<< HEAD
-=======
         /* Buttons whose resting state is already t-panel-strong get a brightness lift on
            hover instead of a hardcoded light color swap -- brightness() works uniformly
            regardless of how light or dark the underlying theme color is. */
@@ -178,7 +192,6 @@
            which theme is active. */
         .t-row-hover:hover { background-color: var(--t-panel-strong) !important; }
         .t-row-selected { background-color: var(--t-panel-strong); }
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
         .t-text { color: var(--t-text) !important; }
         .t-muted { color: var(--t-muted) !important; }
         .t-border { border-color: var(--t-border) !important; }
@@ -252,11 +265,7 @@
                        class="text-[11px] font-bold t-muted hover:text-blue-600 underline decoration-dotted transition whitespace-nowrap">
                         Submit Feedback ↗
                     </a>
-<<<<<<< HEAD
-                    <button onclick="toggleHowToPlay(true)" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full t-panel-strong hover:bg-slate-200 t-muted font-black text-sm transition" title="How to Play">
-=======
                     <button onclick="toggleHowToPlay(true)" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full t-panel-strong t-muted font-black text-sm transition" title="How to Play">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         ⓘ
                     </button>
                 </div>
@@ -282,12 +291,17 @@
                     <button onclick="openExploreScreen()" class="t-btn-explore w-72 py-3 font-serif text-xl font-bold rounded-2xl shadow-md transition active:scale-95 hover:brightness-110">
                         🔎 Explore Species Profiles
                     </button>
-<<<<<<< HEAD
-                    <button onclick="dumpBlacklistLog()" class="w-72 py-2 t-panel-strong hover:bg-slate-300 t-text font-sans text-xs font-bold rounded-xl transition">
-=======
-                    <button onclick="dumpBlacklistLog()" class="w-72 py-2 t-panel-strong t-text font-sans text-xs font-bold rounded-xl transition">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
-                        📋 Export Flagged Blacklist Log
+                    <button onclick="exportBlacklistCSV()" class="w-72 py-2 t-panel-strong t-text font-sans text-xs font-bold rounded-xl transition">
+                        📋 Export Flagged Blacklist (CSV)
+                    </button>
+                    <button onclick="toggleStatsBackup(true)" class="w-72 py-2 t-panel-strong t-text font-sans text-xs font-bold rounded-xl transition">
+                        💾 Backup / Restore Stats
+                    </button>
+                </div>
+
+                <div class="absolute bottom-0 left-0">
+                    <button onclick="toggleCredits(true)" class="flex items-center gap-1.5 t-panel border t-border rounded-xl px-3 py-2 shadow-sm text-[10px] font-bold t-muted uppercase tracking-wider hover:text-slate-600 transition">
+                        © Credits &amp; Data Sources
                     </button>
                 </div>
 
@@ -344,11 +358,7 @@
                         </h2>
                         <p class="text-xs t-muted font-medium">Track your lifetime birding milestones and rare finds</p>
                     </div>
-<<<<<<< HEAD
-                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
-=======
                     <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         &larr; Main Menu
                     </button>
                 </div>
@@ -374,9 +384,15 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-slate-900 text-slate-100 p-5 rounded-2xl shadow-md border border-slate-800">
-                        <h3 class="text-base font-extrabold text-amber-400 mb-3 flex items-center gap-2">
-                            <span>🥇</span> Top 5 High Scores
-                        </h3>
+                        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                            <h3 id="top-scores-title" class="text-base font-extrabold text-amber-400 flex items-center gap-2">
+                                <span>🥇</span> Top 5 High Scores
+                            </h3>
+                            <div class="flex bg-slate-800 rounded-lg p-0.5 gap-0.5 shrink-0">
+                                <button id="scores-tab-arcade-btn" onclick="setScoresLeaderboardTab('arcade')" class="px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider transition bg-amber-500 text-white">🎮 Arcade</button>
+                                <button id="scores-tab-blitz-btn" onclick="setScoresLeaderboardTab('blitz')" class="px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider transition text-slate-300 hover:text-white">🌅 Blitz</button>
+                            </div>
+                        </div>
                         <div id="top-scores-list" class="space-y-2 text-xs">
                             <p class="t-muted italic">No Arcade matches recorded yet.</p>
                         </div>
@@ -419,11 +435,7 @@
                         </h2>
                         <p class="text-xs t-muted font-medium">Goals track your Arcade Mode play automatically all month — no need to start anything separately.</p>
                     </div>
-<<<<<<< HEAD
-                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
-=======
                     <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         &larr; Main Menu
                     </button>
                 </div>
@@ -449,20 +461,17 @@
                         </h2>
                         <p class="text-xs t-muted font-medium">Search any species to browse its full photo gallery</p>
                     </div>
-<<<<<<< HEAD
-                    <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong hover:bg-slate-200 t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
-=======
                     <button onclick="changeScreen('main-menu-screen')" class="t-panel-strong t-text font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition shrink-0">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         &larr; Main Menu
                     </button>
                 </div>
 
                 <div id="explore-search-section" class="max-w-md mx-auto py-6 min-h-[420px]">
                     <div class="relative">
-                        <input id="explore-search-input" type="text" placeholder="Search for a species…" autocomplete="off"
+                        <input id="explore-search-input" type="text" placeholder="Search species name or 4-letter alpha code…" autocomplete="off"
                                class="w-full p-3 border-2 t-border rounded-xl t-panel t-text font-semibold focus:outline-none focus:border-teal-500 shadow-sm"
-                               oninput="handleExploreSearchInput(this.value)">
+                               oninput="handleExploreSearchInput(this.value)"
+                               onkeydown="handleExploreSuggestionKeys(event)">
                         <div id="explore-search-results" class="hidden absolute top-full left-0 right-0 mt-1 t-panel border t-border rounded-xl shadow-xl max-h-96 overflow-y-auto z-50 text-sm"></div>
                     </div>
                 </div>
@@ -475,7 +484,10 @@
                     <div id="explore-gallery-body" class="hidden space-y-3">
                         <div class="flex justify-between items-baseline flex-wrap gap-1">
                             <div>
-                                <h3 id="explore-common-name" class="text-2xl font-bold t-text"></h3>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <h3 id="explore-common-name" class="text-2xl font-bold t-text"></h3>
+                                    <span id="explore-identified-badge" class="text-[10px] font-bold uppercase tracking-wide t-muted t-panel border t-border rounded-full px-2 py-0.5 whitespace-nowrap"></span>
+                                </div>
                                 <p id="explore-scientific-name" class="text-sm italic t-muted"></p>
                             </div>
                             <button onclick="resetExploreSearch()" class="text-xs font-bold text-blue-600 hover:text-blue-800 underline shrink-0">
@@ -500,7 +512,8 @@
                                     class="w-11 h-11 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-md transition shrink-0" title="Play call/song (3s clip)">
                                 <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
                             </button>
-                            <span id="explore-audio-copyright" class="text-[10px] t-muted font-medium truncate"></span>
+                            <span id="explore-audio-copyright" class="text-[10px] t-muted font-medium truncate flex-1"></span>
+                            <button onclick="flagActiveAudio('explore')" class="text-red-500 hover:text-red-700 transition text-xs shrink-0" title="Flag this audio clip as broken or wrong">🚩</button>
                         </div>
                         <p id="explore-copyright" class="text-[10px] t-muted text-center"></p>
 
@@ -529,12 +542,28 @@
 
                     <div id="practice-tags-body" class="hidden space-y-4">
                         <div>
-                            <label class="block text-xs font-bold t-muted uppercase tracking-wider mb-2">🐦 Bird Group <span class="normal-case font-medium t-muted">(optional, select any)</span></label>
-                            <div id="practice-group-chips" class="flex flex-wrap gap-1.5"></div>
+                            <label class="block text-xs font-bold t-muted uppercase tracking-wider mb-2">🐦 Bird Group <span class="normal-case font-medium t-muted">(optional, search &amp; add)</span></label>
+                            <div id="practice-group-selected" class="flex flex-wrap gap-1.5 mb-2"></div>
+                            <div class="relative">
+                                <input id="practice-group-search" type="text" placeholder="Search bird groups…" autocomplete="off"
+                                       class="w-full p-2.5 border-2 t-border rounded-xl t-panel t-text font-semibold text-sm focus:outline-none focus:border-emerald-500 shadow-sm"
+                                       oninput="handlePracticeTagSearch('group', this.value)"
+                                       onfocus="handlePracticeTagSearch('group', this.value)">
+                                <div id="practice-group-search-results" class="hidden absolute top-full left-0 right-0 mt-1 t-panel border t-border rounded-xl shadow-xl max-h-52 overflow-y-auto z-50 text-sm font-medium"></div>
+                            </div>
+                            <div id="practice-group-quickpicks" class="flex flex-wrap items-center gap-1.5 mt-2"></div>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold t-muted uppercase tracking-wider mb-2">🌎 Region <span class="normal-case font-medium t-muted">(optional, select any)</span></label>
-                            <div id="practice-region-chips" class="flex flex-wrap gap-1.5"></div>
+                            <label class="block text-xs font-bold t-muted uppercase tracking-wider mb-2">🌎 Region <span class="normal-case font-medium t-muted">(optional, search &amp; add)</span></label>
+                            <div id="practice-region-selected" class="flex flex-wrap gap-1.5 mb-2"></div>
+                            <div class="relative">
+                                <input id="practice-region-search" type="text" placeholder="Search regions…" autocomplete="off"
+                                       class="w-full p-2.5 border-2 t-border rounded-xl t-panel t-text font-semibold text-sm focus:outline-none focus:border-emerald-500 shadow-sm"
+                                       oninput="handlePracticeTagSearch('region', this.value)"
+                                       onfocus="handlePracticeTagSearch('region', this.value)">
+                                <div id="practice-region-search-results" class="hidden absolute top-full left-0 right-0 mt-1 t-panel border t-border rounded-xl shadow-xl max-h-52 overflow-y-auto z-50 text-sm font-medium"></div>
+                            </div>
+                            <div id="practice-region-quickpicks" class="flex flex-wrap items-center gap-1.5 mt-2"></div>
                         </div>
                     </div>
 
@@ -636,11 +665,7 @@
                 </div>
 
                 <div class="flex space-x-3 max-w-md mx-auto items-center">
-<<<<<<< HEAD
-                    <button onclick="changeScreen('mode-selection-screen')" class="w-1/3 py-3 t-panel-strong hover:bg-slate-200 t-text font-bold rounded-xl transition">
-=======
                     <button onclick="changeScreen('mode-selection-screen')" class="w-1/3 py-3 t-panel-strong t-text font-bold rounded-xl transition">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         Back
                     </button>
                     <button id="launch-button" onclick="launchGameEngine()" class="w-2/3 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
@@ -672,7 +697,8 @@
                             class="w-11 h-11 rounded-full t-btn-primary flex items-center justify-center shadow-md transition shrink-0" title="Play call/song (3s clip)">
                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
                     </button>
-                    <span id="practice-audio-copyright" class="text-[10px] t-muted font-medium truncate"></span>
+                    <span id="practice-audio-copyright" class="text-[10px] t-muted font-medium truncate flex-1"></span>
+                    <button onclick="flagActiveAudio('practice')" class="text-red-500 hover:text-red-700 transition text-xs shrink-0" title="Flag this audio clip as broken or wrong">🚩</button>
                 </div>
                 
                 <div class="flex justify-between items-center mb-4 px-1 t-muted text-xs font-semibold">
@@ -682,7 +708,7 @@
                 
                 <div class="relative w-full mb-4">
                     <input id="answer-entry" type="text" placeholder="Start typing bird common or 4-letter code name..." 
-                           class="w-full p-3 border-2 t-border rounded-xl focus:outline-none focus:border-blue-500 font-semibold shadow-sm t-text" 
+                           class="w-full p-3 border-2 t-border rounded-xl focus:outline-none focus:border-blue-500 font-semibold shadow-sm t-panel t-text" 
                            oninput="handleTypingSuggestions(this, 'practice-suggestions')"
                            onkeydown="handleSuggestionKeys(event, 'practice-suggestions', this, false)">
                     <div id="practice-suggestions" class="hidden absolute top-full left-0 right-0 t-panel border t-border rounded-xl shadow-xl max-h-48 overflow-y-auto z-50 t-text text-sm font-medium"></div>
@@ -901,7 +927,7 @@
                     
                     <div id="arcade-text-input-container" class="relative w-full mb-3">
                         <input id="arcade-input-field" type="text" placeholder="Type bird name or 4-letter alpha..." 
-                               class="w-full p-3 border-2 t-border rounded-xl font-bold focus:outline-none focus:border-blue-600 t-text shadow-inner"
+                               class="w-full p-3 border-2 t-border rounded-xl font-bold focus:outline-none focus:border-blue-600 t-panel t-text shadow-inner"
                                oninput="handleTypingSuggestions(this, 'arcade-suggestions')"
                                onkeydown="handleSuggestionKeys(event, 'arcade-suggestions', this, true)">
                         <div id="arcade-suggestions" class="hidden absolute top-full left-0 right-0 t-panel border t-border rounded-xl shadow-xl max-h-40 overflow-y-auto z-50 t-text text-sm font-bold"></div>
@@ -921,7 +947,8 @@
                                 class="w-10 h-10 rounded-full t-btn-primary flex items-center justify-center shadow-md transition shrink-0" title="Play call/song (3s clip)">
                             <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
                         </button>
-                        <span id="arcade-audio-copyright" class="text-[10px] t-muted font-medium truncate"></span>
+                        <span id="arcade-audio-copyright" class="text-[10px] t-muted font-medium truncate flex-1"></span>
+                        <button onclick="flagActiveAudio('arcade')" class="text-red-500 hover:text-red-700 transition text-xs shrink-0" title="Flag this audio clip as broken or wrong">🚩</button>
                     </div>
 
                     <div class="flex justify-between items-center text-[10px] font-bold t-muted">
@@ -949,9 +976,9 @@
             <div class="flex items-center justify-between p-3 border-b t-border">
                 <div class="relative w-72">
                     <input id="hs-map-search" type="text" placeholder="🔍 Search hotspots…" autocomplete="off"
-                           class="w-full p-2 pl-3 text-sm border-2 t-border rounded-lg t-panel focus:outline-none focus:border-blue-500"
+                           class="w-full p-2 pl-3 text-sm border-2 t-border rounded-lg t-panel t-text focus:outline-none focus:border-blue-500"
                            oninput="handleHotspotMapSearchInput(this.value)">
-                    <div id="hs-map-search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-stone-50 border t-border rounded-xl shadow-xl max-h-56 overflow-y-auto z-[2000] text-sm"></div>
+                    <div id="hs-map-search-results" class="hidden absolute top-full left-0 right-0 mt-1 t-panel border t-border rounded-xl shadow-xl max-h-56 overflow-y-auto z-[2000] text-sm"></div>
                 </div>
                 <button onclick="closeHotspotMapModal()" class="t-muted hover:text-slate-700 font-bold text-2xl leading-none px-2">&times;</button>
             </div>
@@ -1010,6 +1037,76 @@
                 <div>
                     <h4 class="font-bold t-text mb-1">🏆 Trophy Case &amp; Stats</h4>
                     <p>Tracks your lifetime totals, rarest finds, high scores, and tiered achievements — all saved locally to this browser.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="credits-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="t-panel rounded-2xl shadow-2xl p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-start mb-3">
+                <h3 class="text-2xl font-bold t-text font-serif">Credits &amp; Data Sources</h3>
+                <button onclick="toggleCredits(false)" class="t-muted hover:text-slate-700 font-bold text-2xl leading-none px-1">&times;</button>
+            </div>
+            <div class="space-y-4 text-sm t-text font-medium">
+                <div>
+                    <h4 class="font-bold t-text mb-1">🗺️ Data &amp; Taxonomy</h4>
+                    <p>Bird species taxonomy, distribution, and observation data are derived from
+                        <a href="https://ebird.org" target="_blank" rel="noopener" class="font-bold text-blue-600 hover:text-blue-700 underline decoration-dotted">eBird ↗</a>,
+                        a project of the
+                        <a href="https://www.birds.cornell.edu" target="_blank" rel="noopener" class="font-bold text-blue-600 hover:text-blue-700 underline decoration-dotted">Cornell Lab of Ornithology ↗</a>.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold t-text mb-1">📷 Media</h4>
+                    <p>Bird photographs and sound recordings are provided by the Cornell Lab of Ornithology's
+                        <a href="https://www.macaulaylibrary.org" target="_blank" rel="noopener" class="font-bold text-blue-600 hover:text-blue-700 underline decoration-dotted">Macaulay Library ↗</a>
+                        and remain the property of their respective contributors. Individual media are credited to their contributors throughout the game, wherever that media appears.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold t-text mb-1">🙏 Acknowledgment</h4>
+                    <p>This project is an independent, non-commercial fan/educational project and is not affiliated with or endorsed by the Cornell Lab of Ornithology or eBird.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold t-text mb-1">💸 A Note on Cost</h4>
+                    <p>This game is free to play, contains no ads, and will never be monetized — that's part of how it stays within the terms these data and media sources are provided under.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="stats-backup-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="t-panel rounded-2xl shadow-2xl p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-start mb-3">
+                <h3 class="text-2xl font-bold t-text font-serif">💾 Backup &amp; Restore Stats</h3>
+                <button onclick="toggleStatsBackup(false)" class="t-muted hover:text-slate-700 font-bold text-2xl leading-none px-1">&times;</button>
+            </div>
+            <div class="space-y-4 text-sm t-text font-medium">
+                <p class="t-muted">Your life list, trophy case, high scores, and achievements are all saved locally to this browser only — switching devices, clearing browser data, or the game moving to a new hosting URL will lose them unless you back up first.</p>
+
+                <div>
+                    <h4 class="font-bold t-text mb-1">Export</h4>
+                    <p class="t-muted mb-2 text-xs">Download all your stats as a single file you can keep or move to another device/browser.</p>
+                    <button onclick="exportStatsJSON()" class="w-full py-2.5 t-panel-strong t-text font-sans text-xs font-bold rounded-xl transition">
+                        ⬇️ Export My Stats (JSON)
+                    </button>
+                </div>
+
+                <div>
+                    <h4 class="font-bold t-text mb-1">Import</h4>
+                    <p class="t-muted mb-2 text-xs">Restore stats from a previously exported file. <strong class="t-text">This replaces everything currently saved on this device.</strong></p>
+                    <button onclick="triggerStatsImport()" class="w-full py-2.5 t-panel-strong t-text font-sans text-xs font-bold rounded-xl transition">
+                        ⬆️ Import Stats File…
+                    </button>
+                    <input id="stats-import-file-input" type="file" accept="application/json,.json" class="hidden" onchange="handleStatsImportFile(event)">
+                </div>
+
+                <div class="pt-3 border-t t-border">
+                    <h4 class="font-bold text-red-500 mb-1">Reset</h4>
+                    <p class="t-muted mb-2 text-xs">Permanently erase all stats saved on this device. Cannot be undone unless you've exported a backup.</p>
+                    <button onclick="resetAllStats()" class="w-full py-2.5 bg-red-500/10 border border-red-500/30 text-red-500 font-sans text-xs font-bold rounded-xl transition hover:bg-red-500/20">
+                        🗑️ Reset All Stats
+                    </button>
                 </div>
             </div>
         </div>
@@ -1126,10 +1223,17 @@
         // eBird code as a stand-in). resolveSpeciesKey() normalizes either input format to
         // whichever key actually unlocks the manifest/shard data.
         const SPECIES_DIRECTORY_URL = "dist/master_species_directory_updated.json";
+        const EXCLUDED_SPECIES_URL = "dist/excluded_species.json";
+            // plain JSON array of eBird/alpha species codes -- extinct or otherwise
+            // unencounterable species. Kept OUT of Practice/Arcade/Blitz/Bird of the Day pools,
+            // but deliberately left untouched everywhere else (shard_manifest, the species
+            // directory, Explore's search) so they remain fully browsable in Explore.
         let shardManifestCache = null;   // ebird/alpha lowercase code -> shard name
         let ebirdToAlphaLower = null;    // 6-letter ebird code -> lowercase alpha code
         let speciesDirectoryCache = null;  // full parsed master_species_directory_updated.json, keyed by ebird_code
+        let excludedSpeciesSet = new Set(); // normalized (resolveSpeciesKey'd) codes to exclude from encounter pools
         let codeToCommonName = {};         // any lowercase code (ebird OR alpha) -> common_name, for cheap lookups w/o fetching shards
+        let codeToScientificName = {};     // any lowercase code (ebird OR alpha) -> scientific_name, for cheap lookups w/o fetching shards
         let speciesDirectoryLoading = false;
 
         async function ensureSpeciesDirectoryLoaded() {
@@ -1137,9 +1241,10 @@
             if (speciesDirectoryLoading) return false;
             speciesDirectoryLoading = true;
 
-            const [manifest, directory] = await Promise.all([
+            const [manifest, directory, excludedList] = await Promise.all([
                 fetchFromRepo("dist/shard_manifest.json"),
-                fetchFromRepo(SPECIES_DIRECTORY_URL)
+                fetchFromRepo(SPECIES_DIRECTORY_URL),
+                fetchFromRepo(EXCLUDED_SPECIES_URL, true) // silent=true -- fine if this file doesn't exist yet
             ]);
             speciesDirectoryLoading = false;
 
@@ -1158,8 +1263,21 @@
                 if (entry.alpha_code && entry.common_name) {
                     codeToCommonName[entry.alpha_code.toLowerCase()] = entry.common_name;
                 }
+                if (entry.ebird_code && entry.scientific_name) {
+                    codeToScientificName[entry.ebird_code.toLowerCase()] = entry.scientific_name;
+                }
+                if (entry.alpha_code && entry.scientific_name) {
+                    codeToScientificName[entry.alpha_code.toLowerCase()] = entry.scientific_name;
+                }
             }
+
+            excludedSpeciesSet = new Set((excludedList || []).map(code => resolveSpeciesKey(code)));
+
             return true;
+        }
+
+        function isExcludedSpecies(rawCode) {
+            return excludedSpeciesSet.has(resolveSpeciesKey(rawCode));
         }
 
         function resolveSpeciesKey(rawCode) {
@@ -1167,6 +1285,14 @@
             if (shardManifestCache && shardManifestCache[lower]) return lower;
             if (ebirdToAlphaLower && ebirdToAlphaLower[lower]) return ebirdToAlphaLower[lower];
             return lower;
+        }
+
+        // Scientific names are authoritative in the master species directory. Image/audio shard
+        // entries sometimes lack (or have stale) scientific_name fields, so always prefer the
+        // directory lookup and only fall back to whatever the shard's bird object has.
+        function getScientificName(code, birdObj) {
+            const key = (code || '').toLowerCase();
+            return codeToScientificName[key] || (birdObj && birdObj.scientific_name) || '';
         }
 
         function getMarkerColor(count) {
@@ -1310,11 +1436,7 @@
                 resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No hotspots found.</div>`;
             } else {
                 resultsDiv.innerHTML = matches.map((h, i) => `
-<<<<<<< HEAD
-                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)}, 'hotspot-search-results')">
-=======
                     <div class="p-2.5 t-row-hover cursor-pointer border-b t-border text-xs" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)}, 'hotspot-search-results')">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         <span class="font-bold t-text">${h.name}</span>
                         <span class="t-muted"> — ${h.species_count != null ? h.species_count + ' sp.' : 'N/A'} · ${h.subnational1Code || h.countryCode || ''}</span>
                     </div>
@@ -1380,11 +1502,7 @@
                     return sum + (n ? n.hotspots.length : 0);
                 }, 0);
                 html += `
-<<<<<<< HEAD
-                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer flex justify-between items-center text-sm" onclick="renderRegionBrowser('${child.code}')">
-=======
                     <div class="p-2.5 t-row-hover cursor-pointer flex justify-between items-center text-sm" onclick="renderRegionBrowser('${child.code}')">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                         <span class="font-semibold t-text">📁 ${child.display_name}</span>
                         <span class="t-muted text-[10px]">${count > 0 ? count + ' hs' : ''} ▸</span>
                     </div>`;
@@ -1395,11 +1513,7 @@
                     .slice().sort((a, b) => (b.species_count || 0) - (a.species_count || 0))
                     .forEach(h => {
                         html += `
-<<<<<<< HEAD
-                            <div class="p-2.5 hover:bg-emerald-50 cursor-pointer flex justify-between items-center text-sm" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)})">
-=======
                             <div class="p-2.5 t-row-hover cursor-pointer flex justify-between items-center text-sm" onclick="selectHotspotByIndex(${flatHotspots.indexOf(h)})">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                                 <span class="font-semibold t-text">📍 ${h.name}</span>
                                 <span class="t-muted text-[10px]">${h.species_count != null ? h.species_count + ' sp.' : 'N/A'}</span>
                             </div>`;
@@ -1423,11 +1537,7 @@
                 resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No regions found.</div>`;
             } else {
                 resultsDiv.innerHTML = matches.map(n => `
-<<<<<<< HEAD
-                    <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs font-semibold t-text"
-=======
                     <div class="p-2.5 t-row-hover cursor-pointer border-b t-border text-xs font-semibold t-text"
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                          onclick="renderRegionBrowser('${n.code}'); document.getElementById('region-search-results').classList.add('hidden'); document.getElementById('region-search-input').value='';">
                         🗺️ ${n.display_name} <span class="t-muted font-normal">(${n.code})</span>
                     </div>
@@ -1502,11 +1612,7 @@
 
             const matches = flatHotspots.filter(h => h.name && h.name.toLowerCase().includes(q)).slice(0, 25);
             resultsDiv.innerHTML = matches.map(h => `
-<<<<<<< HEAD
-                <div class="p-2.5 hover:bg-blue-50 cursor-pointer border-b t-border text-xs font-semibold t-text"
-=======
                 <div class="p-2.5 t-row-hover cursor-pointer border-b t-border text-xs font-semibold t-text"
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                      onclick="flyToHotspotOnMap('${h.locId}')">${h.name}</div>
             `).join('') || `<div class="p-3 t-muted text-xs italic">No hotspots found.</div>`;
             resultsDiv.classList.remove('hidden');
@@ -1633,7 +1739,8 @@
             megaRareCount: 0,          // lifetime mega/vagrant-tier catches, Arcade only (Rarity Hunter)
             arcadeCorrectTotal: 0,     // lifetime correct IDs, Arcade only (Identification Expert)
             arcadeUniqueSpecies: [],   // lifetime unique species names, Arcade only (Lister)
-            topScores: [],             // [{ score, location, difficulty, date }] capped at 5
+            topScores: [],             // [{ score, location, difficulty, date }] capped at 5, Arcade only
+            topBlitzDays: [],           // [{ uniqueCount, totalIdentified, location, date, route }] capped at 5, Blitz only
             topFinds: [],              // [{ species, rarity, location, date }] capped at 5, deduped by species
             botdStreak: 0,             // current consecutive-day Bird of the Day found streak
             botdBestStreak: 0,
@@ -1641,10 +1748,21 @@
             countrySpecies: {},        // lifetime, never resets: country ISO code -> { commonName: true, ... }
             hotspotsPlayed: [],        // lifetime, never resets: unique location identifiers (map_id) played
             bingoBoardsCompleted: 0,   // lifetime count of fully-completed (25/25) Monthly Bingo boards (Bingo Fanatic)
-            blitzBestDayCount: 0       // best-ever unique species total in a single Blitz Big Day match (Century Chaser)
+            blitzBestDayCount: 0,      // best-ever unique species total in a single Blitz Big Day match (Century Chaser)
+            speciesIdentifiedCounts: {} // commonName -> lifetime correct-ID count, across all modes (Explore profile "Identified: #")
         };
-        let lifetimeStats = Object.assign({}, DEFAULT_LIFETIME_STATS, JSON.parse(localStorage.getItem('bird_quiz_stats')) || {});
+        // Object.assign only copies top-level keys -- lifeList/topScores/etc. are arrays, so a
+        // shallow Object.assign({}, DEFAULT_LIFETIME_STATS, ...) copies a REFERENCE to those
+        // arrays, not a fresh copy. The first time any of them gets pushed into, it mutates
+        // DEFAULT_LIFETIME_STATS itself, permanently. A proper deep clone avoids that landmine.
+        function cloneDefaultStats() {
+            return JSON.parse(JSON.stringify(DEFAULT_LIFETIME_STATS));
+        }
+
+        let lifetimeStats = Object.assign(cloneDefaultStats(), JSON.parse(localStorage.getItem('bird_quiz_stats')) || {});
         let imageBlacklist = JSON.parse(localStorage.getItem('bird_quiz_blacklist')) || [];
+        let audioBlacklist = JSON.parse(localStorage.getItem('bird_quiz_audio_blacklist')) || [];
+        let lastPlayedAudio = {}; // mode ('practice'/'explore'/'arcade') -> {url, code} for the most recently played clip in that context
 
         const birdImage = document.getElementById('bird-image');
         const answerEntry = document.getElementById('answer-entry');
@@ -1708,19 +1826,25 @@
 
             const copyEl = document.getElementById(copyrightElId);
             const btnEl = buttonElId ? document.getElementById(buttonElId) : null;
+            // Screen-specific audio elements all follow the "<mode>-audio-copyright" naming
+            // convention (practice/explore/arcade), so we can derive the mode from it to know
+            // which context's "flag this clip" button should act on.
+            const mode = copyrightElId ? copyrightElId.replace('-audio-copyright', '') : null;
             const cleanCode = resolveSpeciesKey(code);
             const shardName = shardManifestCache ? shardManifestCache[cleanCode] : null;
 
             if (!shardName) {
                 if (copyEl) copyEl.textContent = "🔇 No audio available for this species.";
+                if (mode) lastPlayedAudio[mode] = null;
                 return;
             }
 
             const shardData = await ensureAudioShardLoaded(shardName);
             const entry = shardData && shardData.data && shardData.data[cleanCode];
-            const assets = entry && entry.assets;
+            const assets = (entry && entry.assets || []).filter(a => !audioBlacklist.includes(a.url));
             if (!assets || assets.length === 0) {
                 if (copyEl) copyEl.textContent = "🔇 No audio available for this species.";
+                if (mode) lastPlayedAudio[mode] = null;
                 return;
             }
 
@@ -1744,6 +1868,26 @@
             }
 
             if (copyEl) copyEl.textContent = `🔊 ${asset.copyright || 'Unknown source'}`;
+            if (mode) lastPlayedAudio[mode] = { url: asset.url, code: cleanCode };
+        }
+
+        // Flags the most recently played clip in a given context (practice/explore/arcade) as
+        // broken/wrong, same pattern as flagActiveImage. Requires a clip to have been played
+        // first since there's nothing "active" to flag before that.
+        function flagActiveAudio(mode) {
+            playSFX('click');
+            const info = lastPlayedAudio[mode];
+            if (!info || !info.url) {
+                alert("Play an audio clip first, then you can flag it if it's broken or wrong.");
+                return;
+            }
+            if (!audioBlacklist.includes(info.url)) {
+                audioBlacklist.push(info.url);
+                localStorage.setItem('bird_quiz_audio_blacklist', JSON.stringify(audioBlacklist));
+            }
+            const copyEl = document.getElementById(`${mode}-audio-copyright`);
+            if (copyEl) copyEl.textContent = "🚫 Flagged — this clip won't play again.";
+            lastPlayedAudio[mode] = null;
         }
         // ===================== end Bird Call Audio =====================
 
@@ -1962,6 +2106,7 @@
                 pool = practicePoolNamed;
             } else if ((gameState.activeMode === 'arcade' || gameState.activeMode === 'blitz') && activeMapData) {
                 Object.keys(activeMapData.species_pool).forEach(code => {
+                    if (isExcludedSpecies(code)) return;
                     const cleanCode = resolveSpeciesKey(code);
                     for (const sKey in activeShards) {
                         if (activeShards[sKey].data && activeShards[sKey].data[cleanCode]) {
@@ -2014,35 +2159,140 @@
                 emptyEl.classList.remove('hidden');
             } else {
                 bodyEl.classList.remove('hidden');
-                renderPracticeTagChips('practice-group-chips', practiceAllGroups, practiceSelectedGroups);
-                renderPracticeTagChips('practice-region-chips', practiceAllRegions, practiceSelectedRegions);
+                renderPracticeSelectedChips('group');
+                renderPracticeQuickPicks('group');
+                renderPracticeSelectedChips('region');
+                renderPracticeQuickPicks('region');
             }
             updatePracticePoolPreview();
             return true;
         }
 
-        function renderPracticeTagChips(containerId, tags, selectedSet) {
-            const container = document.getElementById(containerId);
+        // ---- Practice tag search/add UI: favorites + recently-used stay at the top so people
+        // don't have to page through hundreds of tags every time; everything else is find-by-search. ----
+        let practiceFavTags = new Set(JSON.parse(localStorage.getItem('bird_quiz_fav_tags') || '[]'));       // Set of "type:tag"
+        let practiceRecentTags = JSON.parse(localStorage.getItem('bird_quiz_recent_tags') || '[]');           // array of "type:tag", most recent first
+        const PRACTICE_RECENT_TAG_LIMIT = 10;
+        const PRACTICE_QUICKPICK_LIMIT = 14;
+
+        function practiceTagKey(type, tag) { return `${type}:${tag}`; }
+        function practiceTagSet(type) { return type === 'group' ? practiceSelectedGroups : practiceSelectedRegions; }
+        function practiceTagPool(type) { return type === 'group' ? practiceAllGroups : practiceAllRegions; }
+        function practiceEscTag(tag) { return String(tag).replace(/'/g, "\\'"); }
+
+        function savePracticeFavTags() { localStorage.setItem('bird_quiz_fav_tags', JSON.stringify(Array.from(practiceFavTags))); }
+        function savePracticeRecentTags() { localStorage.setItem('bird_quiz_recent_tags', JSON.stringify(practiceRecentTags)); }
+
+        function practiceTouchRecent(type, tag) {
+            const key = practiceTagKey(type, tag);
+            practiceRecentTags = practiceRecentTags.filter(k => k !== key);
+            practiceRecentTags.unshift(key);
+            if (practiceRecentTags.length > PRACTICE_RECENT_TAG_LIMIT) practiceRecentTags.length = PRACTICE_RECENT_TAG_LIMIT;
+            savePracticeRecentTags();
+        }
+
+        function togglePracticeFavTag(type, tag, evt) {
+            if (evt) evt.stopPropagation();
+            playSFX('click');
+            const key = practiceTagKey(type, tag);
+            if (practiceFavTags.has(key)) practiceFavTags.delete(key); else practiceFavTags.add(key);
+            savePracticeFavTags();
+            renderPracticeQuickPicks(type);
+            handlePracticeTagSearch(type, document.getElementById(`practice-${type}-search`).value);
+        }
+
+        function addPracticeTag(type, tag) {
+            playSFX('click');
+            practiceTagSet(type).add(tag);
+            practiceTouchRecent(type, tag);
+            const searchInput = document.getElementById(`practice-${type}-search`);
+            if (searchInput) searchInput.value = '';
+            const resultsEl = document.getElementById(`practice-${type}-search-results`);
+            if (resultsEl) { resultsEl.classList.add('hidden'); resultsEl.innerHTML = ''; }
+            renderPracticeSelectedChips(type);
+            renderPracticeQuickPicks(type);
+            updatePracticePoolPreview();
+        }
+
+        function removePracticeTag(type, tag) {
+            playSFX('click');
+            practiceTagSet(type).delete(tag);
+            renderPracticeSelectedChips(type);
+            renderPracticeQuickPicks(type);
+            updatePracticePoolPreview();
+        }
+
+        function renderPracticeSelectedChips(type) {
+            const container = document.getElementById(`practice-${type}-selected`);
             if (!container) return;
-            if (tags.length === 0) {
-                container.innerHTML = `<span class="text-xs t-muted italic">None tagged yet</span>`;
-                return;
-            }
-            container.innerHTML = tags.map(tag => `
-                <button type="button" onclick="togglePracticeTag('${containerId}', '${tag}')"
-                        class="px-3 py-1.5 rounded-full border-2 text-xs font-bold transition ${selectedSet.has(tag) ? 'bg-emerald-500 border-emerald-600 text-white' : 't-panel t-border t-text hover:border-emerald-400'}">
-                    ${tag}
+            const set = practiceTagSet(type);
+            if (set.size === 0) { container.innerHTML = ''; return; }
+            container.innerHTML = Array.from(set).sort().map(tag => `
+                <button type="button" onclick="removePracticeTag('${type}', '${practiceEscTag(tag)}')"
+                        class="px-3 py-1.5 rounded-full border-2 text-xs font-bold transition bg-emerald-500 border-emerald-600 text-white flex items-center gap-1.5">
+                    ${tag} <span class="text-[10px]">✕</span>
                 </button>
             `).join('');
         }
 
-        function togglePracticeTag(containerId, tag) {
-            playSFX('click');
-            const isGroup = containerId === 'practice-group-chips';
-            const set = isGroup ? practiceSelectedGroups : practiceSelectedRegions;
-            if (set.has(tag)) set.delete(tag); else set.add(tag);
-            renderPracticeTagChips(containerId, isGroup ? practiceAllGroups : practiceAllRegions, set);
-            updatePracticePoolPreview();
+        function renderPracticeQuickPicks(type) {
+            const container = document.getElementById(`practice-${type}-quickpicks`);
+            if (!container) return;
+            const allSet = new Set(practiceTagPool(type));
+            const selectedSet = practiceTagSet(type);
+
+            const favTags = Array.from(practiceFavTags)
+                .filter(k => k.startsWith(`${type}:`))
+                .map(k => k.slice(type.length + 1))
+                .filter(tag => allSet.has(tag) && !selectedSet.has(tag))
+                .sort();
+
+            const recentTags = practiceRecentTags
+                .filter(k => k.startsWith(`${type}:`))
+                .map(k => k.slice(type.length + 1))
+                .filter(tag => allSet.has(tag) && !selectedSet.has(tag) && !favTags.includes(tag));
+
+            const combined = [
+                ...favTags.map(tag => ({ tag, fav: true })),
+                ...recentTags.map(tag => ({ tag, fav: false }))
+            ].slice(0, PRACTICE_QUICKPICK_LIMIT);
+
+            if (combined.length === 0) { container.innerHTML = ''; return; }
+
+            container.innerHTML = `<span class="w-full text-[10px] font-bold t-muted uppercase tracking-wider">⭐ Favorites &amp; recent</span>` +
+                combined.map(({ tag, fav }) => `
+                    <button type="button" onclick="addPracticeTag('${type}', '${practiceEscTag(tag)}')"
+                            class="px-3 py-1.5 rounded-full border-2 text-xs font-bold transition t-panel t-border t-text hover:border-emerald-400 flex items-center gap-1.5">
+                        <span onclick="togglePracticeFavTag('${type}', '${practiceEscTag(tag)}', event)" class="${fav ? 'text-amber-500' : 't-muted'}">${fav ? '★' : '☆'}</span>${tag}
+                    </button>
+                `).join('');
+        }
+
+        function handlePracticeTagSearch(type, query) {
+            const resultsEl = document.getElementById(`practice-${type}-search-results`);
+            if (!resultsEl) return;
+            const q = (query || '').trim().toLowerCase();
+            if (!q) { resultsEl.classList.add('hidden'); resultsEl.innerHTML = ''; return; }
+
+            const selectedSet = practiceTagSet(type);
+            const matches = practiceTagPool(type)
+                .filter(tag => !selectedSet.has(tag) && tag.toLowerCase().includes(q))
+                .slice(0, 20);
+
+            if (matches.length === 0) {
+                resultsEl.innerHTML = `<div class="p-2.5 t-muted text-xs italic">No matching tags.</div>`;
+            } else {
+                resultsEl.innerHTML = matches.map(tag => {
+                    const isFav = practiceFavTags.has(practiceTagKey(type, tag));
+                    return `
+                    <div class="flex items-center justify-between gap-2 p-2.5 t-hover-fill-primary cursor-pointer border-b t-border last:border-none text-xs font-semibold t-text"
+                         onclick="addPracticeTag('${type}', '${practiceEscTag(tag)}')">
+                        <span>${tag}</span>
+                        <span onclick="togglePracticeFavTag('${type}', '${practiceEscTag(tag)}', event)" class="text-sm shrink-0 ${isFav ? 'text-amber-500' : 't-muted'}">${isFav ? '★' : '☆'}</span>
+                    </div>`;
+                }).join('');
+            }
+            resultsEl.classList.remove('hidden');
         }
 
         function computePracticePool() {
@@ -2050,10 +2300,11 @@
             const hasRegionFilter = practiceSelectedRegions.size > 0;
 
             if (!hasGroupFilter && !hasRegionFilter) {
-                return Object.keys(speciesDirectoryCache || {});
+                return Object.keys(speciesDirectoryCache || {}).filter(code => !isExcludedSpecies(code));
             }
 
             return Object.keys(practiceTagsIndex).filter(code => {
+                if (isExcludedSpecies(code)) return false;
                 const entry = practiceTagsIndex[code];
                 const groupOk = !hasGroupFilter || (entry.groups || []).some(g => practiceSelectedGroups.has(g));
                 const regionOk = !hasRegionFilter || (entry.regions || []).some(r => practiceSelectedRegions.has(r));
@@ -2099,11 +2350,7 @@
 
             container.innerHTML = matches.map((b, idx) => `
                 <div
-<<<<<<< HEAD
-                    class="flex items-center p-2.5 cursor-pointer hover:bg-blue-50 border-b t-border last:border-none select-choice ${idx === 0 ? 'bg-blue-50/50' : ''}"
-=======
                     class="flex items-center p-2.5 cursor-pointer t-row-hover border-b t-border last:border-none select-choice ${idx === 0 ? 't-row-selected' : ''}"
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                     data-name="${b.name}"
                     onclick="selectSuggestion(this.dataset.name, '${inputEl.id}', '${containerId}')">
                
@@ -2228,7 +2475,7 @@
                 playSFX('wrong');
                 streak = 0;
                 practiceMissed.push(bird.common_name);
-                sidebarContent.innerHTML = `<p class="text-red-500 font-bold text-sm">❌ Wrong. The answer was ${bird.common_name} (${bird.scientific_name}).</p>`;
+                sidebarContent.innerHTML = `<p class="text-red-500 font-bold text-sm">❌ Wrong. The answer was ${bird.common_name} (${getScientificName(currentBirdKey, bird)}).</p>`;
             }
 
             scoreDisplay.textContent = `Score: ${score} / ${rounds}`;
@@ -2288,7 +2535,8 @@
                 missed: [],
                 totalSpotted: 0,
                 timeRemaining: 0,
-                route: []
+                route: [],
+                speciesSeenThisMatch: {}
             };
 
             clearInterval(arcadeTimerInterval);
@@ -2334,7 +2582,8 @@
                 missed: [],
                 totalSpotted: 0,
                 timeRemaining: BLITZ_START_SECONDS,
-                route: [{ locId: selectedHotspotData.locId, display_name: activeMapData.display_name || selectedHotspotData.display_name, milesFromPrev: 0 }]
+                route: [{ locId: selectedHotspotData.locId, display_name: activeMapData.display_name || selectedHotspotData.display_name, milesFromPrev: 0 }],
+                speciesSeenThisMatch: {}
             };
 
             clearInterval(arcadeTimerInterval);
@@ -2413,11 +2662,7 @@
 
             const listEl = document.getElementById('blitz-travel-list');
             listEl.innerHTML = blitzTravelCandidates.map((c, i) => `
-<<<<<<< HEAD
-                <div class="p-2 hover:bg-orange-50 cursor-pointer flex justify-between items-center text-xs" onclick="previewBlitzTravel(${i})">
-=======
                 <div class="p-2 t-row-hover cursor-pointer flex justify-between items-center text-xs" onclick="previewBlitzTravel(${i})">
->>>>>>> ce6eb84 (Add complete refined audio shards and reference directory)
                     <span class="font-semibold t-text truncate pr-2">📍 ${c.h.name}</span>
                     <span class="t-muted shrink-0">${c.miles.toFixed(1)} mi · ⏱ ${formatTravelCost(c.minutesCost)}</span>
                 </div>
@@ -2526,6 +2771,16 @@
         }
         // ===================== end Blitz Travel =====================
 
+        // Tuning for the Blitz-only species diversity system -- see generateWeightedGridSpecies().
+        // Multiplicative, not flat subtraction: effective_weight = base_weight * (DECAY_FACTOR ^ times_seen).
+        // A weight-70 species goes 70 -> 31.5 -> 14.2 -> 6.4 -> 2.9 across 4 repeats at 0.45 -- hits
+        // hardest on species that get drawn often, regardless of exactly how high their base weight was,
+        // which flat/tiered subtraction doesn't do as cleanly. Only species with a base weight above
+        // BLITZ_DECAY_MIN_WEIGHT decay at all -- already-uncommon species are left alone.
+        const BLITZ_DECAY_FACTOR = 0.45;
+        const BLITZ_DECAY_MIN_WEIGHT = 20;
+        const BLITZ_DECAY_WEIGHT_FLOOR = 1; // never let effective weight hit 0 (would behave oddly in the roll math)
+
         function generateWeightedGridSpecies() {
             if (!activeMapData) return null;
             const pool = activeMapData.species_pool;
@@ -2546,13 +2801,32 @@
 
             if (validCodes.length === 0) return null;
 
+            const isBlitz = arcadeState.mode === 'blitz';
+            const seenCounts = (isBlitz && arcadeState.speciesSeenThisMatch) ? arcadeState.speciesSeenThisMatch : {};
+
+            function effectiveWeight(code) {
+                const base = pool[code].weight;
+                if (!isBlitz || base <= BLITZ_DECAY_MIN_WEIGHT) return base;
+                const timesSeen = seenCounts[code] || 0;
+                if (timesSeen === 0) return base;
+                return Math.max(base * Math.pow(BLITZ_DECAY_FACTOR, timesSeen), BLITZ_DECAY_WEIGHT_FLOOR);
+            }
+
+            // true, undecayed total -- this is what gets returned on the slot for rarity display,
+            // completely separate from the decayed total used just below to pick this round's bird
             const totalWeight = validCodes.reduce((sum, code) => sum + pool[code].weight, 0);
-            let roll = Math.random() * totalWeight;
-            
+
+            const decayedTotalWeight = validCodes.reduce((sum, code) => sum + effectiveWeight(code), 0);
+            let roll = Math.random() * decayedTotalWeight;
+
             let selectedCode = validCodes[0];
             for (const code of validCodes) {
-                roll -= pool[code].weight;
+                roll -= effectiveWeight(code);
                 if (roll <= 0) { selectedCode = code; break; }
+            }
+
+            if (isBlitz) {
+                arcadeState.speciesSeenThisMatch[selectedCode] = (arcadeState.speciesSeenThisMatch[selectedCode] || 0) + 1;
             }
 
             let birdMeta = null;
@@ -2787,6 +3061,25 @@
             window.focus();
         }
 
+        // Fires the arcade-style border pulse around the whole game card whenever a mega-rarity
+        // (vagrant tier) species is correctly identified. Safe to call again mid-animation (e.g.
+        // two mega catches in quick succession) since it forces a reflow to restart the CSS
+        // animation cleanly.
+        let megaRarePulseTimeout = null;
+        function triggerMegaRarePulse() {
+            const card = document.getElementById('outer-app-card');
+            if (!card) return;
+
+            card.classList.remove('mega-rare-pulse');
+            void card.offsetWidth; // force reflow so a repeated trigger restarts the animation
+            card.classList.add('mega-rare-pulse');
+
+            clearTimeout(megaRarePulseTimeout);
+            megaRarePulseTimeout = setTimeout(() => {
+                card.classList.remove('mega-rare-pulse');
+            }, 2800);
+        }
+
         function submitArcadeGuess() {
             const input = document.getElementById('arcade-input-field');
             const guess = input.value.trim();
@@ -2803,12 +3096,13 @@
                 guess.toLowerCase() === slot.code.toLowerCase()
             );
             
-            updateStatsMemory(slot.common_name, isCorrect);
+            updateStatsMemory(slot.common_name, isCorrect, (activeMapData && activeMapData.display_name) || (selectedHotspotData && selectedHotspotData.display_name) || null);
 
             if (isCorrect) {
                 const rarity = slot.tier || 'common';
                 if (rarity === 'vagrant' || rarity === 'mega') {
                     playSFX('mega');
+                    triggerMegaRarePulse();
                 } else if (rarity === 'rare') {
                     playSFX('rare');
                 } else if (rarity === 'uncommon') {
@@ -2821,6 +3115,11 @@
                 slot.flashTimer = 1.5;
                 slot.countryCode = selectedHotspotData ? selectedHotspotData.countryCode : null;
                 slot.mapId = activeMapData ? activeMapData.map_id : null;
+                // Exact hotspot this catch happened at. In Blitz, activeMapData/selectedHotspotData
+                // change mid-match as the player travels, so tagging it per-catch (rather than
+                // relying on the match-level location summary) is what lets the Trophy Case show
+                // precisely where a given rarity was found instead of the whole route string.
+                slot.hotspotName = (activeMapData && activeMapData.display_name) || (selectedHotspotData && selectedHotspotData.display_name) || null;
                 arcadeState.score += (RARITY_POINTS[slot.tier] || 1);
                 arcadeState.identified.push(slot);
                 document.getElementById('arcade-score').textContent = arcadeState.score;
@@ -2887,14 +3186,31 @@
             }
         }
 
-        function dumpBlacklistLog() {
+        function exportBlacklistCSV() {
             playSFX('click');
-            if(imageBlacklist.length === 0) {
-                alert("Your local broken asset blacklist is currently empty!");
+            if (imageBlacklist.length === 0 && audioBlacklist.length === 0) {
+                alert("Your local flagged asset blacklist is currently empty!");
                 return;
             }
-            console.log("--- BANNED IMAGES BLACKLIST LOG ---", imageBlacklist);
-            alert(`Banned List Array Details (${imageBlacklist.length} Items):\n\n` + imageBlacklist.join('\n\n') + `\n\n(Printed to Developer Console [F12] for easy copying!)`);
+
+            const rows = [['type', 'url']];
+            imageBlacklist.forEach(url => rows.push(['image', url]));
+            audioBlacklist.forEach(url => rows.push(['audio', url]));
+
+            const csvContent = rows
+                .map(row => row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(','))
+                .join('\r\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const todayStamp = new Date().toISOString().slice(0, 10);
+            link.download = `bird_quiz_flagged_assets_${todayStamp}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         }
 
         function toggleArcadePause() {
@@ -2921,13 +3237,23 @@
             }
         }
 
-        function updateStatsMemory(commonName, isCorrect) {
+        function updateStatsMemory(commonName, isCorrect, location) {
             lifetimeStats.totalGuesses++;
             if (isCorrect) {
                 lifetimeStats.correctGuesses++;
-                if (!lifetimeStats.lifeList.includes(commonName)) {
-                    lifetimeStats.lifeList.push(commonName);
+                if (!lifetimeStats.lifeList) lifetimeStats.lifeList = [];
+                // Older saves stored lifeList as plain strings; match against both shapes so we
+                // don't re-log (and re-date) a species someone already has on their life list.
+                const alreadyLogged = lifetimeStats.lifeList.some(item => (typeof item === 'string' ? item : item.species) === commonName);
+                if (!alreadyLogged) {
+                    lifetimeStats.lifeList.push({
+                        species: commonName,
+                        location: location || 'Practice Mode',
+                        date: new Date().toLocaleDateString()
+                    });
                 }
+                if (!lifetimeStats.speciesIdentifiedCounts) lifetimeStats.speciesIdentifiedCounts = {};
+                lifetimeStats.speciesIdentifiedCounts[commonName] = (lifetimeStats.speciesIdentifiedCounts[commonName] || 0) + 1;
             }
             localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
         }
@@ -3085,7 +3411,7 @@
                 lifetimeStats.blitzBestDayCount = Math.max(lifetimeStats.blitzBestDayCount || 0, uniqueIdentified.length);
             }
 
-            recordArcadeMatchToStats(arcadeState.score, locName, diffSettings.label, arcadeState.identified.length, uniqueIdentified, selectedHotspotData ? selectedHotspotData.countryCode : null, routeMapIds);
+            recordArcadeMatchToStats(arcadeState.score, locName, diffSettings.label, arcadeState.identified.length, uniqueIdentified, selectedHotspotData ? selectedHotspotData.countryCode : null, routeMapIds, isBlitz, arcadeState.route.slice());
             recordMonthlyBingoProgress(arcadeState.identified, selectedHotspotData ? selectedHotspotData.countryCode : null);
             checkBotdCompletionFromMatch(arcadeState.identified);
 
@@ -3095,24 +3421,43 @@
         // The Macaulay/eBird asset host doesn't send CORS headers, so html2canvas can't read
         // its pixels directly. Setting crossorigin on the live <img> tags "fixes" the export
         // but breaks normal display (the browser refuses to load the image at all without a
-        // CORS response). Instead, only for the moment of capture, we swap each image inside
-        // the scorecard to a CORS-friendly proxy (images.weserv.nl mirrors the image and adds
-        // Access-Control-Allow-Origin: *), capture, then restore the original src immediately.
-        function toProxiedImageUrl(url) {
-            if (!url) return url;
-            const stripped = url.replace(/^https?:\/\//, '');
-            return `https://images.weserv.nl/?url=${encodeURIComponent(stripped)}`;
-        }
+        // CORS response). Instead, only for the moment of capture, we fetch each image through
+        // a CORS-friendly proxy, swap the <img> to a local blob: object URL, and await
+        // img.decode() before capturing -- so there's no race for html2canvas to lose and no
+        // dependency on the original host's CORS headers.
+        //
+        // images.weserv.nl alone turned out not to be reliable for this asset host specifically
+        // (it was 404ing on some cdn.download.ams.birds.cornell.edu URLs, which left the
+        // original cross-origin src in place and let html2canvas hit the CORS wall itself --
+        // that was the actual cause of blank Mega Rarity images). So this tries a short chain of
+        // independent CORS proxies and uses whichever one actually returns the image; only if
+        // every proxy fails does it fall back to a placeholder so the export never shows a
+        // broken image icon.
+        const CORS_PROXY_BUILDERS = [
+            (url) => `https://images.weserv.nl/?url=${encodeURIComponent(url.replace(/^https?:\/\//, ''))}`,
+            (url) => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+            (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+        ];
+        const SCORECARD_IMAGE_FALLBACK_URL = 'https://placehold.co/240x160/1e293b/64748b?text=Image+Unavailable';
 
-        function loadImageWithTimeout(src, ms) {
-            return new Promise(resolve => {
-                const img = new Image();
-                img.crossOrigin = 'anonymous';
-                const timer = setTimeout(() => resolve(false), ms);
-                img.onload = () => { clearTimeout(timer); resolve(true); };
-                img.onerror = () => { clearTimeout(timer); resolve(false); };
-                img.src = src;
-            });
+        async function fetchImageAsObjectUrl(originalUrl, msPerAttempt) {
+            for (const buildProxyUrl of CORS_PROXY_BUILDERS) {
+                const proxied = buildProxyUrl(originalUrl);
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), msPerAttempt);
+                try {
+                    const res = await fetch(proxied, { signal: controller.signal, mode: 'cors' });
+                    clearTimeout(timer);
+                    if (!res.ok) continue; // this proxy couldn't fetch it -- try the next one
+                    const blob = await res.blob();
+                    if (!blob || blob.size === 0) continue;
+                    return URL.createObjectURL(blob);
+                } catch (e) {
+                    clearTimeout(timer);
+                    // network error, timeout, or this proxy doesn't allow CORS on fetch() -- try the next one
+                }
+            }
+            return null;
         }
 
         async function shareScorecard() {
@@ -3122,22 +3467,24 @@
 
             const cardImages = Array.from(cardEl.querySelectorAll('img'));
             const originalSrcs = cardImages.map(img => img.src);
+            const objectUrls = [];
             const restoreImages = () => {
-                cardImages.forEach((img, i) => {
-                    img.removeAttribute('crossorigin');
-                    img.src = originalSrcs[i];
-                });
+                cardImages.forEach((img, i) => { img.src = originalSrcs[i]; });
+                objectUrls.forEach(u => URL.revokeObjectURL(u));
             };
 
             try {
                 await Promise.all(cardImages.map(async (img, i) => {
-                    const proxied = toProxiedImageUrl(originalSrcs[i]);
-                    const ok = await loadImageWithTimeout(proxied, 4000);
-                    if (ok) {
-                        img.crossOrigin = 'anonymous';
-                        img.src = proxied;
+                    const objUrl = await fetchImageAsObjectUrl(originalSrcs[i], 5000);
+                    if (objUrl) {
+                        objectUrls.push(objUrl);
+                        img.src = objUrl;
+                    } else {
+                        // every proxy failed -- use a same-origin-safe placeholder rather than
+                        // leaving the tainted original src for html2canvas to trip over
+                        img.src = SCORECARD_IMAGE_FALLBACK_URL;
                     }
-                    // if the proxy fails, leave the original src in place (best-effort export)
+                    try { await img.decode(); } catch (e) { /* best-effort even if decode() itself fails */ }
                 }));
 
                 const canvas = await html2canvas(cardEl, {
@@ -3340,7 +3687,7 @@
             return combined.size;
         }
 
-        function recordArcadeMatchToStats(score, locationName, difficultyLabel, totalCorrectThisMatch, uniqueIdentifiedList, countryCode, mapIds) {
+        function recordArcadeMatchToStats(score, locationName, difficultyLabel, totalCorrectThisMatch, uniqueIdentifiedList, countryCode, mapIds, isBlitz, routeSnapshot) {
             const dateStr = new Date().toLocaleDateString();
 
             const mapIdList = Array.isArray(mapIds) ? mapIds : (mapIds ? [mapIds] : []);
@@ -3349,7 +3696,22 @@
                 if (id && !lifetimeStats.hotspotsPlayed.includes(id)) lifetimeStats.hotspotsPlayed.push(id);
             });
 
-            if (score > 0) {
+            // Arcade and Blitz get separate leaderboards in the Trophy Case: Arcade keeps the
+            // score-based "Top 5 High Scores" exactly as before, while Blitz Big Days are ranked
+            // by unique species total instead (score isn't really the point of a Big Day) and
+            // keep their full route so it can be recalled later.
+            if (isBlitz) {
+                if (!lifetimeStats.topBlitzDays) lifetimeStats.topBlitzDays = [];
+                lifetimeStats.topBlitzDays.push({
+                    uniqueCount: uniqueIdentifiedList.length,
+                    totalIdentified: totalCorrectThisMatch,
+                    location: locationName || 'Big Day',
+                    date: dateStr,
+                    route: routeSnapshot || []
+                });
+                lifetimeStats.topBlitzDays.sort((a, b) => b.uniqueCount - a.uniqueCount);
+                lifetimeStats.topBlitzDays = lifetimeStats.topBlitzDays.slice(0, 5);
+            } else if (score > 0) {
                 lifetimeStats.topScores.push({ score, location: locationName || 'Hotspot', difficulty: difficultyLabel || '', date: dateStr });
                 lifetimeStats.topScores.sort((a, b) => b.score - a.score);
                 lifetimeStats.topScores = lifetimeStats.topScores.slice(0, 5);
@@ -3374,10 +3736,13 @@
                     if (!lifetimeStats.countrySpecies[itemCountry]) lifetimeStats.countrySpecies[itemCountry] = {};
                     lifetimeStats.countrySpecies[itemCountry][item.common_name] = true;
                 }
+                // Same idea for location: prefer the exact hotspot tagged at catch time (this is
+                // what makes a Blitz rarity say "Holland Tract" instead of the whole match's
+                // route summary like "Clifton Court Forebay + 3 more").
                 lifetimeStats.topFinds.push({
                     species: item.common_name,
                     rarity: rawPct,
-                    location: locationName || 'Unknown',
+                    location: item.hotspotName || locationName || 'Unknown',
                     date: dateStr
                 });
             });
@@ -3400,6 +3765,107 @@
             const modal = document.getElementById('how-to-play-modal');
             modal.classList.toggle('hidden', !open);
             modal.classList.toggle('flex', open);
+        }
+
+        function toggleCredits(open) {
+            playSFX('click');
+            const modal = document.getElementById('credits-modal');
+            modal.classList.toggle('hidden', !open);
+            modal.classList.toggle('flex', open);
+        }
+
+        function toggleStatsBackup(open) {
+            playSFX('click');
+            const modal = document.getElementById('stats-backup-modal');
+            modal.classList.toggle('hidden', !open);
+            modal.classList.toggle('flex', open);
+        }
+
+        function exportStatsJSON() {
+            playSFX('click');
+            const payload = {
+                app: 'Blitz Bird Quiz',
+                export_format_version: 1,
+                exported_at: new Date().toISOString(),
+                stats: lifetimeStats
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const todayStamp = new Date().toISOString().slice(0, 10);
+            link.download = `bird_quiz_stats_backup_${todayStamp}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function triggerStatsImport() {
+            playSFX('click');
+            document.getElementById('stats-import-file-input').click();
+        }
+
+        function handleStatsImportFile(event) {
+            const file = event.target.files && event.target.files[0];
+            event.target.value = ''; // reset so re-selecting the same file still fires 'change' next time
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                let parsed;
+                try {
+                    parsed = JSON.parse(reader.result);
+                } catch (e) {
+                    alert("That file doesn't look like a valid stats export (couldn't parse it as JSON).");
+                    return;
+                }
+
+                // Tolerate both the wrapped export format ({app, stats: {...}}) and a bare
+                // stats object, in case someone hand-edits or re-saves the file.
+                const importedStats = (parsed && typeof parsed === 'object' && parsed.stats) ? parsed.stats : parsed;
+                const looksValid = importedStats && typeof importedStats === 'object' &&
+                    ('lifeList' in importedStats || 'topScores' in importedStats || 'topFinds' in importedStats);
+
+                if (!looksValid) {
+                    alert("That file doesn't look like a Bird Quiz stats export.");
+                    return;
+                }
+
+                const confirmed = confirm(
+                    "Importing will REPLACE your current stats on this device (life list, trophy case, achievements, everything) with what's in this file. This can't be undone. Continue?"
+                );
+                if (!confirmed) return;
+
+                // Merge onto the defaults (not just the imported object directly) so an older
+                // export missing a field that's since been added doesn't leave that field undefined.
+                lifetimeStats = Object.assign(cloneDefaultStats(), importedStats);
+                localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
+
+                alert("✅ Stats imported successfully!");
+                toggleStatsBackup(false);
+                if (gameState.currentScreen === 'stats-hub-screen') renderStatsHub();
+            };
+            reader.onerror = () => {
+                alert("Couldn't read that file.");
+            };
+            reader.readAsText(file);
+        }
+
+        function resetAllStats() {
+            playSFX('click');
+            const confirmed = confirm(
+                "This will permanently erase ALL your stats on this device -- life list, trophy case, high scores, achievements, everything. This can't be undone unless you've exported a backup. Continue?"
+            );
+            if (!confirmed) return;
+            const doubleConfirmed = confirm("Are you absolutely sure? This is your last chance to back out.");
+            if (!doubleConfirmed) return;
+
+            lifetimeStats = cloneDefaultStats();
+            localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
+            alert("Stats have been reset.");
+            toggleStatsBackup(false);
+            if (gameState.currentScreen === 'stats-hub-screen') renderStatsHub();
         }
 
         // ===================== Bird of the Day =====================
@@ -3473,7 +3939,7 @@
         // without the player needing to have looked at the popup first.
         function getTodaysBotdCode() {
             if (!speciesDirectoryCache) return null;
-            const allCodes = Object.keys(speciesDirectoryCache);
+            const allCodes = Object.keys(speciesDirectoryCache).filter(code => !isExcludedSpecies(code));
             const seed = getDailySeedString();
             const ebirdCode = allCodes[seededIndex(seed, allCodes.length)];
             return resolveSpeciesKey(ebirdCode);
@@ -3506,6 +3972,30 @@
             localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
         }
 
+        // botdStreak only ever gets SET (on a successful catch) -- nothing detects a missed day
+        // and resets it back, so a stale streak from days ago would otherwise keep displaying
+        // forever. This checks whether the streak is actually still alive (found today, or
+        // found yesterday with today still available to extend it) and corrects the stored
+        // value back to 0 if a day was genuinely missed.
+        function getEffectiveBotdStreak() {
+            if (!lifetimeStats.botdLastFoundDate) return 0;
+
+            const today = getDailySeedString();
+            const yesterday = getYesterdaySeedString();
+
+            if (lifetimeStats.botdLastFoundDate === today || lifetimeStats.botdLastFoundDate === yesterday) {
+                return lifetimeStats.botdStreak || 0;
+            }
+
+            // a full day was missed -- the streak is broken, correct the stored value so it
+            // doesn't keep showing stale everywhere else that might read it later
+            if (lifetimeStats.botdStreak !== 0) {
+                lifetimeStats.botdStreak = 0;
+                localStorage.setItem('bird_quiz_stats', JSON.stringify(lifetimeStats));
+            }
+            return 0;
+        }
+
         async function openBotdModal() {
             playSFX('click');
             const modal = document.getElementById('botd-modal');
@@ -3518,7 +4008,7 @@
             document.getElementById('botd-hint-btn').classList.remove('hidden');
 
             const streakLine = document.getElementById('botd-streak-line');
-            const streak = lifetimeStats.botdStreak || 0;
+            const streak = getEffectiveBotdStreak();
             streakLine.classList.toggle('hidden', streak === 0);
             document.getElementById('botd-streak-count').textContent = streak;
 
@@ -3549,7 +4039,7 @@
             const asset = (assets.length > 0 ? assets : bird.assets || [])[0];
             document.getElementById('botd-image').src = asset ? asset.url : "https://placehold.co/400x300?text=No+Image";
             document.getElementById('botd-common-name').textContent = bird.common_name;
-            document.getElementById('botd-scientific-name').textContent = bird.scientific_name || '';
+            document.getElementById('botd-scientific-name').textContent = getScientificName(botdCode, bird);
 
             const foundToday = lifetimeStats.botdLastFoundDate === seed;
             document.getElementById('botd-found-badge').classList.toggle('hidden', !foundToday);
@@ -3978,24 +4468,62 @@
 
         function handleExploreSearchInput(value) {
             const resultsDiv = document.getElementById('explore-search-results');
-            const q = cleanString(value.trim());
-            if (q.length < 2 || !speciesDirectoryCache) { resultsDiv.classList.add('hidden'); resultsDiv.innerHTML = ''; return; }
+            const query = value.trim().toLowerCase();
+            const cleanedQuery = cleanString(query);
 
-            const matches = Object.values(speciesDirectoryCache)
-                .filter(e => e.common_name && cleanString(e.common_name).includes(q))
-                .slice(0, 20);
+            if (!query || !speciesDirectoryCache) { resultsDiv.classList.add('hidden'); resultsDiv.innerHTML = ''; return; }
+
+            // Mirrors the guessing-menu suggestion logic (handleTypingSuggestions): case-insensitive
+            // alpha/ebird code prefix match plus a name substring match, so this box behaves exactly
+            // like the ones in Practice/Arcade, just sourced from the full species directory instead
+            // of whatever pool is active.
+            const matches = Object.values(speciesDirectoryCache).filter(e =>
+                (e.alpha_code && e.alpha_code.toLowerCase().startsWith(query)) ||
+                (e.ebird_code && e.ebird_code.toLowerCase().startsWith(query)) ||
+                (e.common_name && cleanString(e.common_name).includes(cleanedQuery))
+            ).slice(0, 8);
 
             if (matches.length === 0) {
                 resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No species found.</div>`;
             } else {
-                resultsDiv.innerHTML = matches.map(e => `
-                    <div class="p-2.5 t-hover-fill-primary cursor-pointer border-b t-border text-xs font-semibold t-text"
-                         onclick="loadExploreSpecies('${e.ebird_code}')">
-                        ${e.common_name} <span class="t-muted font-normal italic">${e.scientific_name || ''}</span>
+                resultsDiv.innerHTML = matches.map((e, idx) => `
+                    <div class="flex items-center p-2.5 cursor-pointer t-row-hover border-b t-border last:border-none select-choice ${idx === 0 ? 't-row-selected' : ''}"
+                         data-code="${e.ebird_code}"
+                         data-name="${e.common_name}"
+                         onclick="selectExploreSuggestion('${e.ebird_code}')">
+                        <span class="inline-flex items-center justify-center min-w-[52px] text-xs t-panel-strong t-text font-mono font-bold uppercase px-2 py-1 rounded-md mr-3">
+                            ${e.alpha_code || e.ebird_code}
+                        </span>
+                        <span class="t-text font-semibold">${e.common_name}</span>
+                        <span class="t-muted font-normal italic ml-1.5">${e.scientific_name || ''}</span>
                     </div>
                 `).join('');
             }
             resultsDiv.classList.remove('hidden');
+        }
+
+        function selectExploreSuggestion(ebirdCode) {
+            playSFX('click');
+            const resultsDiv = document.getElementById('explore-search-results');
+            resultsDiv.innerHTML = '';
+            resultsDiv.classList.add('hidden');
+            loadExploreSpecies(ebirdCode);
+        }
+
+        function handleExploreSuggestionKeys(e) {
+            const resultsDiv = document.getElementById('explore-search-results');
+            const firstChoice = (resultsDiv && !resultsDiv.classList.contains('hidden')) ? resultsDiv.querySelector('.select-choice') : null;
+
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (firstChoice) selectExploreSuggestion(firstChoice.dataset.code);
+                return;
+            }
+
+            if (e.key === 'Tab' && firstChoice) {
+                e.preventDefault();
+                document.getElementById('explore-search-input').value = firstChoice.dataset.name || '';
+            }
         }
 
         async function loadExploreSpecies(ebirdCode) {
@@ -4028,7 +4556,9 @@
             exploreIndex = 0;
 
             document.getElementById('explore-common-name').textContent = bird.common_name;
-            document.getElementById('explore-scientific-name').textContent = bird.scientific_name || '';
+            document.getElementById('explore-scientific-name').textContent = getScientificName(exploreCode, bird);
+            const identifiedCount = (lifetimeStats.speciesIdentifiedCounts && lifetimeStats.speciesIdentifiedCounts[bird.common_name]) || 0;
+            document.getElementById('explore-identified-badge').textContent = `Identified: ${identifiedCount}`;
             renderExploreImage();
 
             document.getElementById('explore-gallery-loading').classList.add('hidden');
@@ -4351,6 +4881,81 @@
             changeScreen('stats-hub-screen');
         }
 
+        // Arcade and Blitz get separate leaderboards sharing one panel via a tab toggle, since
+        // score doesn't mean much for a Blitz Big Day and mixing the two together in one list
+        // made neither reading make much sense.
+        let statsHubScoresTab = 'arcade'; // 'arcade' | 'blitz'
+
+        function setScoresLeaderboardTab(tab) {
+            playSFX('click');
+            statsHubScoresTab = tab;
+            document.getElementById('scores-tab-arcade-btn').className = `px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider transition ${tab === 'arcade' ? 'bg-amber-500 text-white' : 'text-slate-300 hover:text-white'}`;
+            document.getElementById('scores-tab-blitz-btn').className = `px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider transition ${tab === 'blitz' ? 'bg-orange-500 text-white' : 'text-slate-300 hover:text-white'}`;
+            renderScoresLeaderboard();
+        }
+
+        function renderScoresLeaderboard() {
+            const titleEl = document.getElementById('top-scores-title');
+            const scoresContainer = document.getElementById('top-scores-list');
+
+            if (statsHubScoresTab === 'blitz') {
+                titleEl.innerHTML = `<span>🌅</span> Top 5 Big Days`;
+                const days = lifetimeStats.topBlitzDays || [];
+                if (days.length > 0) {
+                    scoresContainer.innerHTML = days.map((item, idx) => `
+                        <div class="rounded bg-slate-800 border border-slate-700 overflow-hidden">
+                            <button type="button" onclick="toggleBlitzDayRoute(${idx})" class="w-full flex justify-between items-center p-2 text-left hover:bg-slate-700/60 transition">
+                                <div class="min-w-0">
+                                    <span class="font-bold text-amber-400">#${idx + 1}</span>
+                                    <span class="ml-2 font-medium text-slate-200">${item.location}</span>
+                                    ${item.route && item.route.length > 0 ? `<span class="ml-1 text-[10px] text-slate-500">🗺️ tap for route</span>` : ''}
+                                </div>
+                                <div class="text-right shrink-0">
+                                    <span class="text-cyan-300 font-extrabold">${item.uniqueCount} species</span>
+                                    <span class="text-[10px] text-slate-400 block">${item.date}</span>
+                                </div>
+                            </button>
+                            <div id="blitz-day-route-${idx}" class="hidden px-2 pb-2 space-y-1">
+                                ${(item.route && item.route.length > 0) ? item.route.map((r, i) => `
+                                    <div class="flex justify-between items-center text-[11px] text-slate-300 bg-slate-900/60 rounded px-2 py-1">
+                                        <span>${i + 1}. ${r.display_name}</span>
+                                        ${r.milesFromPrev > 0 ? `<span class="text-slate-500">+${r.milesFromPrev.toFixed(1)} mi</span>` : ''}
+                                    </div>
+                                `).join('') : `<p class="text-slate-500 italic text-[11px] px-1">No route recorded for this day.</p>`}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    scoresContainer.innerHTML = `<p class="text-slate-400 italic">No Blitz Big Days recorded yet.</p>`;
+                }
+            } else {
+                titleEl.innerHTML = `<span>🥇</span> Top 5 High Scores`;
+                if (lifetimeStats.topScores.length > 0) {
+                    scoresContainer.innerHTML = lifetimeStats.topScores.map((item, idx) => `
+                        <div class="flex justify-between items-center p-2 rounded bg-slate-800 border border-slate-700">
+                            <div>
+                                <span class="font-bold text-amber-400">#${idx + 1}</span>
+                                <span class="ml-2 font-medium text-slate-200">${item.location}</span>
+                                ${item.difficulty ? `<span class="ml-1 text-[10px] text-slate-400">(${item.difficulty})</span>` : ''}
+                            </div>
+                            <div class="text-right">
+                                <span class="text-emerald-400 font-extrabold">${item.score.toLocaleString()} pts</span>
+                                <span class="text-[10px] text-slate-400 block">${item.date}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    scoresContainer.innerHTML = `<p class="text-slate-400 italic">No high scores logged yet.</p>`;
+                }
+            }
+        }
+
+        function toggleBlitzDayRoute(idx) {
+            playSFX('click');
+            const el = document.getElementById(`blitz-day-route-${idx}`);
+            if (el) el.classList.toggle('hidden');
+        }
+
         function renderStatsHub() {
             document.getElementById('hub-total-birds').textContent = (lifetimeStats.correctGuesses || 0).toLocaleString();
             document.getElementById('hub-lifelist-count').textContent = (lifetimeStats.lifeList ? lifetimeStats.lifeList.length : 0).toLocaleString();
@@ -4358,24 +4963,7 @@
             const acc = lifetimeStats.totalGuesses > 0 ? Math.round((lifetimeStats.correctGuesses / lifetimeStats.totalGuesses) * 100) : 0;
             document.getElementById('hub-accuracy').textContent = `${acc}%`;
 
-            const scoresContainer = document.getElementById('top-scores-list');
-            if (lifetimeStats.topScores.length > 0) {
-                scoresContainer.innerHTML = lifetimeStats.topScores.map((item, idx) => `
-                    <div class="flex justify-between items-center p-2 rounded bg-slate-800 border border-slate-700">
-                        <div>
-                            <span class="font-bold text-amber-400">#${idx + 1}</span>
-                            <span class="ml-2 font-medium text-slate-200">${item.location}</span>
-                            ${item.difficulty ? `<span class="ml-1 text-[10px] text-slate-400">(${item.difficulty})</span>` : ''}
-                        </div>
-                        <div class="text-right">
-                            <span class="text-emerald-400 font-extrabold">${item.score.toLocaleString()} pts</span>
-                            <span class="text-[10px] text-slate-400 block">${item.date}</span>
-                        </div>
-                    </div>
-                `).join('');
-            } else {
-                scoresContainer.innerHTML = `<p class="text-slate-400 italic">No high scores logged yet.</p>`;
-            }
+            renderScoresLeaderboard();
 
             const findsContainer = document.getElementById('top-finds-list');
             if (lifetimeStats.topFinds.length > 0) {
@@ -4455,12 +5043,22 @@
             const lifeListEl = document.getElementById('stat-lifelist-container');
             if (lifetimeStats.lifeList.length > 0) {
                 const reversedLifeList = lifetimeStats.lifeList.slice().reverse();
-                lifeListEl.innerHTML = reversedLifeList.map((item, idx) => `
-                    <div class="flex justify-between items-center py-1 border-b t-border last:border-none">
-                        <span>${lifetimeStats.lifeList.length - idx}. ${item}</span>
-                        <span class="text-emerald-600 font-bold">✓</span>
+                lifeListEl.innerHTML = reversedLifeList.map((item, idx) => {
+                    const isLegacyString = typeof item === 'string';
+                    const species = isLegacyString ? item : item.species;
+                    const location = isLegacyString ? null : item.location;
+                    const date = isLegacyString ? null : item.date;
+                    return `
+                    <div class="flex justify-between items-center gap-2 py-1 border-b t-border last:border-none">
+                        <span class="truncate">${lifetimeStats.lifeList.length - idx}. ${species}</span>
+                        <span class="text-right shrink-0">
+                            ${location ? `<span class="t-muted text-[11px]">${location}</span>` : ''}
+                            ${date ? `<span class="t-muted text-[10px] block">${date}</span>` : ''}
+                            ${!location && !date ? `<span class="text-emerald-600 font-bold">✓</span>` : ''}
+                        </span>
                     </div>
-                `).join('');
+                `;
+                }).join('');
             } else {
                 lifeListEl.innerHTML = `<span class="t-muted italic">No species logged yet.</span>`;
             }
