@@ -465,7 +465,7 @@
 
                 <div id="explore-search-section" class="max-w-md mx-auto py-6 min-h-[420px]">
                     <div class="relative">
-                        <input id="explore-search-input" type="text" placeholder="Search species name or 4-letter alpha code…" autocomplete="off"
+                        <input id="explore-search-input" type="text" placeholder="Search species…" autocomplete="off"
                                class="w-full p-3 border-2 t-border rounded-xl t-panel t-text font-semibold focus:outline-none focus:border-teal-500 shadow-sm"
                                oninput="handleExploreSearchInput(this.value)"
                                onkeydown="handleExploreSuggestionKeys(event)">
@@ -616,7 +616,7 @@
 
                             <div id="hs-tab-region" class="hidden space-y-2">
                                 <div class="flex items-center gap-1">
-                                    <input id="region-search-input" type="text" placeholder="Type a region (e.g. California, Alameda, Taiwan)…" autocomplete="off"
+                                    <input id="region-search-input" type="text" placeholder="Type a region…" autocomplete="off"
                                            class="w-full p-2.5 border-2 t-border rounded-xl t-panel t-text font-semibold text-sm focus:outline-none focus:border-blue-500 shadow-sm"
                                            oninput="handleRegionSearchInput(this.value)">
                                 </div>
@@ -704,7 +704,7 @@
                 </div>
                 
                 <div class="relative w-full mb-4">
-                    <input id="answer-entry" type="text" placeholder="Start typing bird common or 4-letter code name..." 
+                    <input id="answer-entry" type="text" placeholder="Start typing bird name or code..." 
                            class="w-full p-3 border-2 t-border rounded-xl focus:outline-none focus:border-blue-500 font-semibold shadow-sm t-panel t-text" 
                            oninput="handleTypingSuggestions(this, 'practice-suggestions')"
                            onkeydown="handleSuggestionKeys(event, 'practice-suggestions', this, false)">
@@ -923,7 +923,7 @@
                     </div>
                     
                     <div id="arcade-text-input-container" class="relative w-full mb-3">
-                        <input id="arcade-input-field" type="text" placeholder="Type bird name or 4-letter alpha..." 
+                        <input id="arcade-input-field" type="text" placeholder="Type bird name or code..." 
                                class="w-full p-3 border-2 t-border rounded-xl font-bold focus:outline-none focus:border-blue-600 t-panel t-text shadow-inner"
                                oninput="handleTypingSuggestions(this, 'arcade-suggestions')"
                                onkeydown="handleSuggestionKeys(event, 'arcade-suggestions', this, true)">
@@ -3646,7 +3646,7 @@
         // still works fine on its own).
         const COUNTRY_TO_CONTINENT = {
     AD: 'Europe', AE: 'Asia', AF: 'Asia', AG: 'North America', AI: 'North America',
-    AL: 'Europe', AM: 'Asia', AO: 'Africa', AR: 'South America', AS: 'Oceania',
+    AL: 'Europe', AM: 'Asia', AO: 'Africa', AQ:'Antarctica', AR: 'South America', AS: 'Oceania',
     AT: 'Europe', AU: 'Oceania', AW: 'North America', AZ: 'Asia', BA: 'Europe',
     BB: 'North America', BD: 'Asia', BE: 'Europe', BF: 'Africa', BG: 'Europe',
     BH: 'Asia', BI: 'Africa', BJ: 'Africa', BL: 'North America', BM: 'North America',
