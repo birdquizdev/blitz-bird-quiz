@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="default">
 <head>
+    <link rel="icon" type="image/png" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bird Identification Dashboard</title>
@@ -227,7 +228,9 @@
         .ach-tier-2 { border-color: #7dd3fc !important; } /* light blue */
         .ach-tier-3 { border-color: #facc15 !important; } /* yellow */
         .ach-tier-4 { border-color: #fb923c !important; } /* orange */
-        .ach-tier-5 {
+        .ach-tier-5 { border-color: #f472b6 !important; } /* rose -- only reached pre-max on 7-tier achievements */
+        .ach-tier-6 { border-color: #a78bfa !important; } /* purple -- only reached pre-max on 7-tier achievements */
+        .ach-tier-max {
             border-color: #ef4444 !important; /* red */
             animation: tierFivePulse 2.2s ease-in-out infinite;
         }
@@ -409,7 +412,11 @@
                     <h3 class="text-lg font-bold t-text flex items-center gap-2">
                         <span>🎖️</span> Achievements
                     </h3>
+<<<<<<< HEAD
                     <p class="text-[11px] t-muted font-medium -mt-2">Tiers I&ndash;V, scored from Arcade and Blitz Modes.</p>
+=======
+                    <p class="text-[11px] t-muted font-medium -mt-2">Tiers I&ndash;VII for Rarity Hunter, Identification Expert, and Lister; Tiers I&ndash;V for the rest. Scored from Arcade and Blitz Modes.</p>
+>>>>>>> 9110459 (Update more missing species and overhaul practice mode tags)
                     <div id="achievements-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
                 </div>
 
@@ -685,8 +692,12 @@
                     </button>
                 </div>
                 <div class="mb-2 relative">
-                    <img id="bird-image" src="https://placehold.co/400x300/eeeeee/333333?text=Loading+Image" alt="Bird to identify" 
-                         class="w-full h-auto max-h-[48vh] object-contain rounded-xl shadow-md block mx-auto">
+                    <div id="practice-preview-container" class="w-full max-h-[48vh] flex items-center justify-center overflow-hidden relative rounded-xl shadow-md cursor-zoom-in">
+                        <img id="bird-image" src="https://placehold.co/400x300/eeeeee/333333?text=Loading+Image" alt="Bird to identify"
+                             class="w-full h-auto max-h-[48vh] object-contain block mx-auto transition-transform duration-150 ease-out"
+                             onclick="toggleImageZoom(event, 'bird-image', 'practice-zoom-hint')" onmousemove="handleZoomPan(event, 'bird-image')">
+                        <span id="practice-zoom-hint" class="absolute bottom-2 right-2 bg-slate-900/70 text-white text-[10px] font-bold px-2 py-1 rounded-md pointer-events-none">🔍 Click to zoom</span>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-3 mb-2">
@@ -1216,7 +1227,7 @@
         // eBird code as a stand-in). resolveSpeciesKey() normalizes either input format to
         // whichever key actually unlocks the manifest/shard data.
         const SPECIES_DIRECTORY_URL = "dist/master_species_directory_updated.json";
-        const EXCLUDED_SPECIES_URL = "dist/excluded_species.json";
+        const EXCLUDED_SPECIES_URL = "dist/extinct_and_excluded_codes.json";
             // plain JSON array of eBird/alpha species codes -- extinct or otherwise
             // unencounterable species. Kept OUT of Practice/Arcade/Blitz/Bird of the Day pools,
             // but deliberately left untouched everywhere else (shard_manifest, the species
@@ -1265,6 +1276,9 @@
             }
 
             excludedSpeciesSet = new Set((excludedList || []).map(code => resolveSpeciesKey(code)));
+            if (excludedSpeciesSet.size === 0) {
+                console.warn(`No excluded species loaded from ${EXCLUDED_SPECIES_URL} -- extinct/excluded species (e.g. dodos, moa, etc.) may be encounterable in Practice/Arcade/Blitz/Bird of the Day. Check that this file exists at the expected path.`);
+            }
 
             return true;
         }
@@ -2359,7 +2373,8 @@
 
         function handleSuggestionKeys(e, containerId, inputEl, isArcade = false) {
             const container = document.getElementById(containerId);
-            
+            const submit = () => { if (isArcade) submitArcadeGuess(); else checkAnswer(); };
+
             if (e.key === 'Enter') {
                 e.preventDefault();
                 if (container && !container.classList.contains('hidden') && container.querySelector('.select-choice')) {
@@ -2368,14 +2383,10 @@
                     inputEl.value = textNode;
                     container.innerHTML = '';
                     container.classList.add('hidden');
-                    if (isArcade) submitArcadeGuess();
-                } else {
-                    if (isArcade) {
-                        submitArcadeGuess();
-                    } else {
-                        checkAnswer();
-                    }
                 }
+                // Submit immediately either way -- typing a code/name and hitting Enter should
+                // never require a second keypress, in Practice or Arcade/Blitz alike.
+                submit();
                 return;
             }
 
@@ -2436,6 +2447,7 @@
             const asset = availableAssets[Math.floor(Math.random() * availableAssets.length)];
             
             birdImage.src = asset.url;
+            resetImageZoom('bird-image', 'practice-zoom-hint');
             document.getElementById('practice-copyright').textContent = asset.copyright || "© Cornell Lab";
             answerEntry.value = '';
             document.getElementById('practice-suggestions').classList.add('hidden');
@@ -3006,36 +3018,38 @@
             submitArcadeGuess();
         }
 
-        // ---- Zoom ("binoculars") for the arcade guess popup image ----
+        // ---- Zoom ("binoculars") for guess-popup / practice images. Parameterized by element
+        // ID so Arcade/Blitz and Practice can each point it at their own image, defaulting to
+        // the original Arcade IDs so existing call sites (no args passed) keep working as-is.
         let isImageZoomed = false;
-        function toggleImageZoom(e) {
-            const img = document.getElementById('arcade-preview-image');
-            const hint = document.getElementById('arcade-zoom-hint');
+        function toggleImageZoom(e, imgId = 'arcade-preview-image', hintId = 'arcade-zoom-hint') {
+            const img = document.getElementById(imgId);
+            const hint = document.getElementById(hintId);
             isImageZoomed = !isImageZoomed;
             if (isImageZoomed) {
                 img.style.transform = 'scale(2.5)';
                 img.classList.add('cursor-zoom-out');
                 img.classList.remove('cursor-zoom-in');
-                hint.textContent = '🔍 Click to reset';
-                handleZoomPan(e);
+                if (hint) hint.textContent = '🔍 Click to reset';
+                handleZoomPan(e, imgId);
             } else {
-                resetImageZoom();
+                resetImageZoom(imgId, hintId);
             }
         }
 
-        function handleZoomPan(e) {
+        function handleZoomPan(e, imgId = 'arcade-preview-image') {
             if (!isImageZoomed) return;
-            const img = document.getElementById('arcade-preview-image');
+            const img = document.getElementById(imgId);
             const rect = img.getBoundingClientRect();
             const x = Math.min(100, Math.max(0, ((e.clientX - rect.left) / rect.width) * 100));
             const y = Math.min(100, Math.max(0, ((e.clientY - rect.top) / rect.height) * 100));
             img.style.transformOrigin = `${x}% ${y}%`;
         }
 
-        function resetImageZoom() {
+        function resetImageZoom(imgId = 'arcade-preview-image', hintId = 'arcade-zoom-hint') {
             isImageZoomed = false;
-            const img = document.getElementById('arcade-preview-image');
-            const hint = document.getElementById('arcade-zoom-hint');
+            const img = document.getElementById(imgId);
+            const hint = document.getElementById(hintId);
             if (!img) return;
             img.style.transform = 'scale(1)';
             img.style.transformOrigin = 'center center';
@@ -3526,7 +3540,7 @@
                 title: 'Rarity Hunter',
                 icon: '✨',
                 desc: 'Identify mega-rarity species in Arcade Mode',
-                tiers: [1, 10, 50, 100, 250],
+                tiers: [1, 10, 50, 100, 250, 500, 1000],
                 getValue: (stats) => stats.megaRareCount || 0
             },
             {
@@ -3534,7 +3548,7 @@
                 title: 'Identification Expert',
                 icon: '🎯',
                 desc: 'Correctly identify birds in Arcade Mode',
-                tiers: [10, 100, 1000, 10000, 100000],
+                tiers: [10, 100, 1000, 10000, 25000, 50000, 100000],
                 getValue: (stats) => stats.arcadeCorrectTotal || 0
             },
             {
@@ -3542,7 +3556,7 @@
                 title: 'Lister',
                 icon: '📜',
                 desc: 'Identify unique species in Arcade Mode',
-                tiers: [10, 100, 500, 1000, 2500],
+                tiers: [10, 100, 500, 1000, 2500, 5000, 10000],
                 getValue: (stats) => (stats.arcadeUniqueSpecies ? stats.arcadeUniqueSpecies.length : 0)
             },
             {
@@ -4764,13 +4778,20 @@
         // every time the screen is opened. Enforces a fixed difficulty mix (not too many Hard
         // goals) and avoids picking two goals with the same category+parameter (e.g. both an
         // Easy and a Hard "Species in Colombia" goal on one board).
+        // Country-category goals ("Identify X species in [country]") can dominate a board if
+        // left unconstrained -- cap how many appear on any single generated card, independent
+        // of difficulty bucket.
         const BINGO_DIFFICULTY_QUOTAS = { Easy: 9, Medium: 9, Hard: 7 };
+        const MAX_COUNTRY_GOALS_PER_BOARD = 5;
 
         function getMonthlyBingoCard() {
             const key = getCurrentMonthKey();
             const shuffled = seededShuffle(bingoGoalsPool, `bingo-${key}`);
             const usedParams = new Set();
             const card = [];
+            let countryGoalCount = 0;
+
+            const isCountryCapped = (g) => g.category === 'Country' && countryGoalCount >= MAX_COUNTRY_GOALS_PER_BOARD;
 
             for (const difficulty of Object.keys(BINGO_DIFFICULTY_QUOTAS)) {
                 const quota = BINGO_DIFFICULTY_QUOTAS[difficulty];
@@ -4779,21 +4800,37 @@
 
                 for (const g of pool) {
                     if (picked.length >= quota) break;
+                    if (isCountryCapped(g)) continue;
                     const paramKey = `${g.category}:${JSON.stringify(g.parameter)}`;
                     if (usedParams.has(paramKey)) continue;
                     usedParams.add(paramKey);
                     picked.push(g);
+                    if (g.category === 'Country') countryGoalCount++;
                 }
                 // Fallback if this difficulty doesn't have enough unique-parameter goals yet
                 // (e.g. bingo_goals.json is still sparse) -- fill the quota with repeats
-                // rather than leaving the board short.
+                // rather than leaving the board short. Still respects the Country cap.
                 if (picked.length < quota) {
                     for (const g of pool) {
                         if (picked.length >= quota) break;
-                        if (!picked.includes(g)) picked.push(g);
+                        if (picked.includes(g)) continue;
+                        if (isCountryCapped(g)) continue;
+                        picked.push(g);
+                        if (g.category === 'Country') countryGoalCount++;
                     }
                 }
                 card.push(...picked);
+            }
+
+            // Last-resort fallback: if the cap made it impossible to fill every quota (e.g. the
+            // goals pool is small and mostly Country goals), allow the cap to be exceeded rather
+            // than shipping a short board.
+            const totalNeeded = Object.values(BINGO_DIFFICULTY_QUOTAS).reduce((a, b) => a + b, 0);
+            if (card.length < totalNeeded) {
+                for (const g of shuffled) {
+                    if (card.length >= totalNeeded) break;
+                    if (!card.includes(g)) card.push(g);
+                }
             }
 
             // Shuffle final placement so difficulties aren't visually grouped in blocks.
@@ -5033,14 +5070,16 @@
                 const nextTarget = ach.tiers[Math.min(tierIdx, ach.tiers.length - 1)];
                 const prevTarget = tierIdx > 0 ? ach.tiers[tierIdx - 1] : 0;
                 const segPct = isMax ? 100 : Math.min(100, Math.max(0, Math.round(((val - prevTarget) / (nextTarget - prevTarget)) * 100)));
-                const romanNumerals = ['I', 'II', 'III', 'IV', 'V'];
+                const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 
                 // tierIdx = number of tiers actually EARNED so far (0 = none earned yet).
                 // Display must reflect what's been achieved, not the tier being worked toward.
                 const tierAchievedLabel = tierIdx === 0
                     ? 'Not Yet Ranked'
                     : (isMax ? 'MAX TIER UNLOCKED!' : `Tier ${romanNumerals[tierIdx - 1]} Achieved`);
-                const tierBorderClass = tierIdx === 0 ? '' : `ach-tier-${Math.min(tierIdx, 5)}`;
+                // The pulsing "max tier" style is tied to actually being maxed out, not to a
+                // fixed tier number -- some achievements have 5 tiers, others 7.
+                const tierBorderClass = tierIdx === 0 ? '' : (isMax ? 'ach-tier-max' : `ach-tier-${Math.min(tierIdx, 6)}`);
 
                 return `
                     <div class="t-panel p-4 rounded-xl border-2 t-border ${tierBorderClass} flex flex-col justify-between shadow-sm">
