@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="default">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bird Identification Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -10,6 +9,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <style>
         .screen-fade {
             animation: fadeIn 0.3s ease-in-out;
@@ -1223,7 +1226,7 @@
         // eBird code as a stand-in). resolveSpeciesKey() normalizes either input format to
         // whichever key actually unlocks the manifest/shard data.
         const SPECIES_DIRECTORY_URL = "dist/master_species_directory_updated.json";
-        const EXCLUDED_SPECIES_URL = "dist/excluded_species.json";
+        const EXCLUDED_SPECIES_URL = "dist/extinct_and_excluded_codes.json";
             // plain JSON array of eBird/alpha species codes -- extinct or otherwise
             // unencounterable species. Kept OUT of Practice/Arcade/Blitz/Bird of the Day pools,
             // but deliberately left untouched everywhere else (shard_manifest, the species
