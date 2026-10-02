@@ -527,8 +527,15 @@
                             <p id="explore-hint-empty" class="hidden text-xs t-muted italic">No location hint data available for this species yet.</p>
                         </div>
                         <div id="explore-hint-map-wrap" class="hidden">
-                            <div id="explore-hint-map" class="w-full h-48 rounded-xl border t-border"></div>
-                            <p class="text-[10px] t-muted font-medium mt-1">Shaded area shows the general region this species has been recorded in — not exact hotspots.</p>
+                            <div id="explore-hint-map" class="w-full h-56 rounded-xl border t-border"></div>
+                            <div class="flex items-center gap-3 mt-1.5 flex-wrap">
+                                <span class="flex items-center gap-1 text-[10px] t-muted font-medium"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#22c55e"></span>Common</span>
+                                <span class="flex items-center gap-1 text-[10px] t-muted font-medium"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#eab308"></span>Uncommon</span>
+                                <span class="flex items-center gap-1 text-[10px] t-muted font-medium"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#f97316"></span>Rare</span>
+                                <span class="flex items-center gap-1 text-[10px] t-muted font-medium"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#ef4444"></span>Vagrant</span>
+                                <span class="flex items-center gap-1 text-[10px] t-muted font-medium"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#9ca3af"></span>Loading/unknown</span>
+                            </div>
+                            <p class="text-[10px] t-muted font-medium mt-1">Shaded area shows the general region this species has been recorded in. Zoom in to reveal exact hotspots — tap one for how often this species turns up there, colored by that same frequency.</p>
                         </div>
                     </div>
                 </div>
@@ -1226,7 +1233,7 @@
         // eBird code as a stand-in). resolveSpeciesKey() normalizes either input format to
         // whichever key actually unlocks the manifest/shard data.
         const SPECIES_DIRECTORY_URL = "dist/master_species_directory_updated.json";
-        const EXCLUDED_SPECIES_URL = "dist/extinct_and_excluded_codes.json";
+        const EXCLUDED_SPECIES_URL = "dist/excluded_species.json";
             // plain JSON array of eBird/alpha species codes -- extinct or otherwise
             // unencounterable species. Kept OUT of Practice/Arcade/Blitz/Bird of the Day pools,
             // but deliberately left untouched everywhere else (shard_manifest, the species
@@ -1317,12 +1324,47 @@
             return "#5E7B80";
         }
 
+        // Color scale for Explore's location pins, which color by how likely THIS species is at
+        // THIS specific hotspot (its species_pool tier there) -- a completely different question
+        // from getMarkerColor's "how many species total has this location logged." Green-to-red
+        // reads instantly as "easy to find here" -> "long shot here," which is the point: helping
+        // a player pick which hotspot to actually go stake out for a target bird.
+        const FREQUENCY_TIER_COLOR = { common: '#22c55e', uncommon: '#eab308', rare: '#f97316', vagrant: '#ef4444' };
+        const FREQUENCY_UNKNOWN_COLOR = '#9ca3af';
+
+        // ---- Shared basemap tiles for every Leaflet map in the game ----
+        // Previously every map pointed straight at tile.openstreetmap.org, the raw OSM tile
+        // server. That server enforces OSM's Tile Usage Policy (osmfoundation.org/wiki/Tile_Usage_Policy)
+        // -- no heavy/production traffic, a real User-Agent, no styling control -- and it has been
+        // increasingly quick to return 403s to apps (like this one) that hit it directly. It was
+        // never meant to be an app's basemap, just a way to preview raw OSM data.
+        //
+        // Using Mapbox Streets v12 instead, which needs a Mapbox access token -- get a free one
+        // at https://account.mapbox.com/access-tokens/ (Mapbox's free tier covers a generous
+        // number of map loads/month) and paste it in below. Never reuse a token copied out of
+        // someone else's shared map link/URL -- that runs traffic against THEIR account, not
+        // yours, and they can revoke it at any time.
+        const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZ3luZXNpcyIsImEiOiJjbXVpanZjcnEwMjdsMnhvZTRnc25pbWt6In0.gKR6Bo2wu3bXH_p73YYYlg'; // <-- put your token here
+
+        const BASEMAP_TILE_URL = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}';
+        const BASEMAP_TILE_OPTIONS = {
+            id: 'mapbox/satellite-streets-v12',
+            tileSize: 512,
+            zoomOffset: -1,
+            maxZoom: 22,
+            accessToken: MAPBOX_ACCESS_TOKEN,
+            attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        };
+        if (MAPBOX_ACCESS_TOKEN === 'YOUR_MAPBOX_ACCESS_TOKEN_HERE') {
+            console.warn('Maps will not render: set MAPBOX_ACCESS_TOKEN near the top of the script to your own Mapbox access token.');
+        }
+
         function createEBirdPin(color) {
             const svg = `<svg width="22" height="30" viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 20 12 20s12-11 12-20c0-6.63-5.37-12-12-12z" fill="${color}" stroke="#ffffff" stroke-width="2.5"/>
                 <circle cx="12" cy="11" r="3.5" fill="#ffffff"/>
             </svg>`;
-            return L.divIcon({ html: svg, className: '', iconSize: [22, 30], iconAnchor: [11, 30], popupAnchor: [0, -28] });
+            return L.divIcon({ html: svg, className: '', iconSize: [22, 30], iconAnchor: [8, 30], popupAnchor: [0, -28] });
         }
 
         // ---- Load & flatten the master hotspot index (once per session) ----
@@ -1569,10 +1611,7 @@
             if (hsLeafletMap) { hsLeafletMap.invalidateSize(); return; }
 
             hsLeafletMap = L.map('hs-leaflet-map').setView([20, 0], 2);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap'
-            }).addTo(hsLeafletMap);
+            L.tileLayer(BASEMAP_TILE_URL, BASEMAP_TILE_OPTIONS).addTo(hsLeafletMap);
 
             hsMarkerCluster = L.markerClusterGroup({ maxClusterRadius: 15, spiderfyOnMaxZoom: true }); //was 35
             hsLeafletMap.addLayer(hsMarkerCluster);
@@ -1633,6 +1672,60 @@
             const marker = hsMarkerMap.get(locId);
             if (marker) marker.fire('click');
             showHotspotMapDetails(h);
+        }
+
+        // ---- Coordinate -> hotspot lookup ----
+        // species_hotspot_locations.json (used by the BOTD/Explore hint maps) only ever stored
+        // [lat, lng] pairs per species -- no locId, no frequency. This joins those bare
+        // coordinates back to master_hotspots_index_updated.json (by exact-ish coordinate match)
+        // to recover each point's locId and overall species_count.
+        let hotspotCoordLookup = null;
+        function getHotspotCoordLookup() {
+            if (hotspotCoordLookup) return hotspotCoordLookup;
+            if (!flatHotspots.length) return new Map(); // index hasn't loaded yet -- don't cache an empty result
+            hotspotCoordLookup = new Map();
+            flatHotspots.forEach(h => {
+                if (h.latitude == null || h.longitude == null) return;
+                hotspotCoordLookup.set(`${h.latitude.toFixed(4)},${h.longitude.toFixed(4)}`, h);
+            });
+            return hotspotCoordLookup;
+        }
+
+        // ---- Per-hotspot frequency data (data_pool/hotspot_seeds/<locId>.json) ----
+        // Each hotspot seed file's species_pool already carries exactly what Explore's location
+        // pins need: { "<code>": { weight, tier } } -- weight/tier being how often (and how
+        // notable) that species is at THAT specific hotspot, the same fields the game already
+        // uses to pick Arcade/Blitz rounds (see generateWeightedGridSpecies). Nothing new needs
+        // to be generated -- Explore just needs to fetch the seed file for every hotspot a
+        // species has been recorded at (instead of just the one the player is currently playing)
+        // and read that species' entry back out.
+        //
+        // Cached per locId so re-viewing a hotspot (for this species or a different one) never
+        // re-fetches it, and de-duped in-flight so two pins that resolve to the same locId share
+        // one request.
+        let hotspotSeedCache = new Map();          // locId -> seed data, or null if the fetch failed
+        let hotspotSeedFetchPromises = new Map();  // locId -> in-flight fetch promise
+
+        async function getHotspotSeedCached(locId) {
+            if (hotspotSeedCache.has(locId)) return hotspotSeedCache.get(locId);
+            if (hotspotSeedFetchPromises.has(locId)) return hotspotSeedFetchPromises.get(locId);
+            const promise = fetchFromRepo(HOTSPOT_SEED_PATH(locId), true).then(data => {
+                hotspotSeedCache.set(locId, data);
+                hotspotSeedFetchPromises.delete(locId);
+                return data;
+            });
+            hotspotSeedFetchPromises.set(locId, promise);
+            return promise;
+        }
+
+        // hotspot_seeds species_pool keys are 4-letter alpha codes (see the "Species code
+        // cross-reference" note above); other pipelines use other cases/lengths. Rather than lean
+        // on resolveSpeciesKey's shard-manifest-oriented normalization, just try the code as
+        // given and both cases -- cheap, and correct regardless of which pipeline produced a
+        // given seed file.
+        function findSpeciesPoolEntry(pool, code) {
+            if (!pool || !code) return null;
+            return pool[code] || pool[code.toUpperCase()] || pool[code.toLowerCase()] || null;
         }
 
         // ---- Preset manifest loader ----
@@ -1936,8 +2029,8 @@
                 setArcadeStrategy('hotspot');
                 setArcadeDifficulty('normal');
             } else {
-                document.getElementById('config-title').textContent = "Deploy Arcade Grid";
-                document.getElementById('config-desc').textContent = "Deploy a curated zone or search/browse the global hotspot index";
+                document.getElementById('config-title').textContent = "Configure Arcade Mode";
+                document.getElementById('config-desc').textContent = "Browse the global hotspot index or play a currated zone";
                 practiceContainer.classList.add('hidden');
                 arcadeContainer.classList.remove('hidden');
                 launchBtn.className = "w-2/3 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition";
@@ -2679,10 +2772,7 @@
 
             if (!blitzTravelMap) {
                 blitzTravelMap = L.map('blitz-travel-map');
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '© OpenStreetMap'
-                }).addTo(blitzTravelMap);
+                L.tileLayer(BASEMAP_TILE_URL, BASEMAP_TILE_OPTIONS).addTo(blitzTravelMap);
             }
 
             blitzTravelMap.eachLayer(layer => {
@@ -4378,7 +4468,7 @@
                 // the rest of the session, that one failure silently breaks the hint for every
                 // species after it too, not just the one that triggered it.
                 map.setView([0, 0], 1);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+                L.tileLayer(BASEMAP_TILE_URL, BASEMAP_TILE_OPTIONS).addTo(map);
             }
             if (existingShapeLayer) {
                 map.removeLayer(existingShapeLayer);
@@ -4396,7 +4486,7 @@
             // Safety cap for unusually dense species (the clustering below is O(n^2)) -- an
             // even sample keeps the shapes representative without the click hanging.
             let clusterInput = validCoords;
-            const HINT_MAX_POINTS = 2000;
+            const HINT_MAX_POINTS = 300;
             if (clusterInput.length > HINT_MAX_POINTS) {
                 const stride = clusterInput.length / HINT_MAX_POINTS;
                 clusterInput = Array.from({ length: HINT_MAX_POINTS }, (_, i) => clusterInput[Math.floor(i * stride)]);
@@ -4489,6 +4579,8 @@
         let exploreIndex = 0;
         let exploreHintMap = null;
         let exploreHintShapeLayer = null;
+        let exploreHintPinLayer = null;
+        let exploreHintRenderToken = 0; // bumped on every render so a slow, in-flight hotspot-index load can't recolor pins after the user has switched species
 
         async function openExploreScreen() {
             playSFX('click');
@@ -4521,7 +4613,7 @@
                 (e.alpha_code && e.alpha_code.toLowerCase().startsWith(query)) ||
                 (e.ebird_code && e.ebird_code.toLowerCase().startsWith(query)) ||
                 (e.common_name && cleanString(e.common_name).includes(cleanedQuery))
-            ).slice(0, 8);
+            ); // no cap -- #explore-search-results is already max-h-96 overflow-y-auto, so the box scrolls to show every real match
 
             if (matches.length === 0) {
                 resultsDiv.innerHTML = `<div class="p-3 t-muted text-xs italic">No species found.</div>`;
@@ -4651,8 +4743,179 @@
                 if (!result.shape) {
                     mapWrap.classList.add('hidden');
                     emptyMsg.classList.remove('hidden');
+                    return;
                 }
+                renderExploreLocationPins(exploreHintMap, coords);
             }, 30);
+        }
+
+        // Explore's hint map can point at far more hotspots than a player could reasonably visit
+        // one by one, and each one needs its own network fetch for real frequency data. Rather
+        // than fetch a flat first-N slice (which left anything past the cutoff permanently gray,
+        // regardless of whether the player ever cared about it), pins are fetched based on what's
+        // actually inside the current map view: whatever the player is looking at right now gets
+        // prioritized, and panning/zooming pulls in more. EXPLORE_FREQUENCY_TOTAL_CAP is just a
+        // hard ceiling so an extremely common species with thousands of hotspots can't be turned
+        // into thousands of requests by someone panning around everywhere.
+        const EXPLORE_FREQUENCY_CONCURRENCY = 8;   // simultaneous network requests
+        const EXPLORE_FREQUENCY_TOTAL_CAP = 300;   // hard ceiling per species shown, across all panning/zooming
+        let exploreHintMoveHandler = null; // so each render replaces the last map's listener instead of stacking them
+
+        // eBird-style progressive reveal: fully zoomed out shows just the shaded range (cheap,
+        // always-on); individual pins -- and the network fetches behind their colors -- only
+        // switch on once the player zooms in past this level. That's what keeps "show every
+        // hotspot" from meaning "fetch hundreds of files the second the hint opens": at the
+        // zoomed-out view the whole range is on screen at once, so without this gate the
+        // viewport-driven queue below would just start on everything immediately anyway.
+        // Leaflet zoom levels aren't a fixed mile measurement (pixel-per-degree depends on both
+        // latitude and the map's on-screen size), so "11" is an approximation of a city-to-county
+        // sized window, not an exact 25mi figure -- tune it against your own map's pixel size if
+        // it feels off. EXPLORE_PIN_UNCLUSTER_ZOOM is a second, closer threshold past which
+        // overlapping pins stop merging into cluster bubbles at all, matching eBird's fully-
+        // zoomed-in "every point is its own marker" view.
+        const EXPLORE_PIN_ZOOM_THRESHOLD = 7;
+        const EXPLORE_PIN_UNCLUSTER_ZOOM = EXPLORE_PIN_ZOOM_THRESHOLD + 3;
+
+        // Draws one eBird-style pin (same createEBirdPin icon as the main Hotspot map) at every
+        // exact hotspot this species has been recorded at, clustered like the Hotspot map so a
+        // widespread species doesn't turn into a wall of overlapping pins. Sits on top of the
+        // shaded range renderHintShapeOnMap already drew. Every coordinate in `coords` gets a pin
+        // -- unlike the shape above, which samples down dense species for hull-building
+        // performance, this does not drop any points.
+        //
+        // Pins start gray, then each one is colored individually, as soon as ITS hotspot's seed
+        // file comes back, by how often this exact species turns up there (species_pool[code].tier
+        // -- common/uncommon/rare/vagrant, the same field Arcade/Blitz already use to weight
+        // rounds). That's real per-species-per-hotspot frequency, not a proxy -- see
+        // getHotspotSeedCached's notes.
+        async function renderExploreLocationPins(map, coords) {
+            if (exploreHintPinLayer) {
+                map.removeLayer(exploreHintPinLayer);
+                exploreHintPinLayer = null;
+            }
+            if (exploreHintMoveHandler) {
+                map.off('moveend', exploreHintMoveHandler);
+                exploreHintMoveHandler = null;
+            }
+
+            const validCoords = coords.filter(p =>
+                Array.isArray(p) && p.length === 2 &&
+                Number.isFinite(p[0]) && Number.isFinite(p[1]) &&
+                p[0] >= -90 && p[0] <= 90 && p[1] >= -180 && p[1] <= 180
+            );
+            if (validCoords.length === 0) return;
+
+            const renderToken = ++exploreHintRenderToken;
+            const speciesCode = exploreCode; // capture now -- exploreCode itself can change out from under us while we're mid-fetch
+            const cluster = L.markerClusterGroup({
+                maxClusterRadius: 20,
+                spiderfyOnMaxZoom: true,
+                disableClusteringAtZoom: EXPLORE_PIN_UNCLUSTER_ZOOM
+            });
+            const markers = validCoords.map(([lat, lng]) => {
+                const marker = L.marker([lat, lng], { icon: createEBirdPin(FREQUENCY_UNKNOWN_COLOR) });
+                marker.bindPopup('Loading frequency…');
+                cluster.addLayer(marker);
+                return marker;
+            });
+            // Not added to the map yet -- onViewChange below decides that based on zoom.
+            exploreHintPinLayer = cluster;
+
+            const stillCurrent = () => renderToken === exploreHintRenderToken;
+
+            // Need the master hotspot index first, purely to translate bare [lat, lng] pairs into
+            // the locId each hotspot's seed file is named after.
+            await ensureHotspotIndexLoaded();
+            if (!stillCurrent()) return;
+            if (!hotspotIndexLoaded) {
+                markers.forEach(m => m.setPopupContent('Frequency data unavailable (hotspot index failed to load)'));
+                return;
+            }
+
+            const coordLookup = getHotspotCoordLookup();
+            const targets = validCoords.map(([lat, lng], i) => ({
+                marker: markers[i],
+                lat, lng,
+                hotspot: coordLookup.get(`${lat.toFixed(4)},${lng.toFixed(4)}`)
+            }));
+
+            targets.forEach(({ marker, hotspot }) => {
+                if (!hotspot) marker.setPopupContent('This hotspot isn\'t in the current hotspot index');
+            });
+
+            // ---- Viewport-driven fetch queue ----
+            const pending = new Set(targets.filter(t => t.hotspot));
+            let inFlight = 0;
+            let totalStarted = 0;
+            let capWarningShown = false;
+
+            async function fetchOne(t) {
+                const seed = await getHotspotSeedCached(t.hotspot.locId);
+                if (!stillCurrent() || exploreCode !== speciesCode) return;
+
+                const entry = seed && findSpeciesPoolEntry(seed.species_pool, speciesCode);
+                if (!entry) {
+                    t.marker.setPopupContent(seed
+                        ? `No frequency data for this species at ${t.hotspot.name || t.hotspot.locId}`
+                        : `Couldn't load frequency data for ${t.hotspot.name || t.hotspot.locId}`);
+                    return;
+                }
+
+                t.marker.setIcon(createEBirdPin(FREQUENCY_TIER_COLOR[entry.tier] || FREQUENCY_UNKNOWN_COLOR));
+                const tierLabel = entry.tier ? entry.tier[0].toUpperCase() + entry.tier.slice(1) : 'Unknown';
+                // Raw weights carry up to 4 decimal places (a real 0.0001 "vagrant" weight is
+                // meaningfully different from a real 0.0 -- toFixed(2) would print "0.00" for
+                // both and make them indistinguishable), so show the full precision the data has.
+                const weightLabel = entry.weight.toFixed(4);
+                t.marker.setPopupContent(
+                    `<strong>${t.hotspot.name || t.hotspot.locId}</strong><br>${tierLabel} here (weight ${weightLabel})`
+                );
+            }
+
+            function pickNextVisible() {
+                const bounds = map.getBounds();
+                for (const t of pending) {
+                    if (bounds.contains(L.latLng(t.lat, t.lng))) return t;
+                }
+                return null;
+            }
+
+            function pump() {
+                if (!stillCurrent()) return;
+                if (map.getZoom() < EXPLORE_PIN_ZOOM_THRESHOLD) return; // zoomed out too far -- pins are hidden, nothing to load yet
+                if (totalStarted >= EXPLORE_FREQUENCY_TOTAL_CAP) {
+                    if (!capWarningShown && pending.size > 0) {
+                        capWarningShown = true;
+                        pending.forEach(t => t.marker.setPopupContent(
+                            `Frequency not loaded — hit the ${EXPLORE_FREQUENCY_TOTAL_CAP}-hotspot limit for this species`
+                        ));
+                    }
+                    return;
+                }
+                while (inFlight < EXPLORE_FREQUENCY_CONCURRENCY && totalStarted < EXPLORE_FREQUENCY_TOTAL_CAP) {
+                    const next = pickNextVisible();
+                    if (!next) break; // nothing currently pending is on screen -- wait for a pan/zoom
+                    pending.delete(next);
+                    inFlight++;
+                    totalStarted++;
+                    fetchOne(next).finally(() => {
+                        inFlight--;
+                        pump();
+                    });
+                }
+            }
+
+            function onViewChange() {
+                if (!stillCurrent()) return;
+                const zoomedInEnough = map.getZoom() >= EXPLORE_PIN_ZOOM_THRESHOLD;
+                if (zoomedInEnough && !map.hasLayer(cluster)) map.addLayer(cluster);
+                if (!zoomedInEnough && map.hasLayer(cluster)) map.removeLayer(cluster);
+                pump();
+            }
+
+            exploreHintMoveHandler = onViewChange;
+            map.on('moveend', exploreHintMoveHandler);
+            onViewChange(); // decide initial pin visibility (and kick off the first fetch batch, if already zoomed in) from wherever renderHintShapeOnMap framed the view
         }
 
         // Left/Right arrow keys cycle the gallery while Explore is open and the search box
